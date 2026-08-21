@@ -1,0 +1,21 @@
+<script setup lang="ts">
+import { Toaster } from 'vue-sonner'
+import 'vue-sonner/style.css'
+
+const colorMode = useColorMode()
+const theme = computed(() => (colorMode.value === 'dark' ? 'dark' : 'light'))
+</script>
+
+<template>
+  <ClientOnly>
+    <Toaster
+      rich-colors
+      close-button
+      position="top-center"
+      :theme="theme"
+      :toast-options="{
+        class: 'border border-border shadow-soft',
+      }"
+    />
+  </ClientOnly>
+</template>

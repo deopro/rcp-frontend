@@ -1,0 +1,49 @@
+import type { Config } from 'tailwindcss'
+
+export default {
+  darkMode: ['class'],
+  content: [
+    './components/**/*.{vue,js,ts}',
+    './layouts/**/*.vue',
+    './pages/**/*.vue',
+    './features/**/*.{vue,js,ts}',
+    './app.vue',
+    './plugins/**/*.{js,ts}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        border: 'var(--rcp-border)',
+        background: 'var(--rcp-bg)',
+        foreground: 'var(--rcp-fg)',
+        muted: 'var(--rcp-muted)',
+        surface: 'var(--rcp-surface)',
+        primary: {
+          DEFAULT: 'var(--rcp-primary)',
+          foreground: 'var(--rcp-primary-fg)',
+        },
+        accent: 'var(--rcp-accent)',
+        danger: 'var(--rcp-danger)',
+        success: 'var(--rcp-success)',
+        warning: 'var(--rcp-warning)',
+      },
+      fontFamily: {
+        sans: ['IBM Plex Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        mono: ['IBM Plex Mono', 'ui-monospace', 'monospace'],
+      },
+      borderRadius: {
+        lg: 'var(--rcp-radius)',
+      },
+      spacing: {
+        'safe-top': 'var(--rcp-safe-top)',
+        'safe-bottom': 'var(--rcp-safe-bottom)',
+        'nav': 'var(--rcp-nav-height)',
+        'header': 'var(--rcp-header-height)',
+      },
+      boxShadow: {
+        soft: '0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.08)',
+      },
+    },
+  },
+  plugins: [],
+} satisfies Config

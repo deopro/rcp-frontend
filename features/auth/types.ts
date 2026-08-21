@@ -1,0 +1,32 @@
+export type RcpRoleType =
+  | 'employee'
+  | 'team_leader'
+  | 'department_manager'
+  | 'executive'
+  | 'administrator'
+  | 'authenticated'
+  | 'public'
+
+export type AuthUser = {
+  id: number
+  username: string
+  email: string
+  preferred_locale?: 'pt-PT' | 'en'
+  status?: 'active' | 'inactive'
+  role?: {
+    id: number
+    name: string
+    type: RcpRoleType | string
+  }
+}
+
+export type LoginResponse = {
+  jwt: string
+  user: AuthUser
+}
+
+export type SessionResponse = {
+  authenticated: boolean
+  token: string | null
+  user: AuthUser | null
+}

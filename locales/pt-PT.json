@@ -1,0 +1,135 @@
+{
+  "app": {
+    "name": "RCP",
+    "tagline": "Planeamento de capacidade de recursos"
+  },
+  "nav": {
+    "home": "Início",
+    "allocations": "Alocações",
+    "projects": "Projetos",
+    "team": "Equipa",
+    "more": "Mais",
+    "dashboard": "Painel",
+    "employees": "Colaboradores",
+    "departments": "Departamentos",
+    "skills": "Competências",
+    "bench": "Banco",
+    "forecast": "Previsão",
+    "approvals": "Aprovações",
+    "reports": "Relatórios",
+    "settings": "Definições",
+    "search": "Pesquisar"
+  },
+  "actions": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "continue": "Continuar",
+    "add": "Adicionar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "refresh": "Atualizar",
+    "language": "Idioma"
+  },
+  "theme": {
+    "label": "Tema",
+    "toggle": "Alternar tema",
+    "system": "Sistema",
+    "light": "Claro",
+    "dark": "Escuro"
+  },
+  "home": {
+    "welcome": "Bem-vindo ao RCP",
+    "subtitle": "Substitua o Excel por alocação moderna, segura e mobile-first.",
+    "foundationReady": "Organização pronta",
+    "nextMilestone": "Próximo: projetos e clientes (Marco 4)"
+  },
+  "org": {
+    "hubSubtitle": "Gerir departamentos, equipas e colaboradores",
+    "loading": "A carregar…",
+    "saving": "A guardar…",
+    "saved": "Guardado",
+    "deleted": "Eliminado",
+    "confirmDelete": "Eliminar este registo? Esta ação não pode ser anulada.",
+    "none": "—",
+    "select": "Selecionar…",
+    "view": "Ver",
+    "status": {
+      "active": "Ativo",
+      "inactive": "Inativo"
+    },
+    "fields": {
+      "name": "Nome",
+      "description": "Descrição",
+      "status": "Estado",
+      "manager": "Gestor de departamento",
+      "department": "Departamento",
+      "teamLeader": "Líder de equipa",
+      "team": "Equipa",
+      "employeeNumber": "N.º colaborador",
+      "fullName": "Nome completo",
+      "email": "Email",
+      "position": "Cargo",
+      "dailyCapacity": "Capacidade diária (h)",
+      "hireDate": "Data de admissão",
+      "linkedUser": "Utilizador ligado"
+    },
+    "departments": {
+      "title": "Departamentos",
+      "subtitle": "Estrutura organizacional e gestores",
+      "add": "Novo departamento",
+      "edit": "Editar departamento",
+      "empty": "Ainda não há departamentos."
+    },
+    "teams": {
+      "title": "Equipas",
+      "subtitle": "Equipas por departamento e líderes",
+      "add": "Nova equipa",
+      "edit": "Editar equipa",
+      "empty": "Ainda não há equipas."
+    },
+    "employees": {
+      "title": "Colaboradores",
+      "subtitle": "Recursos, capacidade e ligação a utilizadores",
+      "add": "Novo colaborador",
+      "edit": "Editar colaborador",
+      "empty": "Ainda não há colaboradores."
+    }
+  },
+  "settings": {
+    "subtitle": "Preferências de aspeto e idioma"
+  },
+  "auth": {
+    "loginTitle": "Iniciar sessão",
+    "loginSubtitle": "Utilize as suas credenciais RCP.",
+    "identifier": "Email ou utilizador",
+    "identifierPlaceholder": "nome{'@'}empresa.com",
+    "password": "Palavra-passe",
+    "passwordPlaceholder": "••••••••",
+    "signIn": "Entrar",
+    "signingIn": "A entrar…",
+    "signOut": "Terminar sessão",
+    "loginSuccessTitle": "Sessão iniciada",
+    "loginSuccessDescription": "Bem-vindo de volta.",
+    "loginErrorTitle": "Falha no login",
+    "loginErrorDescription": "Credenciais inválidas. Tente novamente.",
+    "logoutTitle": "Sessão terminada",
+    "logoutDescription": "Até breve.",
+    "sessionExpiredTitle": "Sessão expirada",
+    "sessionExpiredDescription": "Inicie sessão novamente para continuar.",
+    "validation": {
+      "identifierRequired": "Indique o email ou utilizador.",
+      "passwordRequired": "Indique a palavra-passe."
+    }
+  },
+  "status": {
+    "online": "Online",
+    "offline": "Offline"
+  },
+  "errors": {
+    "generic": "Ocorreu um erro. Tente novamente.",
+    "notFound": "Página não encontrada"
+  },
+  "empty": {
+    "generic": "Ainda não há dados para mostrar."
+  }
+}

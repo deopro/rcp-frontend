@@ -1,0 +1,135 @@
+{
+  "app": {
+    "name": "RCP",
+    "tagline": "Resource capacity planning"
+  },
+  "nav": {
+    "home": "Home",
+    "allocations": "Allocations",
+    "projects": "Projects",
+    "team": "Team",
+    "more": "More",
+    "dashboard": "Dashboard",
+    "employees": "Employees",
+    "departments": "Departments",
+    "skills": "Skills",
+    "bench": "Bench",
+    "forecast": "Forecast",
+    "approvals": "Approvals",
+    "reports": "Reports",
+    "settings": "Settings",
+    "search": "Search"
+  },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "refresh": "Refresh",
+    "language": "Language"
+  },
+  "theme": {
+    "label": "Theme",
+    "toggle": "Toggle theme",
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "home": {
+    "welcome": "Welcome to RCP",
+    "subtitle": "Replace Excel with modern, secure, mobile-first allocation.",
+    "foundationReady": "Organization ready",
+    "nextMilestone": "Next: projects and clients (Milestone 4)"
+  },
+  "org": {
+    "hubSubtitle": "Manage departments, teams, and employees",
+    "loading": "Loading…",
+    "saving": "Saving…",
+    "saved": "Saved",
+    "deleted": "Deleted",
+    "confirmDelete": "Delete this record? This cannot be undone.",
+    "none": "—",
+    "select": "Select…",
+    "view": "View",
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "fields": {
+      "name": "Name",
+      "description": "Description",
+      "status": "Status",
+      "manager": "Department manager",
+      "department": "Department",
+      "teamLeader": "Team leader",
+      "team": "Team",
+      "employeeNumber": "Employee number",
+      "fullName": "Full name",
+      "email": "Email",
+      "position": "Position",
+      "dailyCapacity": "Daily capacity (h)",
+      "hireDate": "Hire date",
+      "linkedUser": "Linked user"
+    },
+    "departments": {
+      "title": "Departments",
+      "subtitle": "Org structure and managers",
+      "add": "New department",
+      "edit": "Edit department",
+      "empty": "No departments yet."
+    },
+    "teams": {
+      "title": "Teams",
+      "subtitle": "Teams by department and leaders",
+      "add": "New team",
+      "edit": "Edit team",
+      "empty": "No teams yet."
+    },
+    "employees": {
+      "title": "Employees",
+      "subtitle": "Resources, capacity, and user links",
+      "add": "New employee",
+      "edit": "Edit employee",
+      "empty": "No employees yet."
+    }
+  },
+  "settings": {
+    "subtitle": "Appearance and language preferences"
+  },
+  "auth": {
+    "loginTitle": "Sign in",
+    "loginSubtitle": "Use your RCP credentials.",
+    "identifier": "Email or username",
+    "identifierPlaceholder": "name{'@'}company.com",
+    "password": "Password",
+    "passwordPlaceholder": "••••••••",
+    "signIn": "Sign in",
+    "signingIn": "Signing in…",
+    "signOut": "Sign out",
+    "loginSuccessTitle": "Signed in",
+    "loginSuccessDescription": "Welcome back.",
+    "loginErrorTitle": "Sign-in failed",
+    "loginErrorDescription": "Invalid credentials. Please try again.",
+    "logoutTitle": "Signed out",
+    "logoutDescription": "See you soon.",
+    "sessionExpiredTitle": "Session expired",
+    "sessionExpiredDescription": "Please sign in again to continue.",
+    "validation": {
+      "identifierRequired": "Enter your email or username.",
+      "passwordRequired": "Enter your password."
+    }
+  },
+  "status": {
+    "online": "Online",
+    "offline": "Offline"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "notFound": "Page not found"
+  },
+  "empty": {
+    "generic": "Nothing to show yet."
+  }
+}

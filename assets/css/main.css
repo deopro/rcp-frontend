@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --rcp-bg: #f8fafc;
+  --rcp-fg: #0f172a;
+  --rcp-muted: #64748b;
+  --rcp-border: #e2e8f0;
+  --rcp-surface: #ffffff;
+  --rcp-primary: #0f172a;
+  --rcp-primary-fg: #f8fafc;
+  --rcp-accent: #2563eb;
+  --rcp-danger: #dc2626;
+  --rcp-success: #16a34a;
+  --rcp-warning: #d97706;
+  --rcp-radius: 0.75rem;
+  --rcp-safe-top: env(safe-area-inset-top, 0px);
+  --rcp-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --rcp-safe-left: env(safe-area-inset-left, 0px);
+  --rcp-safe-right: env(safe-area-inset-right, 0px);
+  --rcp-nav-height: 4rem;
+  --rcp-header-height: 3.5rem;
+  --rcp-toast-bg: #ffffff;
+  --rcp-toast-fg: #0f172a;
+  --rcp-toast-border: #e2e8f0;
+}
+
+.dark {
+  --rcp-bg: #020617;
+  --rcp-fg: #f1f5f9;
+  --rcp-muted: #94a3b8;
+  --rcp-border: #1e293b;
+  --rcp-surface: #0f172a;
+  --rcp-primary: #f1f5f9;
+  --rcp-primary-fg: #020617;
+  --rcp-accent: #3b82f6;
+  --rcp-danger: #f87171;
+  --rcp-success: #4ade80;
+  --rcp-warning: #fbbf24;
+  --rcp-toast-bg: #0f172a;
+  --rcp-toast-fg: #f1f5f9;
+  --rcp-toast-border: #1e293b;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply antialiased;
+    font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+    background: var(--rcp-bg);
+    color: var(--rcp-fg);
+  }
+
+  body {
+    min-height: 100dvh;
+    padding-top: var(--rcp-safe-top);
+    padding-left: var(--rcp-safe-left);
+    padding-right: var(--rcp-safe-right);
+    background: var(--rcp-bg);
+    color: var(--rcp-fg);
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-blue-600;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  .pb-safe-nav {
+    padding-bottom: calc(var(--rcp-nav-height) + var(--rcp-safe-bottom));
+  }
+
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* vue-sonner theme bridge */
+[data-sonner-toaster] {
+  --normal-bg: var(--rcp-toast-bg);
+  --normal-text: var(--rcp-toast-fg);
+  --normal-border: var(--rcp-toast-border);
+}

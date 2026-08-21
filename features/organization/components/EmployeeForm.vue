@@ -1,0 +1,168 @@
+<script setup lang="ts">
+import type { Employee, EmployeeInput, Team, UserOption } from '../types'
+import StatusBadge from './StatusBadge.vue'
+
+const props = defineProps<{
+  employee?: Employee | null
+  teams: Team[]
+  userOptions: UserOption[]
+  canEdit: boolean
+  canDelete: boolean
+}>()
+
+const emit = defineEmits<{
+  save: [input: EmployeeInput, documentId?: string]
+  remove: [documentId: string]
+  cancel: []
+}>()
+
+const { t } = useI18n()
+
+const form = reactive({
+  employee_number: '',
+  full_name: '',
+  email: '',
+  position: '',
+  daily_capacity: '8',
+  status: 'active' as 'active' | 'inactive',
+  hire_date: '',
+  user: '' as string,
+  team: '' as string,
+})
+
+const saving = ref(false)
+
+watch(
+  () => props.employee,
+  (row) => {
+    form.employee_number = row?.employee_number || ''
+    form.full_name = row?.full_name || ''
+    form.email = row?.email || ''
+    form.position = row?.position || ''
+    form.daily_capacity = String(row?.daily_capacity ?? 8)
+    form.status = row?.status || 'active'
+    form.hire_date = row?.hire_date || ''
+    form.user = row?.user?.id != null ? String(row.user.id) : ''
+    form.team = row?.team?.id != null ? String(row.team.id) : ''
+  },
+  { immediate: true },
+)
+
+async function onSubmit() {
+  if (!props.canEdit) return
+  saving.value = true
+  try {
+    emit(
+      'save',
+      {
+        employee_number: form.employee_number.trim(),
+        full_name: form.full_name.trim(),
+        email: form.email.trim(),
+        position: form.position.trim() || null,
+        daily_capacity: Number(form.daily_capacity) || 8,
+        status: form.status,
+        hire_date: form.hire_date || null,
+        user: form.user ? Number(form.user) : null,
+        team: form.team ? Number(form.team) : null,
+      },
+      props.employee?.documentId,
+    )
+  } finally {
+    saving.value = false
+  }
+}
+
+function onDelete() {
+  if (!props.employee || !props.canDelete) return
+  if (!confirm(t('org.confirmDelete'))) return
+  emit('remove', props.employee.documentId)
+}
+</script>
+
+<template>
+  <form class="space-y-4" @submit.prevent="onSubmit">
+    <div class="grid gap-4 sm:grid-cols-2">
+      <div class="space-y-1.5">
+        <label class="text-sm font-medium" for="emp-number">{{ t('org.fields.employeeNumber') }}</label>
+        <UiInput id="emp-number" v-model="form.employee_number" required :disabled="!canEdit" />
+      </div>
+      <div class="space-y-1.5">
+        <label class="text-sm font-medium" for="emp-name">{{ t('org.fields.fullName') }}</label>
+        <UiInput id="emp-name" v-model="form.full_name" required :disabled="!canEdit" />
+      </div>
+      <div class="space-y-1.5">
+        <label class="text-sm font-medium" for="emp-email">{{ t('org.fields.email') }}</label>
+        <UiInput id="emp-email" v-model="form.email" type="email" required :disabled="!canEdit" />
+      </div>
+      <div class="space-y-1.5">
+        <label class="text-sm font-medium" for="emp-position">{{ t('org.fields.position') }}</label>
+        <UiInput id="emp-position" v-model="form.position" :disabled="!canEdit" />
+      </div>
+      <div class="space-y-1.5">
+        <label class="text-sm font-medium" for="emp-capacity">{{ t('org.fields.dailyCapacity') }}</label>
+        <UiInput
+          id="emp-capacity"
+          v-model="form.daily_capacity"
+          type="number"
+          min="0.5"
+          max="24"
+          step="0.5"
+          required
+          :disabled="!canEdit"
+        />
+      </div>
+      <div class="space-y-1.5">
+        <label class="text-sm font-medium" for="emp-hire">{{ t('org.fields.hireDate') }}</label>
+        <UiInput id="emp-hire" v-model="form.hire_date" type="date" :disabled="!canEdit" />
+      </div>
+      <div class="space-y-1.5">
+        <label class="text-sm font-medium" for="emp-team">{{ t('org.fields.team') }}</label>
+        <UiSelect id="emp-team" v-model="form.team" :disabled="!canEdit">
+          <option value="">{{ t('org.none') }}</option>
+          <option v-for="tm in teams" :key="tm.id" :value="String(tm.id)">
+            {{ tm.name }}
+          </option>
+        </UiSelect>
+      </div>
+      <div class="space-y-1.5">
+        <label class="text-sm font-medium" for="emp-user">{{ t('org.fields.linkedUser') }}</label>
+        <UiSelect id="emp-user" v-model="form.user" :disabled="!canEdit">
+          <option value="">{{ t('org.none') }}</option>
+          <option v-for="u in userOptions" :key="u.id" :value="String(u.id)">
+            {{ u.email }}
+          </option>
+        </UiSelect>
+      </div>
+      <div class="space-y-1.5">
+        <label class="text-sm font-medium" for="emp-status">{{ t('org.fields.status') }}</label>
+        <UiSelect id="emp-status" v-model="form.status" :disabled="!canEdit">
+          <option value="active">{{ t('org.status.active') }}</option>
+          <option value="inactive">{{ t('org.status.inactive') }}</option>
+        </UiSelect>
+      </div>
+    </div>
+
+    <div v-if="employee" class="flex items-center gap-2 text-sm text-muted">
+      <StatusBadge :status="employee.status" />
+      <span>{{ t('org.fields.dailyCapacity') }}: {{ employee.daily_capacity }}h</span>
+    </div>
+
+    <div class="flex flex-wrap gap-2 pt-2">
+      <UiButton v-if="canEdit" type="submit" :disabled="saving">
+        {{ saving ? t('org.saving') : t('actions.save') }}
+      </UiButton>
+      <UiButton type="button" variant="outline" @click="emit('cancel')">
+        {{ t('actions.cancel') }}
+      </UiButton>
+      <UiButton
+        v-if="employee && canDelete"
+        type="button"
+        variant="danger"
+        class="ml-auto"
+        @click="onDelete"
+      >
+        {{ t('actions.delete') }}
+      </UiButton>
+    </div>
+  </form>
+</template>
