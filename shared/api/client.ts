@@ -1,8 +1,12 @@
 /**
- * Typed Strapi API client. Attaches JWT from auth store and handles 401.
+ * Browser → Nuxt proxy → Strapi. Session JWT is read from httpOnly cookie on the server.
  */
-import { useAuthStore } from '~/features/auth/stores/auth'
-import { ApiErrorCode, codeFromMessage, resolveErrorDescription } from '~/shared/api/error-codes'
+import { FetchError } from 'ofetch'
+import {
+  ApiErrorCode,
+  codeFromHttpStatus,
+  resolveApiErrorToast,
+} from '~/shared/api/error-codes'
 
 export type ApiErrorBody = {
   error?: {
@@ -27,74 +31,96 @@ export class ApiError extends Error {
   }
 }
 
+/** @deprecated Use resolveApiErrorToast or useApiErrorToast instead */
 export function describeApiError(error: unknown, t: (key: string) => string): string {
-  return error instanceof ApiError ? resolveErrorDescription(error.code, t) : t('errors.generic')
+  return resolveApiErrorToast(error, t).description
+}
+
+function toProxyPath(strapiPath: string): string {
+  return strapiPath.replace(/^\/api\//, '/api/strapi/')
+}
+
+function messageFromFetchError(error: FetchError): string {
+  const data = error.data as ApiErrorBody | { error?: { message?: string }; statusMessage?: string } | undefined
+  if (data && typeof data === 'object') {
+    if ('error' in data && data.error?.message) return data.error.message
+    if ('statusMessage' in data && typeof data.statusMessage === 'string') return data.statusMessage
+  }
+  return error.statusMessage || error.message || `Request failed (${error.statusCode || 0})`
+}
+
+async function handleUnauthorized() {
+  if (!import.meta.client) return
+
+  try {
+    const auth = useAuthStore()
+    const toast = useToast()
+    const { t } = useI18n()
+
+    auth.clearSession()
+    await $fetch('/api/auth/logout', { method: 'POST' }).catch(() => undefined)
+    toast.error({
+      title: t('auth.sessionExpiredTitle'),
+      description: t('auth.sessionExpiredDescription'),
+    })
+    await navigateTo({
+      path: '/login',
+      query: { redirect: useRoute().fullPath },
+    })
+  } catch {
+    // Ignore composable errors during session cleanup.
+  }
 }
 
 export function useApiClient() {
-  const config = useRuntimeConfig()
-  const baseURL = config.public.apiUrl as string
-  const auth = useAuthStore()
-  const toast = useToast()
-  const { t } = useI18n()
+  async function request<T>(path: string, options: { method?: string; body?: unknown } = {}): Promise<T> {
+    const method = options.method || 'GET'
+    const proxyPath = toProxyPath(path)
 
-  async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
-    const headers = new Headers(options.headers)
-    if (!headers.has('Content-Type') && options.body) {
-      headers.set('Content-Type', 'application/json')
-    }
-    if (auth.token) {
-      headers.set('Authorization', `Bearer ${auth.token}`)
-    }
+    // #region agent log
+    fetch('http://127.0.0.1:7550/ingest/00e40e9f-34c6-4349-ac97-bfda2cfa152b',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'805b23'},body:JSON.stringify({sessionId:'805b23',hypothesisId:'H2',location:'client.ts:request-start',message:'api proxy request',data:{method,path,proxyPath},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion
 
-    const response = await fetch(`${baseURL}${path}`, {
-      ...options,
-      headers,
-    })
-
-    if (response.status === 401) {
-      auth.clearSession()
-      await $fetch('/api/auth/logout', { method: 'POST' }).catch(() => undefined)
-      toast.error({
-        title: t('auth.sessionExpiredTitle'),
-        description: t('auth.sessionExpiredDescription'),
+    try {
+      const result = await $fetch<T>(proxyPath, {
+        method,
+        body: options.body,
+        credentials: 'include',
       })
-      await navigateTo({
-        path: '/login',
-        query: { redirect: useRoute().fullPath },
-      })
-      throw new ApiError(t('auth.sessionExpiredTitle'), 401, ApiErrorCode.GENERIC)
-    }
-
-    if (!response.ok) {
-      let body: ApiErrorBody | undefined
-      try {
-        body = (await response.json()) as ApiErrorBody
-      } catch {
-        body = undefined
+      return result as T
+    } catch (error: unknown) {
+      if (!(error instanceof FetchError)) {
+        // #region agent log
+        fetch('http://127.0.0.1:7550/ingest/00e40e9f-34c6-4349-ac97-bfda2cfa152b',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'805b23'},body:JSON.stringify({sessionId:'805b23',hypothesisId:'H4',location:'client.ts:unknown-error',message:'non-fetch error',data:{method,path,err:String(error)},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
+        throw new ApiError('Unexpected request failure', 0, ApiErrorCode.GENERIC)
       }
-      const rawMessage = body?.error?.message || `Request failed (${response.status})`
-      throw new ApiError(
-        rawMessage,
-        response.status,
-        codeFromMessage(rawMessage),
-        body?.error?.details,
-      )
-    }
 
-    if (response.status === 204) {
-      return undefined as T
-    }
+      const status = error.statusCode || 0
+      const rawMessage = messageFromFetchError(error)
 
-    return (await response.json()) as T
+      // #region agent log
+      fetch('http://127.0.0.1:7550/ingest/00e40e9f-34c6-4349-ac97-bfda2cfa152b',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'805b23'},body:JSON.stringify({sessionId:'805b23',hypothesisId:'H1',location:'client.ts:fetch-error',message:'api proxy error',data:{method,path,status,rawMessage},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion
+
+      if (status === 401) {
+        await handleUnauthorized()
+        throw new ApiError('Session expired', 401, ApiErrorCode.GENERIC)
+      }
+
+      if (status === 0) {
+        throw new ApiError(rawMessage, 0, ApiErrorCode.NETWORK)
+      }
+
+      const code = codeFromHttpStatus(status, rawMessage)
+      throw new ApiError(rawMessage, status, code, error.data)
+    }
   }
 
   return {
     get: <T>(path: string) => request<T>(path),
-    post: <T>(path: string, body?: unknown) =>
-      request<T>(path, { method: 'POST', body: body ? JSON.stringify(body) : undefined }),
-    put: <T>(path: string, body?: unknown) =>
-      request<T>(path, { method: 'PUT', body: body ? JSON.stringify(body) : undefined }),
+    post: <T>(path: string, body?: unknown) => request<T>(path, { method: 'POST', body }),
+    put: <T>(path: string, body?: unknown) => request<T>(path, { method: 'PUT', body }),
     del: <T>(path: string) => request<T>(path, { method: 'DELETE' }),
   }
 }

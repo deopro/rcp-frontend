@@ -4,7 +4,6 @@ import EmployeeForm from '~/features/organization/components/EmployeeForm.vue'
 import StatusBadge from '~/features/organization/components/StatusBadge.vue'
 import { useOrganizationStore } from '~/features/organization/stores/organization'
 import type { Employee, EmployeeInput } from '~/features/organization/types'
-import { describeApiError } from '~/shared/api/client'
 
 definePageMeta({
   middleware: ['role'],
@@ -14,6 +13,7 @@ const { t } = useI18n()
 const auth = useAuthStore()
 const org = useOrganizationStore()
 const toast = useToast()
+const { showApiError } = useApiErrorToast()
 
 const panelOpen = ref(false)
 const selected = ref<Employee | null>(null)
@@ -34,10 +34,7 @@ onMounted(async () => {
       canAssign.value ? org.loadUserOptions() : Promise.resolve(),
     ])
   } catch (e) {
-    toast.error({
-      title: t('errors.generic'),
-      description: describeApiError(e, t),
-    })
+    showApiError(e)
   }
 })
 
@@ -59,26 +56,20 @@ function closePanel() {
 async function onSave(input: EmployeeInput, documentId?: string) {
   try {
     await org.saveEmployee(input, documentId)
-    toast.success({ title: t('org.saved') })
+    toast.success({ title: documentId ? t('forms.updated') : t('forms.created') })
     closePanel()
   } catch (e) {
-    toast.error({
-      title: t('errors.generic'),
-      description: describeApiError(e, t),
-    })
+    showApiError(e)
   }
 }
 
 async function onRemove(documentId: string) {
   try {
     await org.removeEmployee(documentId)
-    toast.success({ title: t('org.deleted') })
+    toast.success({ title: t('forms.deleted') })
     closePanel()
   } catch (e) {
-    toast.error({
-      title: t('errors.generic'),
-      description: describeApiError(e, t),
-    })
+    showApiError(e)
   }
 }
 </script>
@@ -159,26 +150,28 @@ async function onRemove(documentId: string) {
       </li>
     </ul>
 
-    <div
-      v-if="panelOpen"
-      class="fixed inset-0 z-40 flex items-end justify-center bg-black/40 p-4 md:items-center"
-      @click.self="closePanel"
-    >
-      <div class="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-soft">
-        <h3 class="mb-4 text-lg font-semibold">
-          {{ selected ? t('org.employees.edit') : t('org.employees.add') }}
-        </h3>
-        <EmployeeForm
-          :employee="selected"
-          :teams="org.teams"
-          :user-options="org.userOptions"
-          :can-edit="canWrite"
-          :can-delete="canDelete"
-          @save="onSave"
-          @remove="onRemove"
-          @cancel="closePanel"
-        />
+    <Teleport to="body">
+      <div
+        v-if="panelOpen"
+        class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 md:items-center"
+        @click.self="closePanel"
+      >
+        <div class="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-soft">
+          <h3 class="mb-4 text-lg font-semibold">
+            {{ selected ? t('org.employees.edit') : t('org.employees.add') }}
+          </h3>
+          <EmployeeForm
+            :employee="selected"
+            :teams="org.teams"
+            :user-options="org.userOptions"
+            :can-edit="canWrite"
+            :can-delete="canDelete"
+            :on-save="onSave"
+            :on-remove="onRemove"
+            @cancel="closePanel"
+          />
+        </div>
       </div>
-    </div>
+    </Teleport>
   </div>
 </template>

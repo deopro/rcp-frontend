@@ -7,6 +7,7 @@
     "home": "Início",
     "allocations": "Alocações",
     "projects": "Projetos",
+    "clients": "Clientes",
     "team": "Equipa",
     "more": "Mais",
     "dashboard": "Painel",
@@ -30,6 +31,23 @@
     "refresh": "Atualizar",
     "language": "Idioma"
   },
+  "forms": {
+    "required": "(obrigatório)",
+    "validationTitle": "Verifique os campos obrigatórios",
+    "validationDescription": "Preencha: {fields}",
+    "validationInvalidEmail": "Introduza um endereço de email válido.",
+    "confirmAction": "Confirmar",
+    "confirmCreateTitle": "Criar registo",
+    "confirmUpdateTitle": "Guardar alterações",
+    "confirmDeleteTitle": "Eliminar registo",
+    "confirmCreate": "Reveja os dados e confirme para guardar o novo registo.",
+    "confirmUpdate": "As alterações serão aplicadas a este registo.",
+    "confirmDelete": "Esta ação é permanente e não pode ser anulada.",
+    "actionCancelled": "Ação cancelada",
+    "created": "Criado com sucesso",
+    "updated": "Atualizado com sucesso",
+    "deleted": "Eliminado com sucesso"
+  },
   "theme": {
     "label": "Tema",
     "toggle": "Alternar tema",
@@ -40,8 +58,64 @@
   "home": {
     "welcome": "Bem-vindo ao RCP",
     "subtitle": "Substitua o Excel por alocação moderna, segura e mobile-first.",
-    "foundationReady": "Organização pronta",
-    "nextMilestone": "Próximo: projetos e clientes (Marco 4)"
+    "foundationReady": "Projetos prontos",
+    "nextMilestone": "Próximo: matriz de competências (Marco 5)"
+  },
+  "projects": {
+    "title": "Projetos",
+    "subtitle": "Clientes, atribuições, competências e resumo de capacidade",
+    "loading": "A carregar…",
+    "loadingSummary": "A carregar resumo…",
+    "saving": "A guardar…",
+    "saved": "Guardado",
+    "deleted": "Eliminado",
+    "confirmDelete": "Eliminar este registo? Esta ação não pode ser anulada.",
+    "add": "Novo projeto",
+    "edit": "Editar projeto",
+    "empty": "Ainda não há projetos.",
+    "status": {
+      "planned": "Planeado",
+      "active": "Ativo",
+      "on_hold": "Em pausa",
+      "completed": "Concluído",
+      "cancelled": "Cancelado"
+    },
+    "fields": {
+      "name": "Nome",
+      "code": "Código",
+      "description": "Descrição",
+      "status": "Estado",
+      "client": "Cliente",
+      "contactEmail": "Email de contacto",
+      "category": "Categoria",
+      "startDate": "Data de início",
+      "endDate": "Data de fim",
+      "requiredSkills": "Competências necessárias",
+      "assignedEmployees": "Colaboradores atribuídos"
+    },
+    "summary": {
+      "capacity": "Capacidade",
+      "allocated": "Alocado",
+      "remaining": "Restante",
+      "workingDays": "Dias úteis"
+    },
+    "validation": {
+      "dateRange": "A data de fim deve ser igual ou posterior à data de início."
+    },
+    "clients": {
+      "title": "Clientes",
+      "subtitle": "Clientes ligados a projetos",
+      "add": "Novo cliente",
+      "edit": "Editar cliente",
+      "empty": "Ainda não há clientes."
+    },
+    "skills": {
+      "title": "Catálogo de competências",
+      "subtitle": "Competências exigidas nos projetos (matriz no Marco 5)",
+      "add": "Nova competência",
+      "edit": "Editar competência",
+      "empty": "Ainda não há competências."
+    }
   },
   "org": {
     "hubSubtitle": "Gerir departamentos, equipas e colaboradores",
@@ -133,7 +207,14 @@
     "offline": "Offline"
   },
   "errors": {
+    "title": "Ocorreu um erro",
     "generic": "Ocorreu um erro. Tente novamente.",
+    "genericDescription": "Tente novamente. Se o problema persistir, contacte o administrador.",
+    "forbidden": "Não tem permissão para executar esta ação.",
+    "notFoundRecord": "O registo não foi encontrado.",
+    "duplicate": "Já existe um registo com este nome.",
+    "validation": "Alguns campos são inválidos. Revise o formulário e tente novamente.",
+    "network": "Não foi possível contactar o servidor. Verifique a ligação e tente novamente.",
     "notFound": "Página não encontrada"
   },
   "empty": {

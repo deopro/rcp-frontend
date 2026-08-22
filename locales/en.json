@@ -7,6 +7,7 @@
     "home": "Home",
     "allocations": "Allocations",
     "projects": "Projects",
+    "clients": "Clients",
     "team": "Team",
     "more": "More",
     "dashboard": "Dashboard",
@@ -30,6 +31,23 @@
     "refresh": "Refresh",
     "language": "Language"
   },
+  "forms": {
+    "required": "(required)",
+    "validationTitle": "Check required fields",
+    "validationDescription": "Please fill in: {fields}",
+    "validationInvalidEmail": "Enter a valid email address.",
+    "confirmAction": "Confirm",
+    "confirmCreateTitle": "Create record",
+    "confirmUpdateTitle": "Save changes",
+    "confirmDeleteTitle": "Delete record",
+    "confirmCreate": "Review the information and confirm to save the new record.",
+    "confirmUpdate": "Your changes will be applied to this record.",
+    "confirmDelete": "This action is permanent and cannot be undone.",
+    "actionCancelled": "Action cancelled",
+    "created": "Created successfully",
+    "updated": "Updated successfully",
+    "deleted": "Deleted successfully"
+  },
   "theme": {
     "label": "Theme",
     "toggle": "Toggle theme",
@@ -40,8 +58,64 @@
   "home": {
     "welcome": "Welcome to RCP",
     "subtitle": "Replace Excel with modern, secure, mobile-first allocation.",
-    "foundationReady": "Organization ready",
-    "nextMilestone": "Next: projects and clients (Milestone 4)"
+    "foundationReady": "Projects ready",
+    "nextMilestone": "Next: skills matrix (Milestone 5)"
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Clients, assignments, required skills, and capacity summary",
+    "loading": "Loading…",
+    "loadingSummary": "Loading summary…",
+    "saving": "Saving…",
+    "saved": "Saved",
+    "deleted": "Deleted",
+    "confirmDelete": "Delete this record? This cannot be undone.",
+    "add": "New project",
+    "edit": "Edit project",
+    "empty": "No projects yet.",
+    "status": {
+      "planned": "Planned",
+      "active": "Active",
+      "on_hold": "On hold",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "fields": {
+      "name": "Name",
+      "code": "Code",
+      "description": "Description",
+      "status": "Status",
+      "client": "Client",
+      "contactEmail": "Contact email",
+      "category": "Category",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "requiredSkills": "Required skills",
+      "assignedEmployees": "Assigned employees"
+    },
+    "summary": {
+      "capacity": "Capacity",
+      "allocated": "Allocated",
+      "remaining": "Remaining",
+      "workingDays": "Working days"
+    },
+    "validation": {
+      "dateRange": "End date must be on or after start date."
+    },
+    "clients": {
+      "title": "Clients",
+      "subtitle": "Customers linked to projects",
+      "add": "New client",
+      "edit": "Edit client",
+      "empty": "No clients yet."
+    },
+    "skills": {
+      "title": "Skills catalog",
+      "subtitle": "Skills required on projects (matrix expands in Milestone 5)",
+      "add": "New skill",
+      "edit": "Edit skill",
+      "empty": "No skills yet."
+    }
   },
   "org": {
     "hubSubtitle": "Manage departments, teams, and employees",
@@ -133,7 +207,14 @@
     "offline": "Offline"
   },
   "errors": {
+    "title": "Something went wrong",
     "generic": "Something went wrong. Please try again.",
+    "genericDescription": "Please try again. If the problem persists, contact your administrator.",
+    "forbidden": "You don't have permission to perform this action.",
+    "notFoundRecord": "The record could not be found.",
+    "duplicate": "A record with this name already exists.",
+    "validation": "Some fields are invalid. Review the form and try again.",
+    "network": "Could not reach the server. Check your connection and try again.",
     "notFound": "Page not found"
   },
   "empty": {

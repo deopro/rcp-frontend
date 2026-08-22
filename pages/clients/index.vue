@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { useAuthStore } from '~/features/auth/stores/auth'
-import DepartmentForm from '~/features/organization/components/DepartmentForm.vue'
-import StatusBadge from '~/features/organization/components/StatusBadge.vue'
-import { useOrganizationStore } from '~/features/organization/stores/organization'
-import type { Department, DepartmentInput } from '~/features/organization/types'
+import ClientForm from '~/features/projects/components/ClientForm.vue'
+import { useProjectsStore } from '~/features/projects/stores/projects'
+import type { Client, ClientInput } from '~/features/projects/types'
 
 definePageMeta({
   middleware: ['role'],
@@ -12,19 +11,19 @@ definePageMeta({
 
 const { t } = useI18n()
 const auth = useAuthStore()
-const org = useOrganizationStore()
+const store = useProjectsStore()
 const toast = useToast()
 const { showApiError } = useApiErrorToast()
 
 const panelOpen = ref(false)
-const selected = ref<Department | null>(null)
+const selected = ref<Client | null>(null)
 
 const canWrite = computed(() => auth.hasRole('administrator'))
 const canDelete = computed(() => auth.hasRole('administrator'))
 
 onMounted(async () => {
   try {
-    await Promise.all([org.loadDepartments(), canWrite.value ? org.loadUserOptions() : Promise.resolve()])
+    await store.loadClients()
   } catch (e) {
     showApiError(e)
   }
@@ -35,7 +34,7 @@ function openCreate() {
   panelOpen.value = true
 }
 
-function openEdit(row: Department) {
+function openEdit(row: Client) {
   selected.value = row
   panelOpen.value = true
 }
@@ -45,9 +44,9 @@ function closePanel() {
   selected.value = null
 }
 
-async function onSave(input: DepartmentInput, documentId?: string) {
+async function onSave(input: ClientInput, documentId?: string) {
   try {
-    await org.saveDepartment(input, documentId)
+    await store.saveClient(input, documentId)
     toast.success({ title: documentId ? t('forms.updated') : t('forms.created') })
     closePanel()
   } catch (e) {
@@ -57,7 +56,7 @@ async function onSave(input: DepartmentInput, documentId?: string) {
 
 async function onRemove(documentId: string) {
   try {
-    await org.removeDepartment(documentId)
+    await store.removeClient(documentId)
     toast.success({ title: t('forms.deleted') })
     closePanel()
   } catch (e) {
@@ -70,43 +69,47 @@ async function onRemove(documentId: string) {
   <div class="mx-auto max-w-5xl space-y-4">
     <div class="flex flex-wrap items-center justify-between gap-3">
       <div>
-        <h2 class="text-xl font-semibold">{{ t('org.departments.title') }}</h2>
-        <p class="text-sm text-muted">{{ t('org.departments.subtitle') }}</p>
+        <h2 class="text-xl font-semibold">{{ t('projects.clients.title') }}</h2>
+        <p class="text-sm text-muted">{{ t('projects.clients.subtitle') }}</p>
       </div>
-      <UiButton v-if="canWrite" @click="openCreate">{{ t('org.departments.add') }}</UiButton>
+      <div class="flex gap-2">
+        <NuxtLink to="/projects">
+          <UiButton variant="outline">{{ t('nav.projects') }}</UiButton>
+        </NuxtLink>
+        <UiButton v-if="canWrite" @click="openCreate">{{ t('projects.clients.add') }}</UiButton>
+      </div>
     </div>
 
-    <div v-if="org.loading && !org.departments.length" class="text-sm text-muted">
-      {{ t('org.loading') }}
+    <div v-if="store.loading && !store.clients.length" class="text-sm text-muted">
+      {{ t('projects.loading') }}
     </div>
 
     <div
-      v-else-if="!org.departments.length"
+      v-else-if="!store.clients.length"
       class="rounded-lg border border-dashed border-border p-8 text-center text-sm text-muted"
     >
-      {{ t('org.departments.empty') }}
+      {{ t('projects.clients.empty') }}
     </div>
 
-    <!-- Desktop table -->
     <div v-else class="hidden overflow-hidden rounded-lg border border-border bg-surface md:block">
       <table class="w-full text-left text-sm">
         <thead class="border-b border-border bg-slate-50 text-muted dark:bg-slate-900/50">
           <tr>
-            <th class="px-4 py-3 font-medium">{{ t('org.fields.name') }}</th>
-            <th class="px-4 py-3 font-medium">{{ t('org.fields.manager') }}</th>
-            <th class="px-4 py-3 font-medium">{{ t('org.fields.status') }}</th>
+            <th class="px-4 py-3 font-medium">{{ t('projects.fields.name') }}</th>
+            <th class="px-4 py-3 font-medium">{{ t('projects.fields.contactEmail') }}</th>
+            <th class="px-4 py-3 font-medium">{{ t('projects.fields.status') }}</th>
             <th class="px-4 py-3 font-medium" />
           </tr>
         </thead>
         <tbody class="divide-y divide-border">
           <tr
-            v-for="row in org.departments"
+            v-for="row in store.clients"
             :key="row.documentId"
             class="hover:bg-slate-50 dark:hover:bg-slate-800/50"
           >
             <td class="px-4 py-3 font-medium">{{ row.name }}</td>
-            <td class="px-4 py-3 text-muted">{{ row.manager?.email || t('org.none') }}</td>
-            <td class="px-4 py-3"><StatusBadge :status="row.status" /></td>
+            <td class="px-4 py-3 text-muted">{{ row.contact_email || t('org.none') }}</td>
+            <td class="px-4 py-3">{{ t(`org.status.${row.status}`) }}</td>
             <td class="px-4 py-3 text-right">
               <UiButton size="sm" variant="ghost" @click="openEdit(row)">
                 {{ canWrite ? t('actions.edit') : t('org.view') }}
@@ -117,20 +120,14 @@ async function onRemove(documentId: string) {
       </table>
     </div>
 
-    <!-- Mobile cards -->
     <ul class="space-y-3 md:hidden">
       <li
-        v-for="row in org.departments"
+        v-for="row in store.clients"
         :key="row.documentId"
         class="rounded-lg border border-border bg-surface p-4 shadow-soft"
       >
-        <div class="flex items-start justify-between gap-2">
-          <div>
-            <p class="font-medium">{{ row.name }}</p>
-            <p class="mt-1 text-xs text-muted">{{ row.manager?.email || t('org.none') }}</p>
-          </div>
-          <StatusBadge :status="row.status" />
-        </div>
+        <p class="font-medium">{{ row.name }}</p>
+        <p class="mt-1 text-xs text-muted">{{ row.contact_email || t('org.none') }}</p>
         <UiButton class="mt-3 w-full" size="sm" variant="outline" @click="openEdit(row)">
           {{ canWrite ? t('actions.edit') : t('org.view') }}
         </UiButton>
@@ -145,11 +142,10 @@ async function onRemove(documentId: string) {
       >
         <div class="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-soft">
           <h3 class="mb-4 text-lg font-semibold">
-            {{ selected ? t('org.departments.edit') : t('org.departments.add') }}
+            {{ selected ? t('projects.clients.edit') : t('projects.clients.add') }}
           </h3>
-          <DepartmentForm
-            :department="selected"
-            :user-options="org.userOptions"
+          <ClientForm
+            :client="selected"
             :can-edit="canWrite"
             :can-delete="canDelete"
             :on-save="onSave"

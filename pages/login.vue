@@ -38,28 +38,37 @@ const { handleSubmit, errors, defineField } = useForm({
 const [identifier, identifierAttrs] = defineField('identifier')
 const [password, passwordAttrs] = defineField('password')
 
-const onSubmit = handleSubmit(async (values) => {
-  submitting.value = true
-  try {
-    const result = await auth.login(values.identifier, values.password)
-    if (result.user.preferred_locale && result.user.preferred_locale !== locale.value) {
-      await setLocale(result.user.preferred_locale)
+const onSubmit = handleSubmit(
+  async (values) => {
+    submitting.value = true
+    try {
+      const result = await auth.login(values.identifier, values.password)
+      if (result.user.preferred_locale && result.user.preferred_locale !== locale.value) {
+        await setLocale(result.user.preferred_locale)
+      }
+      toast.success({
+        title: t('auth.loginSuccessTitle'),
+        description: t('auth.loginSuccessDescription'),
+      })
+      const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/'
+      await navigateTo(redirect || '/')
+    } catch (error: unknown) {
+      toast.error({
+        title: t('auth.loginErrorTitle'),
+        description: resolveErrorDescription(codeFromFetchError(error), t, 'auth.loginErrorDescription'),
+      })
+    } finally {
+      submitting.value = false
     }
-    toast.success({
-      title: t('auth.loginSuccessTitle'),
-      description: t('auth.loginSuccessDescription'),
+  },
+  (fieldErrors) => {
+    const messages = [fieldErrors.identifier, fieldErrors.password].filter(Boolean)
+    toast.warning({
+      title: t('forms.validationTitle'),
+      description: messages.length ? messages.join(' ') : t('auth.errors.missingFields'),
     })
-    const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/'
-    await navigateTo(redirect || '/')
-  } catch (error: unknown) {
-    toast.error({
-      title: t('auth.loginErrorTitle'),
-      description: resolveErrorDescription(codeFromFetchError(error), t, 'auth.loginErrorDescription'),
-    })
-  } finally {
-    submitting.value = false
-  }
-})
+  },
+)
 </script>
 
 <template>
@@ -67,15 +76,16 @@ const onSubmit = handleSubmit(async (values) => {
     <h1 class="text-2xl font-semibold tracking-tight">{{ t('auth.loginTitle') }}</h1>
     <p class="mt-2 text-sm text-muted">{{ t('auth.loginSubtitle') }}</p>
 
-    <form class="mt-8 space-y-4" @submit.prevent="onSubmit">
+    <form class="mt-8 space-y-4" novalidate @submit.prevent="onSubmit">
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="identifier">{{ t('auth.identifier') }}</label>
+        <UiFormLabel for="identifier" required>{{ t('auth.identifier') }}</UiFormLabel>
         <input
           id="identifier"
           v-model="identifier"
           v-bind="identifierAttrs"
           type="text"
           autocomplete="username"
+          required
           class="touch-target w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-accent"
           :placeholder="t('auth.identifierPlaceholder')"
         >
@@ -83,7 +93,7 @@ const onSubmit = handleSubmit(async (values) => {
       </div>
 
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="password">{{ t('auth.password') }}</label>
+        <UiFormLabel for="password" required>{{ t('auth.password') }}</UiFormLabel>
         <div class="relative">
           <input
             id="password"
@@ -91,6 +101,7 @@ const onSubmit = handleSubmit(async (values) => {
             v-bind="passwordAttrs"
             :type="showPassword ? 'text' : 'password'"
             autocomplete="current-password"
+            required
             class="touch-target w-full rounded-lg border border-border bg-background py-0 pl-3 pr-11 text-sm outline-none focus-visible:ring-2 focus-visible:ring-accent"
             :placeholder="t('auth.passwordPlaceholder')"
           >

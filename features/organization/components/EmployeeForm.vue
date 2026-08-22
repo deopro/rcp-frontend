@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Employee, EmployeeInput, Team, UserOption } from '../types'
 import StatusBadge from './StatusBadge.vue'
+import { isValidEmail } from '~/shared/forms/validation'
 
 const props = defineProps<{
   employee?: Employee | null
@@ -8,15 +9,16 @@ const props = defineProps<{
   userOptions: UserOption[]
   canEdit: boolean
   canDelete: boolean
+  onSave: (input: EmployeeInput, documentId?: string) => Promise<void>
+  onRemove?: (documentId: string) => Promise<void>
 }>()
 
 const emit = defineEmits<{
-  save: [input: EmployeeInput, documentId?: string]
-  remove: [documentId: string]
   cancel: []
 }>()
 
 const { t } = useI18n()
+const crud = useCrudActions()
 
 const form = reactive({
   employee_number: '',
@@ -31,6 +33,7 @@ const form = reactive({
 })
 
 const saving = ref(false)
+const isEdit = computed(() => Boolean(props.employee?.documentId))
 
 watch(
   () => props.employee,
@@ -50,10 +53,26 @@ watch(
 
 async function onSubmit() {
   if (!props.canEdit) return
+  if (
+    !crud.validateRequired([
+      { label: t('org.fields.employeeNumber'), value: form.employee_number },
+      { label: t('org.fields.fullName'), value: form.full_name },
+      { label: t('org.fields.email'), value: form.email },
+      { label: t('org.fields.dailyCapacity'), value: form.daily_capacity },
+      { label: t('org.fields.status'), value: form.status },
+    ])
+  ) {
+    return
+  }
+  if (!isValidEmail(form.email)) {
+    crud.toastValidationError(t('forms.validationInvalidEmail'))
+    return
+  }
+  if (!(await crud.confirmSave(isEdit.value))) return
+
   saving.value = true
   try {
-    emit(
-      'save',
+    await props.onSave(
       {
         employee_number: form.employee_number.trim(),
         full_name: form.full_name.trim(),
@@ -72,34 +91,39 @@ async function onSubmit() {
   }
 }
 
-function onDelete() {
-  if (!props.employee || !props.canDelete) return
-  if (!confirm(t('org.confirmDelete'))) return
-  emit('remove', props.employee.documentId)
+async function onDelete() {
+  if (!props.employee || !props.canDelete || !props.onRemove) return
+  if (!(await crud.confirmDelete())) return
+  saving.value = true
+  try {
+    await props.onRemove(props.employee.documentId)
+  } finally {
+    saving.value = false
+  }
 }
 </script>
 
 <template>
-  <form class="space-y-4" @submit.prevent="onSubmit">
+  <form class="space-y-4" novalidate @submit.prevent="onSubmit">
     <div class="grid gap-4 sm:grid-cols-2">
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="emp-number">{{ t('org.fields.employeeNumber') }}</label>
+        <UiFormLabel for="emp-number" required>{{ t('org.fields.employeeNumber') }}</UiFormLabel>
         <UiInput id="emp-number" v-model="form.employee_number" required :disabled="!canEdit" />
       </div>
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="emp-name">{{ t('org.fields.fullName') }}</label>
+        <UiFormLabel for="emp-name" required>{{ t('org.fields.fullName') }}</UiFormLabel>
         <UiInput id="emp-name" v-model="form.full_name" required :disabled="!canEdit" />
       </div>
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="emp-email">{{ t('org.fields.email') }}</label>
+        <UiFormLabel for="emp-email" required>{{ t('org.fields.email') }}</UiFormLabel>
         <UiInput id="emp-email" v-model="form.email" type="email" required :disabled="!canEdit" />
       </div>
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="emp-position">{{ t('org.fields.position') }}</label>
+        <UiFormLabel for="emp-position">{{ t('org.fields.position') }}</UiFormLabel>
         <UiInput id="emp-position" v-model="form.position" :disabled="!canEdit" />
       </div>
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="emp-capacity">{{ t('org.fields.dailyCapacity') }}</label>
+        <UiFormLabel for="emp-capacity" required>{{ t('org.fields.dailyCapacity') }}</UiFormLabel>
         <UiInput
           id="emp-capacity"
           v-model="form.daily_capacity"
@@ -112,11 +136,11 @@ function onDelete() {
         />
       </div>
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="emp-hire">{{ t('org.fields.hireDate') }}</label>
+        <UiFormLabel for="emp-hire">{{ t('org.fields.hireDate') }}</UiFormLabel>
         <UiInput id="emp-hire" v-model="form.hire_date" type="date" :disabled="!canEdit" />
       </div>
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="emp-team">{{ t('org.fields.team') }}</label>
+        <UiFormLabel for="emp-team">{{ t('org.fields.team') }}</UiFormLabel>
         <UiSelect id="emp-team" v-model="form.team" :disabled="!canEdit">
           <option value="">{{ t('org.none') }}</option>
           <option v-for="tm in teams" :key="tm.id" :value="String(tm.id)">
@@ -125,7 +149,7 @@ function onDelete() {
         </UiSelect>
       </div>
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="emp-user">{{ t('org.fields.linkedUser') }}</label>
+        <UiFormLabel for="emp-user">{{ t('org.fields.linkedUser') }}</UiFormLabel>
         <UiSelect id="emp-user" v-model="form.user" :disabled="!canEdit">
           <option value="">{{ t('org.none') }}</option>
           <option v-for="u in userOptions" :key="u.id" :value="String(u.id)">
@@ -134,8 +158,8 @@ function onDelete() {
         </UiSelect>
       </div>
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="emp-status">{{ t('org.fields.status') }}</label>
-        <UiSelect id="emp-status" v-model="form.status" :disabled="!canEdit">
+        <UiFormLabel for="emp-status" required>{{ t('org.fields.status') }}</UiFormLabel>
+        <UiSelect id="emp-status" v-model="form.status" required :disabled="!canEdit">
           <option value="active">{{ t('org.status.active') }}</option>
           <option value="inactive">{{ t('org.status.inactive') }}</option>
         </UiSelect>

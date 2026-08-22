@@ -7,15 +7,16 @@ const props = defineProps<{
   userOptions: UserOption[]
   canEdit: boolean
   canDelete: boolean
+  onSave: (input: DepartmentInput, documentId?: string) => Promise<void>
+  onRemove?: (documentId: string) => Promise<void>
 }>()
 
 const emit = defineEmits<{
-  save: [input: DepartmentInput, documentId?: string]
-  remove: [documentId: string]
   cancel: []
 }>()
 
 const { t } = useI18n()
+const crud = useCrudActions()
 
 const form = reactive({
   name: '',
@@ -25,6 +26,7 @@ const form = reactive({
 })
 
 const saving = ref(false)
+const isEdit = computed(() => Boolean(props.department?.documentId))
 
 watch(
   () => props.department,
@@ -39,10 +41,19 @@ watch(
 
 async function onSubmit() {
   if (!props.canEdit) return
+  if (
+    !crud.validateRequired([
+      { label: t('org.fields.name'), value: form.name },
+      { label: t('org.fields.status'), value: form.status },
+    ])
+  ) {
+    return
+  }
+  if (!(await crud.confirmSave(isEdit.value))) return
+
   saving.value = true
   try {
-    emit(
-      'save',
+    await props.onSave(
       {
         name: form.name.trim(),
         description: form.description.trim() || null,
@@ -56,33 +67,38 @@ async function onSubmit() {
   }
 }
 
-function onDelete() {
-  if (!props.department || !props.canDelete) return
-  if (!confirm(t('org.confirmDelete'))) return
-  emit('remove', props.department.documentId)
+async function onDelete() {
+  if (!props.department || !props.canDelete || !props.onRemove) return
+  if (!(await crud.confirmDelete())) return
+  saving.value = true
+  try {
+    await props.onRemove(props.department.documentId)
+  } finally {
+    saving.value = false
+  }
 }
 </script>
 
 <template>
-  <form class="space-y-4" @submit.prevent="onSubmit">
+  <form class="space-y-4" novalidate @submit.prevent="onSubmit">
     <div class="space-y-1.5">
-      <label class="text-sm font-medium" for="dept-name">{{ t('org.fields.name') }}</label>
+      <UiFormLabel for="dept-name" required>{{ t('org.fields.name') }}</UiFormLabel>
       <UiInput id="dept-name" v-model="form.name" required :disabled="!canEdit" />
     </div>
     <div class="space-y-1.5">
-      <label class="text-sm font-medium" for="dept-desc">{{ t('org.fields.description') }}</label>
+      <UiFormLabel for="dept-desc">{{ t('org.fields.description') }}</UiFormLabel>
       <UiTextarea id="dept-desc" v-model="form.description" :disabled="!canEdit" />
     </div>
     <div class="grid gap-4 sm:grid-cols-2">
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="dept-status">{{ t('org.fields.status') }}</label>
-        <UiSelect id="dept-status" v-model="form.status" :disabled="!canEdit">
+        <UiFormLabel for="dept-status" required>{{ t('org.fields.status') }}</UiFormLabel>
+        <UiSelect id="dept-status" v-model="form.status" required :disabled="!canEdit">
           <option value="active">{{ t('org.status.active') }}</option>
           <option value="inactive">{{ t('org.status.inactive') }}</option>
         </UiSelect>
       </div>
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="dept-manager">{{ t('org.fields.manager') }}</label>
+        <UiFormLabel for="dept-manager">{{ t('org.fields.manager') }}</UiFormLabel>
         <UiSelect id="dept-manager" v-model="form.manager" :disabled="!canEdit">
           <option value="">{{ t('org.none') }}</option>
           <option v-for="u in userOptions" :key="u.id" :value="String(u.id)">
