@@ -7,6 +7,7 @@ export const ApiErrorCode = {
   NOT_FOUND: 'NOT_FOUND',
   DUPLICATE: 'DUPLICATE',
   VALIDATION: 'VALIDATION',
+  CAPACITY_EXCEEDED: 'CAPACITY_EXCEEDED',
   NETWORK: 'NETWORK',
   GENERIC: 'GENERIC',
 } as const
@@ -18,6 +19,7 @@ const MESSAGE_TO_CODE: Record<string, ApiErrorCode> = {
   'invalid credentials': ApiErrorCode.AUTH_INVALID_CREDENTIALS,
   'identifier and password are required': ApiErrorCode.AUTH_MISSING_FIELDS,
   'user is inactive': ApiErrorCode.AUTH_USER_INACTIVE,
+  capacity_exceeded: ApiErrorCode.CAPACITY_EXCEEDED,
   forbidden: ApiErrorCode.FORBIDDEN,
   'not found': ApiErrorCode.NOT_FOUND,
 }
@@ -30,6 +32,7 @@ const CODE_TO_I18N: Record<ApiErrorCode, string> = {
   [ApiErrorCode.NOT_FOUND]: 'errors.notFoundRecord',
   [ApiErrorCode.DUPLICATE]: 'errors.duplicate',
   [ApiErrorCode.VALIDATION]: 'errors.validation',
+  [ApiErrorCode.CAPACITY_EXCEEDED]: 'allocations.errors.capacityExceeded',
   [ApiErrorCode.NETWORK]: 'errors.network',
   [ApiErrorCode.GENERIC]: 'errors.genericDescription',
 }

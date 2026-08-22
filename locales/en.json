@@ -58,8 +58,37 @@
   "home": {
     "welcome": "Welcome to RCP",
     "subtitle": "Replace Excel with modern, secure, mobile-first allocation.",
-    "foundationReady": "Skills matrix ready",
-    "nextMilestone": "Next: capacity and allocations (Milestone 6)"
+    "foundationReady": "Allocations ready",
+    "nextMilestone": "Next: leave and holidays (Milestone 7)"
+  },
+  "allocations": {
+    "title": "Allocations",
+    "subtitle": "Plan daily hours per project — capacity enforced on the server",
+    "loading": "Loading grid…",
+    "today": "This week",
+    "remaining": "Remaining",
+    "cellEmpty": "No allocations for this day.",
+    "addLine": "Add allocation",
+    "dragHint": "Drag a project onto a cell to quick-add 8h (desktop)",
+    "copyYesterday": "Copy yesterday",
+    "copyWeek": "Copy previous week",
+    "copyDone": "Copy complete",
+    "copyResult": "Created {created}, skipped {skipped}",
+    "fields": {
+      "employee": "Employee",
+      "project": "Project",
+      "hours": "Hours",
+      "notes": "Notes",
+      "status": "Status"
+    },
+    "status": {
+      "draft": "Draft",
+      "submitted": "Submitted"
+    },
+    "errors": {
+      "capacityExceededTitle": "Over daily capacity",
+      "capacityExceeded": "Total hours would exceed this employee's daily capacity. Reduce hours or remove another allocation."
+    }
   },
   "projects": {
     "title": "Projects",

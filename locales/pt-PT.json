@@ -58,8 +58,37 @@
   "home": {
     "welcome": "Bem-vindo ao RCP",
     "subtitle": "Substitua o Excel por alocação moderna, segura e mobile-first.",
-    "foundationReady": "Matriz de competências pronta",
-    "nextMilestone": "Próximo: capacidade e alocações (Marco 6)"
+    "foundationReady": "Alocações prontas",
+    "nextMilestone": "Próximo: férias e feriados (Marco 7)"
+  },
+  "allocations": {
+    "title": "Alocações",
+    "subtitle": "Planear horas diárias por projeto — capacidade validada no servidor",
+    "loading": "A carregar grelha…",
+    "today": "Esta semana",
+    "remaining": "Restante",
+    "cellEmpty": "Sem alocações neste dia.",
+    "addLine": "Adicionar alocação",
+    "dragHint": "Arraste um projeto para uma célula para adicionar 8h (desktop)",
+    "copyYesterday": "Copiar ontem",
+    "copyWeek": "Copiar semana anterior",
+    "copyDone": "Cópia concluída",
+    "copyResult": "Criadas {created}, ignoradas {skipped}",
+    "fields": {
+      "employee": "Colaborador",
+      "project": "Projeto",
+      "hours": "Horas",
+      "notes": "Notas",
+      "status": "Estado"
+    },
+    "status": {
+      "draft": "Rascunho",
+      "submitted": "Submetido"
+    },
+    "errors": {
+      "capacityExceededTitle": "Capacidade diária excedida",
+      "capacityExceeded": "O total de horas excederia a capacidade diária deste colaborador. Reduza horas ou remova outra alocação."
+    }
   },
   "projects": {
     "title": "Projetos",

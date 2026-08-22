@@ -112,7 +112,11 @@ export function useApiClient() {
         throw new ApiError(rawMessage, 0, ApiErrorCode.NETWORK)
       }
 
-      const code = codeFromHttpStatus(status, rawMessage)
+      const code =
+        (error.data as { error?: { details?: { code?: string } } })?.error?.details?.code ===
+        'CAPACITY_EXCEEDED'
+          ? ApiErrorCode.CAPACITY_EXCEEDED
+          : codeFromHttpStatus(status, rawMessage)
       throw new ApiError(rawMessage, status, code, error.data)
     }
   }
