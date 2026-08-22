@@ -54,17 +54,29 @@ export function useProjectsApi() {
         `/api/skills${qs({
           'pagination[page]': page,
           'pagination[pageSize]': pageSize,
+          'populate[skill_category]': 'true',
           sort: 'name:asc',
         })}`,
       )
     },
 
     createSkill(data: SkillInput) {
-      return api.post<OneResponse<Skill>>('/api/skills', { data })
+      const payload = compactData({
+        name: data.name,
+        description: data.description,
+        skill_category: connectOne(data.skill_category),
+      })
+      return api.post<OneResponse<Skill>>('/api/skills', { data: payload })
     },
 
     updateSkill(documentId: string, data: Partial<SkillInput>) {
-      return api.put<OneResponse<Skill>>(`/api/skills/${documentId}`, { data })
+      const payload = compactData({
+        name: data.name,
+        description: data.description,
+        skill_category:
+          data.skill_category !== undefined ? connectOne(data.skill_category) : undefined,
+      })
+      return api.put<OneResponse<Skill>>(`/api/skills/${documentId}`, { data: payload })
     },
 
     deleteSkill(documentId: string) {

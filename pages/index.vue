@@ -37,7 +37,7 @@ const { t } = useI18n()
         class="rounded-lg border border-border bg-surface p-4 shadow-soft transition-colors hover:border-accent"
       >
         <h3 class="text-sm font-semibold">{{ t('nav.skills') }}</h3>
-        <p class="mt-1 text-sm text-muted">{{ t('projects.skills.subtitle') }}</p>
+        <p class="mt-1 text-sm text-muted">{{ t('skills.subtitle') }}</p>
       </NuxtLink>
       <NuxtLink
         to="/departments"

@@ -63,7 +63,7 @@ const skillOptions = computed(() =>
   props.skills.map((s) => ({
     id: s.id,
     label: s.name,
-    hint: s.category || undefined,
+    hint: s.skill_category?.name || undefined,
   })),
 )
 

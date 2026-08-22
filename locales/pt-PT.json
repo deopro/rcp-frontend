@@ -58,8 +58,8 @@
   "home": {
     "welcome": "Bem-vindo ao RCP",
     "subtitle": "Substitua o Excel por alocação moderna, segura e mobile-first.",
-    "foundationReady": "Projetos prontos",
-    "nextMilestone": "Próximo: matriz de competências (Marco 5)"
+    "foundationReady": "Matriz de competências pronta",
+    "nextMilestone": "Próximo: capacidade e alocações (Marco 6)"
   },
   "projects": {
     "title": "Projetos",
@@ -111,10 +111,52 @@
     },
     "skills": {
       "title": "Catálogo de competências",
-      "subtitle": "Competências exigidas nos projetos (matriz no Marco 5)",
+      "subtitle": "Gerir competências na área Competências",
       "add": "Nova competência",
       "edit": "Editar competência",
       "empty": "Ainda não há competências."
+    }
+  },
+  "skills": {
+    "title": "Matriz de competências",
+    "subtitle": "Proficiência, categorias e certificações dos colaboradores",
+    "loading": "A carregar…",
+    "fields": {
+      "name": "Nome",
+      "description": "Descrição",
+      "category": "Categoria",
+      "skill": "Competência",
+      "employee": "Colaborador",
+      "proficiency": "Proficiência",
+      "yearsExperience": "Anos de experiência",
+      "certification": "Certificação"
+    },
+    "proficiency": {
+      "basic": "Básico",
+      "intermediate": "Intermédio",
+      "advanced": "Avançado",
+      "expert": "Especialista"
+    },
+    "filters": {
+      "all": "Todos",
+      "searchPlaceholder": "Pesquisar colaborador ou competência…",
+      "reset": "Limpar filtros"
+    },
+    "matrix": {
+      "title": "Matriz",
+      "add": "Adicionar competência",
+      "edit": "Editar competência",
+      "empty": "Ainda não há competências registadas. Crie categorias, competências e atribua proficiência."
+    },
+    "categories": {
+      "title": "Categorias",
+      "add": "Nova categoria",
+      "edit": "Editar categoria"
+    },
+    "catalog": {
+      "title": "Catálogo",
+      "add": "Nova competência",
+      "edit": "Editar competência"
     }
   },
   "org": {
