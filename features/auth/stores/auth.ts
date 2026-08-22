@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { clearAuthSessionCache, syncAuthSessionCache } from '~/composables/useAuthSession'
 import { fetchSession, loginRequest, logoutRequest, updatePreferredLocale, type SessionFetcher } from '../api'
 import type { AuthUser, RcpRoleType } from '../types'
 
@@ -50,6 +51,11 @@ export const useAuthStore = defineStore('auth', () => {
       token.value = result.jwt
       user.value = result.user
       hydrated.value = true
+      syncAuthSessionCache({
+        authenticated: true,
+        token: result.jwt,
+        user: result.user,
+      })
       return result
     } finally {
       loading.value = false
@@ -62,6 +68,8 @@ export const useAuthStore = defineStore('auth', () => {
     } finally {
       token.value = null
       user.value = null
+      hydrated.value = true
+      clearAuthSessionCache()
     }
   }
 

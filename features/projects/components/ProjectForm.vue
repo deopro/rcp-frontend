@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import CheckboxGroup from './CheckboxGroup.vue'
 import ProjectStatusBadge from './ProjectStatusBadge.vue'
 import ProjectSummaryCard from './ProjectSummaryCard.vue'
 import { projectCodeFromName } from '~/shared/projects/project-code'
@@ -187,19 +186,27 @@ async function onDelete() {
 
     <div class="grid gap-4 sm:grid-cols-2">
       <div class="space-y-1.5">
-        <p class="text-sm font-medium">{{ t('projects.fields.requiredSkills') }}</p>
-        <CheckboxGroup
+        <UiFormLabel for="proj-skills">{{ t('projects.fields.requiredSkills') }}</UiFormLabel>
+        <UiSearchMultiSelect
+          id="proj-skills"
           v-model="form.required_skills"
           :options="skillOptions"
           :disabled="!canEdit"
+          :title="t('projects.fields.requiredSkills')"
+          :placeholder="t('org.select')"
+          :search-placeholder="t('projects.fields.searchSkills')"
         />
       </div>
       <div class="space-y-1.5">
-        <p class="text-sm font-medium">{{ t('projects.fields.assignedEmployees') }}</p>
-        <CheckboxGroup
+        <UiFormLabel for="proj-employees">{{ t('projects.fields.assignedEmployees') }}</UiFormLabel>
+        <UiSearchMultiSelect
+          id="proj-employees"
           v-model="form.assigned_employees"
           :options="employeeOptions"
           :disabled="!canEdit"
+          :title="t('projects.fields.assignedEmployees')"
+          :placeholder="t('org.select')"
+          :search-placeholder="t('projects.fields.searchEmployees')"
         />
       </div>
     </div>

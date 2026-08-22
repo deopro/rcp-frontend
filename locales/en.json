@@ -44,6 +44,11 @@
     "confirmUpdate": "Your changes will be applied to this record.",
     "confirmDelete": "This action is permanent and cannot be undone.",
     "actionCancelled": "Action cancelled",
+    "searchMultiSelect": "Search…",
+    "noMatches": "No matches.",
+    "selectedCount": "{count} selected",
+    "removeSelected": "Remove {label}",
+    "multiSelectDone": "Done",
     "created": "Created successfully",
     "updated": "Updated successfully",
     "deleted": "Deleted successfully"
@@ -120,7 +125,9 @@
       "startDate": "Start date",
       "endDate": "End date",
       "requiredSkills": "Required skills",
-      "assignedEmployees": "Assigned employees"
+      "assignedEmployees": "Assigned employees",
+      "searchSkills": "Search skills…",
+      "searchEmployees": "Search employees…"
     },
     "summary": {
       "capacity": "Capacity",
