@@ -8,9 +8,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
   }
 
   const auth = useAuthStore()
+  const requestFetch = useRequestFetch()
 
   if (!auth.hydrated) {
-    await auth.hydrate()
+    await auth.hydrate({ fetcher: requestFetch })
   }
 
   if (!auth.isAuthenticated) {

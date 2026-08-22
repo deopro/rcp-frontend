@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { fetchSession, loginRequest, logoutRequest, updatePreferredLocale } from '../api'
+import { fetchSession, loginRequest, logoutRequest, updatePreferredLocale, type SessionFetcher } from '../api'
 import type { AuthUser, RcpRoleType } from '../types'
 
 export const useAuthStore = defineStore('auth', () => {
@@ -16,10 +16,13 @@ export const useAuthStore = defineStore('auth', () => {
     return roles.includes(roleType.value)
   }
 
-  async function hydrate() {
+  async function hydrate(options?: { fetcher?: SessionFetcher; force?: boolean }) {
+    if (hydrated.value && !options?.force) {
+      return
+    }
     loading.value = true
     try {
-      const session = await fetchSession()
+      const session = await fetchSession(options?.fetcher ?? $fetch)
       token.value = session.token
       user.value = session.user
     } catch {

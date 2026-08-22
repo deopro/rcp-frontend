@@ -17,13 +17,27 @@ const { t } = useI18n()
       </p>
     </section>
 
-    <section class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+    <section class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       <NuxtLink
         to="/projects"
         class="rounded-lg border border-border bg-surface p-4 shadow-soft transition-colors hover:border-accent"
       >
         <h3 class="text-sm font-semibold">{{ t('nav.projects') }}</h3>
         <p class="mt-1 text-sm text-muted">{{ t('projects.subtitle') }}</p>
+      </NuxtLink>
+      <NuxtLink
+        to="/clients"
+        class="rounded-lg border border-border bg-surface p-4 shadow-soft transition-colors hover:border-accent"
+      >
+        <h3 class="text-sm font-semibold">{{ t('nav.clients') }}</h3>
+        <p class="mt-1 text-sm text-muted">{{ t('projects.clients.subtitle') }}</p>
+      </NuxtLink>
+      <NuxtLink
+        to="/skills"
+        class="rounded-lg border border-border bg-surface p-4 shadow-soft transition-colors hover:border-accent"
+      >
+        <h3 class="text-sm font-semibold">{{ t('nav.skills') }}</h3>
+        <p class="mt-1 text-sm text-muted">{{ t('projects.skills.subtitle') }}</p>
       </NuxtLink>
       <NuxtLink
         to="/departments"
