@@ -24,7 +24,7 @@ export type SkillRef = {
   id: number
   documentId: string
   name: string
-  category?: string | null
+  skill_category?: { id: number; name: string } | null
 }
 
 export type EmployeeRef = {
@@ -50,8 +50,8 @@ export type Skill = {
   id: number
   documentId: string
   name: string
-  category?: string | null
   description?: string | null
+  skill_category?: { id: number; documentId?: string; name: string } | null
   createdAt?: string
   updatedAt?: string
 }
@@ -93,8 +93,8 @@ export type ClientInput = {
 
 export type SkillInput = {
   name: string
-  category?: string | null
   description?: string | null
+  skill_category?: number | null
 }
 
 export type ProjectInput = {

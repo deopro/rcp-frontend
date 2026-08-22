@@ -58,8 +58,8 @@
   "home": {
     "welcome": "Welcome to RCP",
     "subtitle": "Replace Excel with modern, secure, mobile-first allocation.",
-    "foundationReady": "Projects ready",
-    "nextMilestone": "Next: skills matrix (Milestone 5)"
+    "foundationReady": "Skills matrix ready",
+    "nextMilestone": "Next: capacity and allocations (Milestone 6)"
   },
   "projects": {
     "title": "Projects",
@@ -111,10 +111,52 @@
     },
     "skills": {
       "title": "Skills catalog",
-      "subtitle": "Skills required on projects (matrix expands in Milestone 5)",
+      "subtitle": "Manage skills in the Skills area",
       "add": "New skill",
       "edit": "Edit skill",
       "empty": "No skills yet."
+    }
+  },
+  "skills": {
+    "title": "Skills matrix",
+    "subtitle": "Employee proficiency, categories, and certifications",
+    "loading": "Loading…",
+    "fields": {
+      "name": "Name",
+      "description": "Description",
+      "category": "Category",
+      "skill": "Skill",
+      "employee": "Employee",
+      "proficiency": "Proficiency",
+      "yearsExperience": "Years of experience",
+      "certification": "Certification"
+    },
+    "proficiency": {
+      "basic": "Basic",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced",
+      "expert": "Expert"
+    },
+    "filters": {
+      "all": "All",
+      "searchPlaceholder": "Search employee or skill…",
+      "reset": "Clear filters"
+    },
+    "matrix": {
+      "title": "Matrix",
+      "add": "Add employee skill",
+      "edit": "Edit employee skill",
+      "empty": "No skills recorded yet. Add categories, catalog skills, then assign proficiency."
+    },
+    "categories": {
+      "title": "Categories",
+      "add": "New category",
+      "edit": "Edit category"
+    },
+    "catalog": {
+      "title": "Catalog",
+      "add": "New skill",
+      "edit": "Edit skill"
     }
   },
   "org": {
