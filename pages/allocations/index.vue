@@ -269,8 +269,8 @@ const mobileEmployees = computed(() => store.grid?.capacity.employees || [])
             :capacity="selectedDayCapacity.daily_capacity"
             :allocated="selectedDayCapacity.allocated_hours"
             :can-edit="canEdit && selectedDayCapacity.is_working_day"
-            :on-save="onSave"
-            :on-remove="onRemove"
+            @save="onSave"
+            @remove="onRemove"
             @cancel="editorOpen = false"
           />
         </div>
