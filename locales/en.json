@@ -31,6 +31,9 @@
     "refresh": "Refresh",
     "language": "Language"
   },
+  "forms": {
+    "required": "(required)"
+  },
   "theme": {
     "label": "Theme",
     "toggle": "Toggle theme",

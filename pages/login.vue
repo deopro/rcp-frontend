@@ -69,13 +69,14 @@ const onSubmit = handleSubmit(async (values) => {
 
     <form class="mt-8 space-y-4" @submit.prevent="onSubmit">
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="identifier">{{ t('auth.identifier') }}</label>
+        <UiFormLabel for="identifier" required>{{ t('auth.identifier') }}</UiFormLabel>
         <input
           id="identifier"
           v-model="identifier"
           v-bind="identifierAttrs"
           type="text"
           autocomplete="username"
+          required
           class="touch-target w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-accent"
           :placeholder="t('auth.identifierPlaceholder')"
         >
@@ -83,7 +84,7 @@ const onSubmit = handleSubmit(async (values) => {
       </div>
 
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="password">{{ t('auth.password') }}</label>
+        <UiFormLabel for="password" required>{{ t('auth.password') }}</UiFormLabel>
         <div class="relative">
           <input
             id="password"
@@ -91,6 +92,7 @@ const onSubmit = handleSubmit(async (values) => {
             v-bind="passwordAttrs"
             :type="showPassword ? 'text' : 'password'"
             autocomplete="current-password"
+            required
             class="touch-target w-full rounded-lg border border-border bg-background py-0 pl-3 pr-11 text-sm outline-none focus-visible:ring-2 focus-visible:ring-accent"
             :placeholder="t('auth.passwordPlaceholder')"
           >

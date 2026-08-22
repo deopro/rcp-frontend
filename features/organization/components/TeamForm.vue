@@ -70,16 +70,16 @@ function onDelete() {
 <template>
   <form class="space-y-4" @submit.prevent="onSubmit">
     <div class="space-y-1.5">
-      <label class="text-sm font-medium" for="team-name">{{ t('org.fields.name') }}</label>
+      <UiFormLabel for="team-name" required>{{ t('org.fields.name') }}</UiFormLabel>
       <UiInput id="team-name" v-model="form.name" required :disabled="!canEdit" />
     </div>
     <div class="space-y-1.5">
-      <label class="text-sm font-medium" for="team-desc">{{ t('org.fields.description') }}</label>
+      <UiFormLabel for="team-desc">{{ t('org.fields.description') }}</UiFormLabel>
       <UiTextarea id="team-desc" v-model="form.description" :disabled="!canEdit" />
     </div>
     <div class="grid gap-4 sm:grid-cols-2">
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="team-dept">{{ t('org.fields.department') }}</label>
+        <UiFormLabel for="team-dept" required>{{ t('org.fields.department') }}</UiFormLabel>
         <UiSelect id="team-dept" v-model="form.department" required :disabled="!canEdit">
           <option value="">{{ t('org.select') }}</option>
           <option v-for="d in departments" :key="d.id" :value="String(d.id)">
@@ -88,7 +88,7 @@ function onDelete() {
         </UiSelect>
       </div>
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="team-leader">{{ t('org.fields.teamLeader') }}</label>
+        <UiFormLabel for="team-leader">{{ t('org.fields.teamLeader') }}</UiFormLabel>
         <UiSelect id="team-leader" v-model="form.team_leader" :disabled="!canEdit">
           <option value="">{{ t('org.none') }}</option>
           <option v-for="u in userOptions" :key="u.id" :value="String(u.id)">
@@ -97,8 +97,8 @@ function onDelete() {
         </UiSelect>
       </div>
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="team-status">{{ t('org.fields.status') }}</label>
-        <UiSelect id="team-status" v-model="form.status" :disabled="!canEdit">
+        <UiFormLabel for="team-status" required>{{ t('org.fields.status') }}</UiFormLabel>
+        <UiSelect id="team-status" v-model="form.status" required :disabled="!canEdit">
           <option value="active">{{ t('org.status.active') }}</option>
           <option value="inactive">{{ t('org.status.inactive') }}</option>
         </UiSelect>

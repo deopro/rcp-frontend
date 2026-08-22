@@ -31,6 +31,9 @@
     "refresh": "Atualizar",
     "language": "Idioma"
   },
+  "forms": {
+    "required": "(obrigatório)"
+  },
   "theme": {
     "label": "Tema",
     "toggle": "Alternar tema",

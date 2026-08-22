@@ -118,15 +118,15 @@ function onDelete() {
 
     <div class="grid gap-4 sm:grid-cols-2">
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="proj-name">{{ t('projects.fields.name') }}</label>
+        <UiFormLabel for="proj-name" required>{{ t('projects.fields.name') }}</UiFormLabel>
         <UiInput id="proj-name" v-model="form.name" required :disabled="!canEdit" />
       </div>
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="proj-code">{{ t('projects.fields.code') }}</label>
+        <UiFormLabel for="proj-code" required>{{ t('projects.fields.code') }}</UiFormLabel>
         <UiInput id="proj-code" v-model="form.code" required :disabled="!canEdit" />
       </div>
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="proj-client">{{ t('projects.fields.client') }}</label>
+        <UiFormLabel for="proj-client">{{ t('projects.fields.client') }}</UiFormLabel>
         <UiSelect id="proj-client" v-model="form.client" :disabled="!canEdit">
           <option value="">{{ t('org.none') }}</option>
           <option v-for="c in clients" :key="c.id" :value="String(c.id)">
@@ -135,8 +135,8 @@ function onDelete() {
         </UiSelect>
       </div>
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="proj-status">{{ t('projects.fields.status') }}</label>
-        <UiSelect id="proj-status" v-model="form.status" :disabled="!canEdit">
+        <UiFormLabel for="proj-status" required>{{ t('projects.fields.status') }}</UiFormLabel>
+        <UiSelect id="proj-status" v-model="form.status" required :disabled="!canEdit">
           <option value="planned">{{ t('projects.status.planned') }}</option>
           <option value="active">{{ t('projects.status.active') }}</option>
           <option value="on_hold">{{ t('projects.status.on_hold') }}</option>
@@ -145,17 +145,17 @@ function onDelete() {
         </UiSelect>
       </div>
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="proj-start">{{ t('projects.fields.startDate') }}</label>
+        <UiFormLabel for="proj-start">{{ t('projects.fields.startDate') }}</UiFormLabel>
         <UiInput id="proj-start" v-model="form.start_date" type="date" :disabled="!canEdit" />
       </div>
       <div class="space-y-1.5">
-        <label class="text-sm font-medium" for="proj-end">{{ t('projects.fields.endDate') }}</label>
+        <UiFormLabel for="proj-end">{{ t('projects.fields.endDate') }}</UiFormLabel>
         <UiInput id="proj-end" v-model="form.end_date" type="date" :disabled="!canEdit" />
       </div>
     </div>
 
     <div class="space-y-1.5">
-      <label class="text-sm font-medium" for="proj-desc">{{ t('projects.fields.description') }}</label>
+      <UiFormLabel for="proj-desc">{{ t('projects.fields.description') }}</UiFormLabel>
       <UiTextarea id="proj-desc" v-model="form.description" :disabled="!canEdit" />
     </div>
 
