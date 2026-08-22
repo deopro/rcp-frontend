@@ -1,4 +1,5 @@
 import { useApiClient } from '~/shared/api/client'
+import { compactData, connectMany, connectOne } from '~/shared/api/strapi-payload'
 import type {
   Department,
   DepartmentInput,
@@ -44,11 +45,23 @@ export function useOrganizationApi() {
     },
 
     createDepartment(data: DepartmentInput) {
-      return api.post<OneResponse<Department>>('/api/departments', { data })
+      const payload = compactData({
+        name: data.name,
+        description: data.description,
+        status: data.status,
+        manager: connectOne(data.manager),
+      })
+      return api.post<OneResponse<Department>>('/api/departments', { data: payload })
     },
 
     updateDepartment(documentId: string, data: Partial<DepartmentInput>) {
-      return api.put<OneResponse<Department>>(`/api/departments/${documentId}`, { data })
+      const payload = compactData({
+        name: data.name,
+        description: data.description,
+        status: data.status,
+        manager: data.manager !== undefined ? connectOne(data.manager) : undefined,
+      })
+      return api.put<OneResponse<Department>>(`/api/departments/${documentId}`, { data: payload })
     },
 
     deleteDepartment(documentId: string) {
@@ -78,11 +91,25 @@ export function useOrganizationApi() {
     },
 
     createTeam(data: TeamInput) {
-      return api.post<OneResponse<Team>>('/api/teams', { data })
+      const payload = compactData({
+        name: data.name,
+        description: data.description,
+        status: data.status,
+        department: connectOne(data.department),
+        team_leader: connectOne(data.team_leader),
+      })
+      return api.post<OneResponse<Team>>('/api/teams', { data: payload })
     },
 
     updateTeam(documentId: string, data: Partial<TeamInput>) {
-      return api.put<OneResponse<Team>>(`/api/teams/${documentId}`, { data })
+      const payload = compactData({
+        name: data.name,
+        description: data.description,
+        status: data.status,
+        department: data.department !== undefined ? connectOne(data.department) : undefined,
+        team_leader: data.team_leader !== undefined ? connectOne(data.team_leader) : undefined,
+      })
+      return api.put<OneResponse<Team>>(`/api/teams/${documentId}`, { data: payload })
     },
 
     deleteTeam(documentId: string) {
@@ -111,11 +138,33 @@ export function useOrganizationApi() {
     },
 
     createEmployee(data: EmployeeInput) {
-      return api.post<OneResponse<Employee>>('/api/employees', { data })
+      const payload = compactData({
+        employee_number: data.employee_number,
+        full_name: data.full_name,
+        email: data.email,
+        position: data.position,
+        daily_capacity: data.daily_capacity,
+        status: data.status,
+        hire_date: data.hire_date,
+        user: connectOne(data.user),
+        team: connectOne(data.team),
+      })
+      return api.post<OneResponse<Employee>>('/api/employees', { data: payload })
     },
 
     updateEmployee(documentId: string, data: Partial<EmployeeInput>) {
-      return api.put<OneResponse<Employee>>(`/api/employees/${documentId}`, { data })
+      const payload = compactData({
+        employee_number: data.employee_number,
+        full_name: data.full_name,
+        email: data.email,
+        position: data.position,
+        daily_capacity: data.daily_capacity,
+        status: data.status,
+        hire_date: data.hire_date,
+        user: data.user !== undefined ? connectOne(data.user) : undefined,
+        team: data.team !== undefined ? connectOne(data.team) : undefined,
+      })
+      return api.put<OneResponse<Employee>>(`/api/employees/${documentId}`, { data: payload })
     },
 
     deleteEmployee(documentId: string) {

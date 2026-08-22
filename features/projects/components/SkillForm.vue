@@ -5,11 +5,11 @@ const props = defineProps<{
   skill?: Skill | null
   canEdit: boolean
   canDelete: boolean
+  onSave: (input: SkillInput, documentId?: string) => Promise<void>
+  onRemove?: (documentId: string) => Promise<void>
 }>()
 
 const emit = defineEmits<{
-  save: [input: SkillInput, documentId?: string]
-  remove: [documentId: string]
   cancel: []
 }>()
 
@@ -42,8 +42,7 @@ async function onSubmit() {
 
   saving.value = true
   try {
-    emit(
-      'save',
+    await props.onSave(
       {
         name: form.name.trim(),
         category: form.category.trim() || null,
@@ -57,9 +56,14 @@ async function onSubmit() {
 }
 
 async function onDelete() {
-  if (!props.skill || !props.canDelete) return
+  if (!props.skill || !props.canDelete || !props.onRemove) return
   if (!(await crud.confirmDelete())) return
-  emit('remove', props.skill.documentId)
+  saving.value = true
+  try {
+    await props.onRemove(props.skill.documentId)
+  } finally {
+    saving.value = false
+  }
 }
 </script>
 

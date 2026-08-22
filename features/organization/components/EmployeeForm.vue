@@ -9,11 +9,11 @@ const props = defineProps<{
   userOptions: UserOption[]
   canEdit: boolean
   canDelete: boolean
+  onSave: (input: EmployeeInput, documentId?: string) => Promise<void>
+  onRemove?: (documentId: string) => Promise<void>
 }>()
 
 const emit = defineEmits<{
-  save: [input: EmployeeInput, documentId?: string]
-  remove: [documentId: string]
   cancel: []
 }>()
 
@@ -72,8 +72,7 @@ async function onSubmit() {
 
   saving.value = true
   try {
-    emit(
-      'save',
+    await props.onSave(
       {
         employee_number: form.employee_number.trim(),
         full_name: form.full_name.trim(),
@@ -93,9 +92,14 @@ async function onSubmit() {
 }
 
 async function onDelete() {
-  if (!props.employee || !props.canDelete) return
+  if (!props.employee || !props.canDelete || !props.onRemove) return
   if (!(await crud.confirmDelete())) return
-  emit('remove', props.employee.documentId)
+  saving.value = true
+  try {
+    await props.onRemove(props.employee.documentId)
+  } finally {
+    saving.value = false
+  }
 }
 </script>
 

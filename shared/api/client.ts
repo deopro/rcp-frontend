@@ -1,8 +1,7 @@
 /**
- * Browser → Nuxt proxy → Strapi. Uses httpOnly session cookie on the server.
+ * Browser → Nuxt proxy → Strapi. Session JWT is read from httpOnly cookie on the server.
  */
 import { FetchError } from 'ofetch'
-import { useAuthStore } from '~/features/auth/stores/auth'
 import {
   ApiErrorCode,
   codeFromHttpStatus,
@@ -50,11 +49,30 @@ function messageFromFetchError(error: FetchError): string {
   return error.statusMessage || error.message || `Request failed (${error.statusCode || 0})`
 }
 
-export function useApiClient() {
-  const auth = useAuthStore()
-  const toast = useToast()
-  const { t } = useI18n()
+async function handleUnauthorized() {
+  if (!import.meta.client) return
 
+  try {
+    const auth = useAuthStore()
+    const toast = useToast()
+    const { t } = useI18n()
+
+    auth.clearSession()
+    await $fetch('/api/auth/logout', { method: 'POST' }).catch(() => undefined)
+    toast.error({
+      title: t('auth.sessionExpiredTitle'),
+      description: t('auth.sessionExpiredDescription'),
+    })
+    await navigateTo({
+      path: '/login',
+      query: { redirect: useRoute().fullPath },
+    })
+  } catch {
+    // Ignore composable errors during session cleanup.
+  }
+}
+
+export function useApiClient() {
   async function request<T>(path: string, options: { method?: string; body?: unknown } = {}): Promise<T> {
     const method = options.method || 'GET'
     const proxyPath = toProxyPath(path)
@@ -67,6 +85,7 @@ export function useApiClient() {
       const result = await $fetch<T>(proxyPath, {
         method,
         body: options.body,
+        credentials: 'include',
       })
       return result as T
     } catch (error: unknown) {
@@ -85,17 +104,8 @@ export function useApiClient() {
       // #endregion
 
       if (status === 401) {
-        auth.clearSession()
-        await $fetch('/api/auth/logout', { method: 'POST' }).catch(() => undefined)
-        toast.error({
-          title: t('auth.sessionExpiredTitle'),
-          description: t('auth.sessionExpiredDescription'),
-        })
-        await navigateTo({
-          path: '/login',
-          query: { redirect: useRoute().fullPath },
-        })
-        throw new ApiError(t('auth.sessionExpiredTitle'), 401, ApiErrorCode.GENERIC)
+        await handleUnauthorized()
+        throw new ApiError('Session expired', 401, ApiErrorCode.GENERIC)
       }
 
       if (status === 0) {

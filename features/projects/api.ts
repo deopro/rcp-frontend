@@ -1,4 +1,5 @@
 import { useApiClient } from '~/shared/api/client'
+import { compactData, connectMany, connectOne } from '~/shared/api/strapi-payload'
 import type {
   Client,
   ClientInput,
@@ -94,11 +95,35 @@ export function useProjectsApi() {
     },
 
     createProject(data: ProjectInput) {
-      return api.post<OneResponse<Project>>('/api/projects', { data })
+      const payload = compactData({
+        name: data.name,
+        code: data.code,
+        description: data.description,
+        status: data.status,
+        start_date: data.start_date,
+        end_date: data.end_date,
+        client: connectOne(data.client),
+        required_skills: connectMany(data.required_skills),
+        assigned_employees: connectMany(data.assigned_employees),
+      })
+      return api.post<OneResponse<Project>>('/api/projects', { data: payload })
     },
 
     updateProject(documentId: string, data: Partial<ProjectInput>) {
-      return api.put<OneResponse<Project>>(`/api/projects/${documentId}`, { data })
+      const payload = compactData({
+        name: data.name,
+        code: data.code,
+        description: data.description,
+        status: data.status,
+        start_date: data.start_date,
+        end_date: data.end_date,
+        client: data.client !== undefined ? connectOne(data.client) : undefined,
+        required_skills:
+          data.required_skills !== undefined ? connectMany(data.required_skills) : undefined,
+        assigned_employees:
+          data.assigned_employees !== undefined ? connectMany(data.assigned_employees) : undefined,
+      })
+      return api.put<OneResponse<Project>>(`/api/projects/${documentId}`, { data: payload })
     },
 
     deleteProject(documentId: string) {
