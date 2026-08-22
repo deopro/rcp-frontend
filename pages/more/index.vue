@@ -6,6 +6,8 @@ const auth = useAuthStore()
 const toast = useToast()
 
 const links = computed(() => [
+  { to: '/projects', label: t('nav.projects') },
+  { to: '/clients', label: t('nav.clients') },
   { to: '/employees', label: t('nav.employees') },
   { to: '/departments', label: t('nav.departments') },
   { to: '/teams', label: t('org.teams.title') },

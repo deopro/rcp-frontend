@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useAuthStore } from '~/features/auth/stores/auth'
-import SkillForm from '~/features/projects/components/SkillForm.vue'
+import ClientForm from '~/features/projects/components/ClientForm.vue'
 import { useProjectsStore } from '~/features/projects/stores/projects'
-import type { Skill, SkillInput } from '~/features/projects/types'
+import type { Client, ClientInput } from '~/features/projects/types'
 import { describeApiError } from '~/shared/api/client'
 
 definePageMeta({
   middleware: ['role'],
+  roles: ['administrator', 'executive', 'department_manager', 'team_leader'],
 })
 
 const { t } = useI18n()
@@ -15,14 +16,14 @@ const store = useProjectsStore()
 const toast = useToast()
 
 const panelOpen = ref(false)
-const selected = ref<Skill | null>(null)
+const selected = ref<Client | null>(null)
 
 const canWrite = computed(() => auth.hasRole('administrator'))
 const canDelete = computed(() => auth.hasRole('administrator'))
 
 onMounted(async () => {
   try {
-    await store.loadSkills()
+    await store.loadClients()
   } catch (e) {
     toast.error({
       title: t('errors.generic'),
@@ -36,7 +37,7 @@ function openCreate() {
   panelOpen.value = true
 }
 
-function openEdit(row: Skill) {
+function openEdit(row: Client) {
   selected.value = row
   panelOpen.value = true
 }
@@ -46,9 +47,9 @@ function closePanel() {
   selected.value = null
 }
 
-async function onSave(input: SkillInput, documentId?: string) {
+async function onSave(input: ClientInput, documentId?: string) {
   try {
-    await store.saveSkill(input, documentId)
+    await store.saveClient(input, documentId)
     toast.success({ title: t('projects.saved') })
     closePanel()
   } catch (e) {
@@ -61,7 +62,7 @@ async function onSave(input: SkillInput, documentId?: string) {
 
 async function onRemove(documentId: string) {
   try {
-    await store.removeSkill(documentId)
+    await store.removeClient(documentId)
     toast.success({ title: t('projects.deleted') })
     closePanel()
   } catch (e) {
@@ -77,26 +78,26 @@ async function onRemove(documentId: string) {
   <div class="mx-auto max-w-5xl space-y-4">
     <div class="flex flex-wrap items-center justify-between gap-3">
       <div>
-        <h2 class="text-xl font-semibold">{{ t('projects.skills.title') }}</h2>
-        <p class="text-sm text-muted">{{ t('projects.skills.subtitle') }}</p>
+        <h2 class="text-xl font-semibold">{{ t('projects.clients.title') }}</h2>
+        <p class="text-sm text-muted">{{ t('projects.clients.subtitle') }}</p>
       </div>
       <div class="flex gap-2">
         <NuxtLink to="/projects">
           <UiButton variant="outline">{{ t('nav.projects') }}</UiButton>
         </NuxtLink>
-        <UiButton v-if="canWrite" @click="openCreate">{{ t('projects.skills.add') }}</UiButton>
+        <UiButton v-if="canWrite" @click="openCreate">{{ t('projects.clients.add') }}</UiButton>
       </div>
     </div>
 
-    <div v-if="store.loading && !store.skills.length" class="text-sm text-muted">
+    <div v-if="store.loading && !store.clients.length" class="text-sm text-muted">
       {{ t('projects.loading') }}
     </div>
 
     <div
-      v-else-if="!store.skills.length"
+      v-else-if="!store.clients.length"
       class="rounded-lg border border-dashed border-border p-8 text-center text-sm text-muted"
     >
-      {{ t('projects.skills.empty') }}
+      {{ t('projects.clients.empty') }}
     </div>
 
     <div v-else class="hidden overflow-hidden rounded-lg border border-border bg-surface md:block">
@@ -104,18 +105,20 @@ async function onRemove(documentId: string) {
         <thead class="border-b border-border bg-slate-50 text-muted dark:bg-slate-900/50">
           <tr>
             <th class="px-4 py-3 font-medium">{{ t('projects.fields.name') }}</th>
-            <th class="px-4 py-3 font-medium">{{ t('projects.fields.category') }}</th>
+            <th class="px-4 py-3 font-medium">{{ t('projects.fields.contactEmail') }}</th>
+            <th class="px-4 py-3 font-medium">{{ t('projects.fields.status') }}</th>
             <th class="px-4 py-3 font-medium" />
           </tr>
         </thead>
         <tbody class="divide-y divide-border">
           <tr
-            v-for="row in store.skills"
+            v-for="row in store.clients"
             :key="row.documentId"
             class="hover:bg-slate-50 dark:hover:bg-slate-800/50"
           >
             <td class="px-4 py-3 font-medium">{{ row.name }}</td>
-            <td class="px-4 py-3 text-muted">{{ row.category || t('org.none') }}</td>
+            <td class="px-4 py-3 text-muted">{{ row.contact_email || t('org.none') }}</td>
+            <td class="px-4 py-3">{{ t(`org.status.${row.status}`) }}</td>
             <td class="px-4 py-3 text-right">
               <UiButton size="sm" variant="ghost" @click="openEdit(row)">
                 {{ canWrite ? t('actions.edit') : t('org.view') }}
@@ -128,12 +131,12 @@ async function onRemove(documentId: string) {
 
     <ul class="space-y-3 md:hidden">
       <li
-        v-for="row in store.skills"
+        v-for="row in store.clients"
         :key="row.documentId"
         class="rounded-lg border border-border bg-surface p-4 shadow-soft"
       >
         <p class="font-medium">{{ row.name }}</p>
-        <p class="mt-1 text-xs text-muted">{{ row.category || t('org.none') }}</p>
+        <p class="mt-1 text-xs text-muted">{{ row.contact_email || t('org.none') }}</p>
         <UiButton class="mt-3 w-full" size="sm" variant="outline" @click="openEdit(row)">
           {{ canWrite ? t('actions.edit') : t('org.view') }}
         </UiButton>
@@ -147,10 +150,10 @@ async function onRemove(documentId: string) {
     >
       <div class="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-soft">
         <h3 class="mb-4 text-lg font-semibold">
-          {{ selected ? t('projects.skills.edit') : t('projects.skills.add') }}
+          {{ selected ? t('projects.clients.edit') : t('projects.clients.add') }}
         </h3>
-        <SkillForm
-          :skill="selected"
+        <ClientForm
+          :client="selected"
           :can-edit="canWrite"
           :can-delete="canDelete"
           @save="onSave"

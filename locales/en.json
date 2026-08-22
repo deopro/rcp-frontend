@@ -7,6 +7,7 @@
     "home": "Home",
     "allocations": "Allocations",
     "projects": "Projects",
+    "clients": "Clients",
     "team": "Team",
     "more": "More",
     "dashboard": "Dashboard",
@@ -40,8 +41,64 @@
   "home": {
     "welcome": "Welcome to RCP",
     "subtitle": "Replace Excel with modern, secure, mobile-first allocation.",
-    "foundationReady": "Organization ready",
-    "nextMilestone": "Next: projects and clients (Milestone 4)"
+    "foundationReady": "Projects ready",
+    "nextMilestone": "Next: skills matrix (Milestone 5)"
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Clients, assignments, required skills, and capacity summary",
+    "loading": "Loading…",
+    "loadingSummary": "Loading summary…",
+    "saving": "Saving…",
+    "saved": "Saved",
+    "deleted": "Deleted",
+    "confirmDelete": "Delete this record? This cannot be undone.",
+    "add": "New project",
+    "edit": "Edit project",
+    "empty": "No projects yet.",
+    "status": {
+      "planned": "Planned",
+      "active": "Active",
+      "on_hold": "On hold",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "fields": {
+      "name": "Name",
+      "code": "Code",
+      "description": "Description",
+      "status": "Status",
+      "client": "Client",
+      "contactEmail": "Contact email",
+      "category": "Category",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "requiredSkills": "Required skills",
+      "assignedEmployees": "Assigned employees"
+    },
+    "summary": {
+      "capacity": "Capacity",
+      "allocated": "Allocated",
+      "remaining": "Remaining",
+      "workingDays": "Working days"
+    },
+    "validation": {
+      "dateRange": "End date must be on or after start date."
+    },
+    "clients": {
+      "title": "Clients",
+      "subtitle": "Customers linked to projects",
+      "add": "New client",
+      "edit": "Edit client",
+      "empty": "No clients yet."
+    },
+    "skills": {
+      "title": "Skills catalog",
+      "subtitle": "Skills required on projects (matrix expands in Milestone 5)",
+      "add": "New skill",
+      "edit": "Edit skill",
+      "empty": "No skills yet."
+    }
   },
   "org": {
     "hubSubtitle": "Manage departments, teams, and employees",
