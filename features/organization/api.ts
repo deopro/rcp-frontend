@@ -1,5 +1,5 @@
 import { useApiClient } from '~/shared/api/client'
-import { compactData, connectMany, connectOne } from '~/shared/api/strapi-payload'
+import { compactData, connectOne } from '~/shared/api/strapi-payload'
 import type {
   Department,
   DepartmentInput,

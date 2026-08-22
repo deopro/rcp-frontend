@@ -357,8 +357,8 @@ const panelTitle = computed(() => {
             :skills="store.skills"
             :can-edit="canWriteMatrix"
             :can-delete="canDelete"
-            :on-save="onSaveMatrix"
-            :on-remove="onRemoveMatrix"
+            @save="onSaveMatrix"
+            @remove="onRemoveMatrix"
             @cancel="closePanel"
           />
           <SkillCategoryForm
@@ -366,8 +366,8 @@ const panelTitle = computed(() => {
             :category="selectedCategory"
             :can-edit="canWriteCatalog"
             :can-delete="canDelete"
-            :on-save="onSaveCategory"
-            :on-remove="onRemoveCategory"
+            @save="onSaveCategory"
+            @remove="onRemoveCategory"
             @cancel="closePanel"
           />
           <SkillCatalogForm
@@ -376,8 +376,8 @@ const panelTitle = computed(() => {
             :categories="store.categories"
             :can-edit="canWriteCatalog"
             :can-delete="canDelete"
-            :on-save="onSaveSkill"
-            :on-remove="onRemoveSkill"
+            @save="onSaveSkill"
+            @remove="onRemoveSkill"
             @cancel="closePanel"
           />
         </div>

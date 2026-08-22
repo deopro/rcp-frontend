@@ -17,7 +17,14 @@ const { t } = useI18n()
       </p>
     </section>
 
-    <section class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    <section class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <NuxtLink
+        to="/allocations"
+        class="rounded-lg border border-border bg-surface p-4 shadow-soft transition-colors hover:border-accent"
+      >
+        <h3 class="text-sm font-semibold">{{ t('nav.allocations') }}</h3>
+        <p class="mt-1 text-sm text-muted">{{ t('allocations.subtitle') }}</p>
+      </NuxtLink>
       <NuxtLink
         to="/projects"
         class="rounded-lg border border-border bg-surface p-4 shadow-soft transition-colors hover:border-accent"

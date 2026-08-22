@@ -1,3 +1,4 @@
+import { ensureAuthSession } from '~/composables/useAuthSession'
 import { useAuthStore } from '~/features/auth/stores/auth'
 import type { RcpRoleType } from '~/features/auth/types'
 
@@ -6,11 +7,8 @@ import type { RcpRoleType } from '~/features/auth/types'
  * Roles are read from route.meta.roles
  */
 export default defineNuxtRouteMiddleware(async (to) => {
+  await ensureAuthSession()
   const auth = useAuthStore()
-
-  if (!auth.hydrated) {
-    await auth.hydrate()
-  }
 
   if (!auth.isAuthenticated) {
     return navigateTo({

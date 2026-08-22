@@ -25,7 +25,7 @@ const canWrite = computed(() =>
   auth.hasRole('administrator', 'department_manager', 'team_leader'),
 )
 const canCreate = computed(() => auth.hasRole('administrator', 'department_manager'))
-const canDelete = computed(() => auth.hasRole('administrator'))
+const canDelete = computed(() => auth.hasRole('administrator', 'department_manager'))
 
 const currentSummary = computed(() => {
   if (!selected.value?.documentId) return null
@@ -185,6 +185,7 @@ async function onRemove(documentId: string) {
           </h3>
           <ProjectForm
             :project="selected"
+            :existing-codes="projectsStore.projects.map((p) => p.code)"
             :clients="projectsStore.clients"
             :skills="projectsStore.skills"
             :employees="orgStore.employees"
@@ -192,8 +193,8 @@ async function onRemove(documentId: string) {
             :summary-loading="summaryLoading"
             :can-edit="canWrite"
             :can-delete="canDelete"
-            :on-save="onSave"
-            :on-remove="onRemove"
+            @save="onSave"
+            @remove="onRemove"
             @cancel="closePanel"
             @load-summary="onLoadSummary"
           />

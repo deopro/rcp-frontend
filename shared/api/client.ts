@@ -77,10 +77,6 @@ export function useApiClient() {
     const method = options.method || 'GET'
     const proxyPath = toProxyPath(path)
 
-    // #region agent log
-    fetch('http://127.0.0.1:7550/ingest/00e40e9f-34c6-4349-ac97-bfda2cfa152b',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'805b23'},body:JSON.stringify({sessionId:'805b23',hypothesisId:'H2',location:'client.ts:request-start',message:'api proxy request',data:{method,path,proxyPath},timestamp:Date.now()})}).catch(()=>{});
-    // #endregion
-
     try {
       const result = await $fetch<T>(proxyPath, {
         method,
@@ -90,18 +86,11 @@ export function useApiClient() {
       return result as T
     } catch (error: unknown) {
       if (!(error instanceof FetchError)) {
-        // #region agent log
-        fetch('http://127.0.0.1:7550/ingest/00e40e9f-34c6-4349-ac97-bfda2cfa152b',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'805b23'},body:JSON.stringify({sessionId:'805b23',hypothesisId:'H4',location:'client.ts:unknown-error',message:'non-fetch error',data:{method,path,err:String(error)},timestamp:Date.now()})}).catch(()=>{});
-        // #endregion
         throw new ApiError('Unexpected request failure', 0, ApiErrorCode.GENERIC)
       }
 
       const status = error.statusCode || 0
       const rawMessage = messageFromFetchError(error)
-
-      // #region agent log
-      fetch('http://127.0.0.1:7550/ingest/00e40e9f-34c6-4349-ac97-bfda2cfa152b',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'805b23'},body:JSON.stringify({sessionId:'805b23',hypothesisId:'H1',location:'client.ts:fetch-error',message:'api proxy error',data:{method,path,status,rawMessage},timestamp:Date.now()})}).catch(()=>{});
-      // #endregion
 
       if (status === 401) {
         await handleUnauthorized()
@@ -112,7 +101,11 @@ export function useApiClient() {
         throw new ApiError(rawMessage, 0, ApiErrorCode.NETWORK)
       }
 
-      const code = codeFromHttpStatus(status, rawMessage)
+      const code =
+        (error.data as { error?: { details?: { code?: string } } })?.error?.details?.code ===
+        'CAPACITY_EXCEEDED'
+          ? ApiErrorCode.CAPACITY_EXCEEDED
+          : codeFromHttpStatus(status, rawMessage)
       throw new ApiError(rawMessage, status, code, error.data)
     }
   }
