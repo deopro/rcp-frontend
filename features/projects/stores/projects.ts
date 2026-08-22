@@ -110,7 +110,8 @@ export const useProjectsStore = defineStore('projects', () => {
 
   async function removeProject(documentId: string) {
     await api().deleteProject(documentId)
-    delete summaries.value[documentId]
+    const { [documentId]: _, ...rest } = summaries.value
+    summaries.value = rest
     await loadProjects()
   }
 

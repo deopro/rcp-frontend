@@ -182,30 +182,32 @@ async function onRemove(documentId: string) {
       </li>
     </ul>
 
-    <div
-      v-if="panelOpen"
-      class="fixed inset-0 z-40 flex items-end justify-center bg-black/40 p-4 md:items-center"
-      @click.self="closePanel"
-    >
-      <div class="max-h-[90dvh] w-full max-w-2xl overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-soft">
-        <h3 class="mb-4 text-lg font-semibold">
-          {{ selected ? t('projects.edit') : t('projects.add') }}
-        </h3>
-        <ProjectForm
-          :project="selected"
-          :clients="projectsStore.clients"
-          :skills="projectsStore.skills"
-          :employees="orgStore.employees"
-          :summary="currentSummary"
-          :summary-loading="summaryLoading"
-          :can-edit="canWrite"
-          :can-delete="canDelete"
-          @save="onSave"
-          @remove="onRemove"
-          @cancel="closePanel"
-          @load-summary="onLoadSummary"
-        />
+    <Teleport to="body">
+      <div
+        v-if="panelOpen"
+        class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 md:items-center"
+        @click.self="closePanel"
+      >
+        <div class="max-h-[90dvh] w-full max-w-2xl overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-soft">
+          <h3 class="mb-4 text-lg font-semibold">
+            {{ selected ? t('projects.edit') : t('projects.add') }}
+          </h3>
+          <ProjectForm
+            :project="selected"
+            :clients="projectsStore.clients"
+            :skills="projectsStore.skills"
+            :employees="orgStore.employees"
+            :summary="currentSummary"
+            :summary-loading="summaryLoading"
+            :can-edit="canWrite"
+            :can-delete="canDelete"
+            @save="onSave"
+            @remove="onRemove"
+            @cancel="closePanel"
+            @load-summary="onLoadSummary"
+          />
+        </div>
       </div>
-    </div>
+    </Teleport>
   </div>
 </template>

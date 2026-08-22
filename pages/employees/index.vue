@@ -159,26 +159,28 @@ async function onRemove(documentId: string) {
       </li>
     </ul>
 
-    <div
-      v-if="panelOpen"
-      class="fixed inset-0 z-40 flex items-end justify-center bg-black/40 p-4 md:items-center"
-      @click.self="closePanel"
-    >
-      <div class="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-soft">
-        <h3 class="mb-4 text-lg font-semibold">
-          {{ selected ? t('org.employees.edit') : t('org.employees.add') }}
-        </h3>
-        <EmployeeForm
-          :employee="selected"
-          :teams="org.teams"
-          :user-options="org.userOptions"
-          :can-edit="canWrite"
-          :can-delete="canDelete"
-          @save="onSave"
-          @remove="onRemove"
-          @cancel="closePanel"
-        />
+    <Teleport to="body">
+      <div
+        v-if="panelOpen"
+        class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 md:items-center"
+        @click.self="closePanel"
+      >
+        <div class="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-soft">
+          <h3 class="mb-4 text-lg font-semibold">
+            {{ selected ? t('org.employees.edit') : t('org.employees.add') }}
+          </h3>
+          <EmployeeForm
+            :employee="selected"
+            :teams="org.teams"
+            :user-options="org.userOptions"
+            :can-edit="canWrite"
+            :can-delete="canDelete"
+            @save="onSave"
+            @remove="onRemove"
+            @cancel="closePanel"
+          />
+        </div>
       </div>
-    </div>
+    </Teleport>
   </div>
 </template>
