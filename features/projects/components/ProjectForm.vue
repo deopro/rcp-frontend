@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import ProjectStatusBadge from './ProjectStatusBadge.vue'
 import ProjectSummaryCard from './ProjectSummaryCard.vue'
-import { projectCodeFromName } from '~/shared/projects/project-code'
+import { nextProjectCode } from '~/shared/projects/project-code'
 import type { Client, EmployeeRef, Project, ProjectInput, ProjectSummary, Skill } from '../types'
 
 const props = defineProps<{
   project?: Project | null
+  /** Existing project codes — used to preview the next RCP#### on create. */
+  existingCodes?: string[]
   clients: Client[]
   skills: Skill[]
   employees: EmployeeRef[]
@@ -44,7 +46,7 @@ watch(
   () => props.project,
   (row) => {
     form.name = row?.name || ''
-    form.code = row?.code || ''
+    form.code = row?.code || nextProjectCode(props.existingCodes || [])
     form.description = row?.description || ''
     form.status = row?.status || 'planned'
     form.start_date = row?.start_date || ''
@@ -60,10 +62,10 @@ watch(
 )
 
 watch(
-  () => form.name,
-  (name) => {
+  () => props.existingCodes,
+  (codes) => {
     if (isEdit.value) return
-    form.code = projectCodeFromName(name)
+    form.code = nextProjectCode(codes || [])
   },
 )
 
@@ -148,7 +150,7 @@ async function onDelete() {
       </div>
       <div class="space-y-1.5">
         <UiFormLabel for="proj-code" required>{{ t('projects.fields.code') }}</UiFormLabel>
-        <UiInput id="proj-code" v-model="form.code" required :disabled="!canEdit || !isEdit" />
+        <UiInput id="proj-code" v-model="form.code" required disabled />
       </div>
       <div class="space-y-1.5">
         <UiFormLabel for="proj-client">{{ t('projects.fields.client') }}</UiFormLabel>

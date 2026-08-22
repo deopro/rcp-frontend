@@ -185,6 +185,7 @@ async function onRemove(documentId: string) {
           </h3>
           <ProjectForm
             :project="selected"
+            :existing-codes="projectsStore.projects.map((p) => p.code)"
             :clients="projectsStore.clients"
             :skills="projectsStore.skills"
             :employees="orgStore.employees"

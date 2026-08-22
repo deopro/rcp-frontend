@@ -1,37 +1,29 @@
-/** Words omitted when deriving project code initials (pt-PT / en). */
-const STOP_WORDS = new Set([
-  'a',
-  'o',
-  'os',
-  'as',
-  'e',
-  'de',
-  'da',
-  'do',
-  'das',
-  'dos',
-  'the',
-  'and',
-  'of',
-  'for',
-])
+/** Prefix + zero-padded sequence, e.g. RCP0001 */
+export const PROJECT_CODE_PREFIX = 'RCP'
+export const PROJECT_CODE_PAD = 4
 
-function firstAlphanumericChar(word: string): string {
-  const normalized = word.normalize('NFD').replace(/\p{M}/gu, '')
-  const match = normalized.match(/[A-Za-z0-9]/)
-  return match ? match[0].toUpperCase() : ''
+const CODE_RE = new RegExp(`^${PROJECT_CODE_PREFIX}(\\d+)$`, 'i')
+
+export function formatProjectCode(sequence: number): string {
+  const n = Math.max(1, Math.floor(sequence))
+  return `${PROJECT_CODE_PREFIX}${String(n).padStart(PROJECT_CODE_PAD, '0')}`
 }
 
-/** e.g. "Agência de Gestão Tributária" → "AGT2026" */
-export function projectCodeFromName(name: string, year = new Date().getFullYear()): string {
-  const initials = name
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
-    .filter((word) => !STOP_WORDS.has(word.toLowerCase()))
-    .map(firstAlphanumericChar)
-    .join('')
+/** Returns the numeric sequence from a code like RCP0007, or null if not matching. */
+export function parseProjectCodeSequence(code: string | null | undefined): number | null {
+  if (!code) return null
+  const match = String(code).trim().match(CODE_RE)
+  if (!match) return null
+  const n = Number(match[1])
+  return Number.isFinite(n) ? n : null
+}
 
-  if (!initials) return ''
-  return `${initials}${year}`
+/** Next unique code after the highest RCP#### found in existing codes. */
+export function nextProjectCode(existingCodes: Iterable<string | null | undefined>): string {
+  let max = 0
+  for (const code of existingCodes) {
+    const seq = parseProjectCodeSequence(code)
+    if (seq != null && seq > max) max = seq
+  }
+  return formatProjectCode(max + 1)
 }
