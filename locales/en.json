@@ -32,7 +32,21 @@
     "language": "Language"
   },
   "forms": {
-    "required": "(required)"
+    "required": "(required)",
+    "validationTitle": "Check required fields",
+    "validationDescription": "Please fill in: {fields}",
+    "validationInvalidEmail": "Enter a valid email address.",
+    "confirmAction": "Confirm",
+    "confirmCreateTitle": "Create record",
+    "confirmUpdateTitle": "Save changes",
+    "confirmDeleteTitle": "Delete record",
+    "confirmCreate": "Review the information and confirm to save the new record.",
+    "confirmUpdate": "Your changes will be applied to this record.",
+    "confirmDelete": "This action is permanent and cannot be undone.",
+    "actionCancelled": "Action cancelled",
+    "created": "Created successfully",
+    "updated": "Updated successfully",
+    "deleted": "Deleted successfully"
   },
   "theme": {
     "label": "Theme",
@@ -193,7 +207,14 @@
     "offline": "Offline"
   },
   "errors": {
+    "title": "Something went wrong",
     "generic": "Something went wrong. Please try again.",
+    "genericDescription": "Please try again. If the problem persists, contact your administrator.",
+    "forbidden": "You don't have permission to perform this action.",
+    "notFoundRecord": "The record could not be found.",
+    "duplicate": "A record with this name already exists.",
+    "validation": "Some fields are invalid. Review the form and try again.",
+    "network": "Could not reach the server. Check your connection and try again.",
     "notFound": "Page not found"
   },
   "empty": {

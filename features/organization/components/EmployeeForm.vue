@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Employee, EmployeeInput, Team, UserOption } from '../types'
 import StatusBadge from './StatusBadge.vue'
+import { isValidEmail } from '~/shared/forms/validation'
 
 const props = defineProps<{
   employee?: Employee | null
@@ -17,6 +18,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const crud = useCrudActions()
 
 const form = reactive({
   employee_number: '',
@@ -31,6 +33,7 @@ const form = reactive({
 })
 
 const saving = ref(false)
+const isEdit = computed(() => Boolean(props.employee?.documentId))
 
 watch(
   () => props.employee,
@@ -50,6 +53,23 @@ watch(
 
 async function onSubmit() {
   if (!props.canEdit) return
+  if (
+    !crud.validateRequired([
+      { label: t('org.fields.employeeNumber'), value: form.employee_number },
+      { label: t('org.fields.fullName'), value: form.full_name },
+      { label: t('org.fields.email'), value: form.email },
+      { label: t('org.fields.dailyCapacity'), value: form.daily_capacity },
+      { label: t('org.fields.status'), value: form.status },
+    ])
+  ) {
+    return
+  }
+  if (!isValidEmail(form.email)) {
+    crud.toastValidationError(t('forms.validationInvalidEmail'))
+    return
+  }
+  if (!(await crud.confirmSave(isEdit.value))) return
+
   saving.value = true
   try {
     emit(
@@ -72,15 +92,15 @@ async function onSubmit() {
   }
 }
 
-function onDelete() {
+async function onDelete() {
   if (!props.employee || !props.canDelete) return
-  if (!confirm(t('org.confirmDelete'))) return
+  if (!(await crud.confirmDelete())) return
   emit('remove', props.employee.documentId)
 }
 </script>
 
 <template>
-  <form class="space-y-4" @submit.prevent="onSubmit">
+  <form class="space-y-4" novalidate @submit.prevent="onSubmit">
     <div class="grid gap-4 sm:grid-cols-2">
       <div class="space-y-1.5">
         <UiFormLabel for="emp-number" required>{{ t('org.fields.employeeNumber') }}</UiFormLabel>

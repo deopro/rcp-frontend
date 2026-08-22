@@ -3,7 +3,6 @@ import { useAuthStore } from '~/features/auth/stores/auth'
 import ClientForm from '~/features/projects/components/ClientForm.vue'
 import { useProjectsStore } from '~/features/projects/stores/projects'
 import type { Client, ClientInput } from '~/features/projects/types'
-import { describeApiError } from '~/shared/api/client'
 
 definePageMeta({
   middleware: ['role'],
@@ -14,6 +13,7 @@ const { t } = useI18n()
 const auth = useAuthStore()
 const store = useProjectsStore()
 const toast = useToast()
+const { showApiError } = useApiErrorToast()
 
 const panelOpen = ref(false)
 const selected = ref<Client | null>(null)
@@ -25,10 +25,7 @@ onMounted(async () => {
   try {
     await store.loadClients()
   } catch (e) {
-    toast.error({
-      title: t('errors.generic'),
-      description: describeApiError(e, t),
-    })
+    showApiError(e)
   }
 })
 
@@ -50,26 +47,20 @@ function closePanel() {
 async function onSave(input: ClientInput, documentId?: string) {
   try {
     await store.saveClient(input, documentId)
-    toast.success({ title: t('projects.saved') })
+    toast.success({ title: documentId ? t('forms.updated') : t('forms.created') })
     closePanel()
   } catch (e) {
-    toast.error({
-      title: t('errors.generic'),
-      description: describeApiError(e, t),
-    })
+    showApiError(e)
   }
 }
 
 async function onRemove(documentId: string) {
   try {
     await store.removeClient(documentId)
-    toast.success({ title: t('projects.deleted') })
+    toast.success({ title: t('forms.deleted') })
     closePanel()
   } catch (e) {
-    toast.error({
-      title: t('errors.generic'),
-      description: describeApiError(e, t),
-    })
+    showApiError(e)
   }
 }
 </script>

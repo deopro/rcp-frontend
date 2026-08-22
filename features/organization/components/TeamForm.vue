@@ -17,6 +17,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const crud = useCrudActions()
 
 const form = reactive({
   name: '',
@@ -27,6 +28,7 @@ const form = reactive({
 })
 
 const saving = ref(false)
+const isEdit = computed(() => Boolean(props.team?.documentId))
 
 watch(
   () => props.team,
@@ -42,6 +44,17 @@ watch(
 
 async function onSubmit() {
   if (!props.canEdit) return
+  if (
+    !crud.validateRequired([
+      { label: t('org.fields.name'), value: form.name },
+      { label: t('org.fields.department'), value: form.department },
+      { label: t('org.fields.status'), value: form.status },
+    ])
+  ) {
+    return
+  }
+  if (!(await crud.confirmSave(isEdit.value))) return
+
   saving.value = true
   try {
     emit(
@@ -60,15 +73,15 @@ async function onSubmit() {
   }
 }
 
-function onDelete() {
+async function onDelete() {
   if (!props.team || !props.canDelete) return
-  if (!confirm(t('org.confirmDelete'))) return
+  if (!(await crud.confirmDelete())) return
   emit('remove', props.team.documentId)
 }
 </script>
 
 <template>
-  <form class="space-y-4" @submit.prevent="onSubmit">
+  <form class="space-y-4" novalidate @submit.prevent="onSubmit">
     <div class="space-y-1.5">
       <UiFormLabel for="team-name" required>{{ t('org.fields.name') }}</UiFormLabel>
       <UiInput id="team-name" v-model="form.name" required :disabled="!canEdit" />

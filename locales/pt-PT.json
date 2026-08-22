@@ -32,7 +32,21 @@
     "language": "Idioma"
   },
   "forms": {
-    "required": "(obrigatório)"
+    "required": "(obrigatório)",
+    "validationTitle": "Verifique os campos obrigatórios",
+    "validationDescription": "Preencha: {fields}",
+    "validationInvalidEmail": "Introduza um endereço de email válido.",
+    "confirmAction": "Confirmar",
+    "confirmCreateTitle": "Criar registo",
+    "confirmUpdateTitle": "Guardar alterações",
+    "confirmDeleteTitle": "Eliminar registo",
+    "confirmCreate": "Reveja os dados e confirme para guardar o novo registo.",
+    "confirmUpdate": "As alterações serão aplicadas a este registo.",
+    "confirmDelete": "Esta ação é permanente e não pode ser anulada.",
+    "actionCancelled": "Ação cancelada",
+    "created": "Criado com sucesso",
+    "updated": "Atualizado com sucesso",
+    "deleted": "Eliminado com sucesso"
   },
   "theme": {
     "label": "Tema",
@@ -193,7 +207,14 @@
     "offline": "Offline"
   },
   "errors": {
+    "title": "Ocorreu um erro",
     "generic": "Ocorreu um erro. Tente novamente.",
+    "genericDescription": "Tente novamente. Se o problema persistir, contacte o administrador.",
+    "forbidden": "Não tem permissão para executar esta ação.",
+    "notFoundRecord": "O registo não foi encontrado.",
+    "duplicate": "Já existe um registo com este nome.",
+    "validation": "Alguns campos são inválidos. Revise o formulário e tente novamente.",
+    "network": "Não foi possível contactar o servidor. Verifique a ligação e tente novamente.",
     "notFound": "Página não encontrada"
   },
   "empty": {

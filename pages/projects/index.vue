@@ -5,7 +5,6 @@ import ProjectForm from '~/features/projects/components/ProjectForm.vue'
 import ProjectStatusBadge from '~/features/projects/components/ProjectStatusBadge.vue'
 import { useProjectsStore } from '~/features/projects/stores/projects'
 import type { Project, ProjectInput } from '~/features/projects/types'
-import { describeApiError } from '~/shared/api/client'
 
 definePageMeta({
   middleware: ['role'],
@@ -16,6 +15,7 @@ const auth = useAuthStore()
 const projectsStore = useProjectsStore()
 const orgStore = useOrganizationStore()
 const toast = useToast()
+const { showApiError } = useApiErrorToast()
 
 const panelOpen = ref(false)
 const selected = ref<Project | null>(null)
@@ -41,10 +41,7 @@ onMounted(async () => {
       orgStore.loadEmployees(),
     ])
   } catch (e) {
-    toast.error({
-      title: t('errors.generic'),
-      description: describeApiError(e, t),
-    })
+    showApiError(e)
   }
 })
 
@@ -77,26 +74,20 @@ async function onLoadSummary(documentId: string) {
 async function onSave(input: ProjectInput, documentId?: string) {
   try {
     await projectsStore.saveProject(input, documentId)
-    toast.success({ title: t('projects.saved') })
+    toast.success({ title: documentId ? t('forms.updated') : t('forms.created') })
     closePanel()
   } catch (e) {
-    toast.error({
-      title: t('errors.generic'),
-      description: describeApiError(e, t),
-    })
+    showApiError(e)
   }
 }
 
 async function onRemove(documentId: string) {
   try {
     await projectsStore.removeProject(documentId)
-    toast.success({ title: t('projects.deleted') })
+    toast.success({ title: t('forms.deleted') })
     closePanel()
   } catch (e) {
-    toast.error({
-      title: t('errors.generic'),
-      description: describeApiError(e, t),
-    })
+    showApiError(e)
   }
 }
 </script>

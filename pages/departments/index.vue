@@ -4,7 +4,6 @@ import DepartmentForm from '~/features/organization/components/DepartmentForm.vu
 import StatusBadge from '~/features/organization/components/StatusBadge.vue'
 import { useOrganizationStore } from '~/features/organization/stores/organization'
 import type { Department, DepartmentInput } from '~/features/organization/types'
-import { describeApiError } from '~/shared/api/client'
 
 definePageMeta({
   middleware: ['role'],
@@ -15,6 +14,7 @@ const { t } = useI18n()
 const auth = useAuthStore()
 const org = useOrganizationStore()
 const toast = useToast()
+const { showApiError } = useApiErrorToast()
 
 const panelOpen = ref(false)
 const selected = ref<Department | null>(null)
@@ -26,10 +26,7 @@ onMounted(async () => {
   try {
     await Promise.all([org.loadDepartments(), canWrite.value ? org.loadUserOptions() : Promise.resolve()])
   } catch (e) {
-    toast.error({
-      title: t('errors.generic'),
-      description: describeApiError(e, t),
-    })
+    showApiError(e)
   }
 })
 
@@ -51,26 +48,20 @@ function closePanel() {
 async function onSave(input: DepartmentInput, documentId?: string) {
   try {
     await org.saveDepartment(input, documentId)
-    toast.success({ title: t('org.saved') })
+    toast.success({ title: documentId ? t('forms.updated') : t('forms.created') })
     closePanel()
   } catch (e) {
-    toast.error({
-      title: t('errors.generic'),
-      description: describeApiError(e, t),
-    })
+    showApiError(e)
   }
 }
 
 async function onRemove(documentId: string) {
   try {
     await org.removeDepartment(documentId)
-    toast.success({ title: t('org.deleted') })
+    toast.success({ title: t('forms.deleted') })
     closePanel()
   } catch (e) {
-    toast.error({
-      title: t('errors.generic'),
-      description: describeApiError(e, t),
-    })
+    showApiError(e)
   }
 }
 </script>

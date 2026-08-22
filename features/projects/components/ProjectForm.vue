@@ -23,6 +23,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const crud = useCrudActions()
 
 const form = reactive({
   name: '',
@@ -37,6 +38,7 @@ const form = reactive({
 })
 
 const saving = ref(false)
+const isEdit = computed(() => Boolean(props.project?.documentId))
 
 watch(
   () => props.project,
@@ -75,10 +77,21 @@ const employeeOptions = computed(() =>
 
 async function onSubmit() {
   if (!props.canEdit) return
-  if (form.start_date && form.end_date && form.end_date < form.start_date) {
-    alert(t('projects.validation.dateRange'))
+  if (
+    !crud.validateRequired([
+      { label: t('projects.fields.name'), value: form.name },
+      { label: t('projects.fields.code'), value: form.code },
+      { label: t('projects.fields.status'), value: form.status },
+    ])
+  ) {
     return
   }
+  if (form.start_date && form.end_date && form.end_date < form.start_date) {
+    crud.toastValidationError(t('projects.validation.dateRange'))
+    return
+  }
+  if (!(await crud.confirmSave(isEdit.value))) return
+
   saving.value = true
   try {
     emit(
@@ -101,15 +114,15 @@ async function onSubmit() {
   }
 }
 
-function onDelete() {
+async function onDelete() {
   if (!props.project || !props.canDelete) return
-  if (!confirm(t('projects.confirmDelete'))) return
+  if (!(await crud.confirmDelete())) return
   emit('remove', props.project.documentId)
 }
 </script>
 
 <template>
-  <form class="space-y-4" @submit.prevent="onSubmit">
+  <form class="space-y-4" novalidate @submit.prevent="onSubmit">
     <ProjectSummaryCard
       v-if="project"
       :summary="summary || null"
