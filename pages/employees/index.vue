@@ -4,7 +4,7 @@ import EmployeeForm from '~/features/organization/components/EmployeeForm.vue'
 import StatusBadge from '~/features/organization/components/StatusBadge.vue'
 import { useOrganizationStore } from '~/features/organization/stores/organization'
 import type { Employee, EmployeeInput } from '~/features/organization/types'
-import { ApiError } from '~/shared/api/client'
+import { describeApiError } from '~/shared/api/client'
 
 definePageMeta({
   middleware: ['role'],
@@ -36,7 +36,7 @@ onMounted(async () => {
   } catch (e) {
     toast.error({
       title: t('errors.generic'),
-      description: e instanceof ApiError ? e.message : undefined,
+      description: describeApiError(e, t),
     })
   }
 })
@@ -64,7 +64,7 @@ async function onSave(input: EmployeeInput, documentId?: string) {
   } catch (e) {
     toast.error({
       title: t('errors.generic'),
-      description: e instanceof ApiError ? e.message : undefined,
+      description: describeApiError(e, t),
     })
   }
 }
@@ -77,7 +77,7 @@ async function onRemove(documentId: string) {
   } catch (e) {
     toast.error({
       title: t('errors.generic'),
-      description: e instanceof ApiError ? e.message : undefined,
+      description: describeApiError(e, t),
     })
   }
 }

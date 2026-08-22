@@ -1,6 +1,15 @@
 import type { AuthUser, LoginResponse } from '../../../features/auth/types'
+import { ApiErrorCode, codeFromMessage } from '../../../shared/api/error-codes'
 
 const COOKIE_NAME = 'rcp_jwt'
+
+function authError(statusCode: number, code: ApiErrorCode) {
+  return createError({
+    statusCode,
+    statusMessage: code,
+    data: { code },
+  })
+}
 
 function cookieOptions(maxAge?: number) {
   return {
@@ -17,7 +26,7 @@ export default defineEventHandler(async (event): Promise<LoginResponse> => {
   const body = await readBody<{ identifier?: string; password?: string }>(event)
 
   if (!body?.identifier || !body?.password) {
-    throw createError({ statusCode: 400, statusMessage: 'Identifier and password are required' })
+    throw authError(400, ApiErrorCode.AUTH_MISSING_FIELDS)
   }
 
   let result: LoginResponse
@@ -31,14 +40,11 @@ export default defineEventHandler(async (event): Promise<LoginResponse> => {
     })
   } catch (error: unknown) {
     const err = error as { statusCode?: number; data?: { error?: { message?: string } } }
-    throw createError({
-      statusCode: err.statusCode || 401,
-      statusMessage: err.data?.error?.message || 'Invalid credentials',
-    })
+    throw authError(err.statusCode || 401, codeFromMessage(err.data?.error?.message))
   }
 
   if (result.user?.status === 'inactive') {
-    throw createError({ statusCode: 403, statusMessage: 'User is inactive' })
+    throw authError(403, ApiErrorCode.AUTH_USER_INACTIVE)
   }
 
   // Enrich with role via account endpoint when available
@@ -52,7 +58,7 @@ export default defineEventHandler(async (event): Promise<LoginResponse> => {
   }
 
   if (user.status === 'inactive') {
-    throw createError({ statusCode: 403, statusMessage: 'User is inactive' })
+    throw authError(403, ApiErrorCode.AUTH_USER_INACTIVE)
   }
 
   setCookie(event, COOKIE_NAME, result.jwt, cookieOptions(60 * 60 * 24 * 7))

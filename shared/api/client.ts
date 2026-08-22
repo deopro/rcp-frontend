@@ -2,6 +2,7 @@
  * Typed Strapi API client. Attaches JWT from auth store and handles 401.
  */
 import { useAuthStore } from '~/features/auth/stores/auth'
+import { ApiErrorCode, codeFromMessage, resolveErrorDescription } from '~/shared/api/error-codes'
 
 export type ApiErrorBody = {
   error?: {
@@ -14,14 +15,20 @@ export type ApiErrorBody = {
 
 export class ApiError extends Error {
   status: number
+  code: ApiErrorCode
   details: unknown
 
-  constructor(message: string, status: number, details?: unknown) {
+  constructor(message: string, status: number, code: ApiErrorCode = ApiErrorCode.GENERIC, details?: unknown) {
     super(message)
     this.name = 'ApiError'
     this.status = status
+    this.code = code
     this.details = details
   }
+}
+
+export function describeApiError(error: unknown, t: (key: string) => string): string {
+  return error instanceof ApiError ? resolveErrorDescription(error.code, t) : t('errors.generic')
 }
 
 export function useApiClient() {
@@ -56,7 +63,7 @@ export function useApiClient() {
         path: '/login',
         query: { redirect: useRoute().fullPath },
       })
-      throw new ApiError(t('auth.sessionExpiredTitle'), 401)
+      throw new ApiError(t('auth.sessionExpiredTitle'), 401, ApiErrorCode.GENERIC)
     }
 
     if (!response.ok) {
@@ -66,9 +73,11 @@ export function useApiClient() {
       } catch {
         body = undefined
       }
+      const rawMessage = body?.error?.message || `Request failed (${response.status})`
       throw new ApiError(
-        body?.error?.message || `Request failed (${response.status})`,
+        rawMessage,
         response.status,
+        codeFromMessage(rawMessage),
         body?.error?.details,
       )
     }

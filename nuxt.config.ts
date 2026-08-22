@@ -97,10 +97,8 @@ export default defineNuxtConfig({
     },
     client: {
       installPrompt: true,
-    },
-    devOptions: {
-      enabled: true,
-      type: 'module',
+      // No SW registration in dev — avoids /dev-sw.js router warnings
+      registerPlugin: !process.dev,
     },
   },
 

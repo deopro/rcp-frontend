@@ -105,6 +105,8 @@
     "identifierPlaceholder": "nome{'@'}empresa.com",
     "password": "Palavra-passe",
     "passwordPlaceholder": "••••••••",
+    "showPassword": "Mostrar palavra-passe",
+    "hidePassword": "Ocultar palavra-passe",
     "signIn": "Entrar",
     "signingIn": "A entrar…",
     "signOut": "Terminar sessão",
@@ -119,6 +121,11 @@
     "validation": {
       "identifierRequired": "Indique o email ou utilizador.",
       "passwordRequired": "Indique a palavra-passe."
+    },
+    "errors": {
+      "invalidCredentials": "Email/utilizador ou palavra-passe incorretos.",
+      "userInactive": "Esta conta está inactiva. Contacte o administrador.",
+      "missingFields": "Indique o email/utilizador e a palavra-passe."
     }
   },
   "status": {

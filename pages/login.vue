@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { Eye, EyeOff } from 'lucide-vue-next'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import { z } from 'zod'
 import { useAuthStore } from '~/features/auth/stores/auth'
+import { codeFromFetchError, resolveErrorDescription } from '~/shared/api/error-codes'
 
 definePageMeta({
   layout: 'auth',
@@ -14,6 +16,7 @@ const auth = useAuthStore()
 const toast = useToast()
 const route = useRoute()
 const submitting = ref(false)
+const showPassword = ref(false)
 
 const schema = computed(() =>
   toTypedSchema(
@@ -49,10 +52,9 @@ const onSubmit = handleSubmit(async (values) => {
     const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/'
     await navigateTo(redirect || '/')
   } catch (error: unknown) {
-    const err = error as { statusMessage?: string; data?: { message?: string } }
     toast.error({
       title: t('auth.loginErrorTitle'),
-      description: err.statusMessage || err.data?.message || t('auth.loginErrorDescription'),
+      description: resolveErrorDescription(codeFromFetchError(error), t, 'auth.loginErrorDescription'),
     })
   } finally {
     submitting.value = false
@@ -82,15 +84,27 @@ const onSubmit = handleSubmit(async (values) => {
 
       <div class="space-y-1.5">
         <label class="text-sm font-medium" for="password">{{ t('auth.password') }}</label>
-        <input
-          id="password"
-          v-model="password"
-          v-bind="passwordAttrs"
-          type="password"
-          autocomplete="current-password"
-          class="touch-target w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          :placeholder="t('auth.passwordPlaceholder')"
-        >
+        <div class="relative">
+          <input
+            id="password"
+            v-model="password"
+            v-bind="passwordAttrs"
+            :type="showPassword ? 'text' : 'password'"
+            autocomplete="current-password"
+            class="touch-target w-full rounded-lg border border-border bg-background py-0 pl-3 pr-11 text-sm outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            :placeholder="t('auth.passwordPlaceholder')"
+          >
+          <button
+            type="button"
+            class="absolute inset-y-0 right-0 inline-flex w-11 items-center justify-center rounded-r-lg text-muted transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            :aria-label="showPassword ? t('auth.hidePassword') : t('auth.showPassword')"
+            :title="showPassword ? t('auth.hidePassword') : t('auth.showPassword')"
+            @click="showPassword = !showPassword"
+          >
+            <EyeOff v-if="showPassword" class="h-4 w-4" aria-hidden="true" />
+            <Eye v-else class="h-4 w-4" aria-hidden="true" />
+          </button>
+        </div>
         <p v-if="errors.password" class="text-xs text-danger">{{ errors.password }}</p>
       </div>
 

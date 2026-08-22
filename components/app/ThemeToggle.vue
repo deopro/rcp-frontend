@@ -4,6 +4,12 @@ import { Monitor, Moon, Sun } from 'lucide-vue-next'
 const { t } = useI18n()
 const colorMode = useColorMode()
 
+// Avoid SSR/localStorage preference mismatch on first paint
+const ready = ref(false)
+onMounted(() => {
+  ready.value = true
+})
+
 const options = computed(() => [
   { value: 'system', label: t('theme.system'), icon: Monitor },
   { value: 'light', label: t('theme.light'), icon: Sun },
@@ -34,13 +40,14 @@ const currentIcon = computed(() => {
       :title="t('theme.toggle')"
       @click="cycleTheme"
     >
-      <component :is="currentIcon" class="h-4 w-4" aria-hidden="true" />
+      <span v-if="!ready" class="h-4 w-4" aria-hidden="true" />
+      <component :is="currentIcon" v-else class="h-4 w-4" aria-hidden="true" />
     </button>
     <label class="sr-only" for="theme-select">{{ t('theme.label') }}</label>
     <select
       id="theme-select"
       class="hidden rounded-lg border border-border bg-surface px-2 py-2 text-sm text-foreground shadow-soft sm:block"
-      :value="colorMode.preference"
+      :value="ready ? colorMode.preference : 'system'"
       @change="colorMode.preference = ($event.target as HTMLSelectElement).value"
     >
       <option v-for="opt in options" :key="opt.value" :value="opt.value">

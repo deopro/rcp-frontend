@@ -105,6 +105,8 @@
     "identifierPlaceholder": "name{'@'}company.com",
     "password": "Password",
     "passwordPlaceholder": "••••••••",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
     "signIn": "Sign in",
     "signingIn": "Signing in…",
     "signOut": "Sign out",
@@ -119,6 +121,11 @@
     "validation": {
       "identifierRequired": "Enter your email or username.",
       "passwordRequired": "Enter your password."
+    },
+    "errors": {
+      "invalidCredentials": "Incorrect email/username or password.",
+      "userInactive": "This account is inactive. Contact your administrator.",
+      "missingFields": "Enter your email/username and password."
     }
   },
   "status": {
