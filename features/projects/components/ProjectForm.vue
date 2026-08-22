@@ -2,6 +2,7 @@
 import CheckboxGroup from './CheckboxGroup.vue'
 import ProjectStatusBadge from './ProjectStatusBadge.vue'
 import ProjectSummaryCard from './ProjectSummaryCard.vue'
+import { projectCodeFromName } from '~/shared/projects/project-code'
 import type { Client, EmployeeRef, Project, ProjectInput, ProjectSummary, Skill } from '../types'
 
 const props = defineProps<{
@@ -57,6 +58,14 @@ watch(
     }
   },
   { immediate: true },
+)
+
+watch(
+  () => form.name,
+  (name) => {
+    if (isEdit.value) return
+    form.code = projectCodeFromName(name)
+  },
 )
 
 const skillOptions = computed(() =>
@@ -140,7 +149,7 @@ async function onDelete() {
       </div>
       <div class="space-y-1.5">
         <UiFormLabel for="proj-code" required>{{ t('projects.fields.code') }}</UiFormLabel>
-        <UiInput id="proj-code" v-model="form.code" required :disabled="!canEdit" />
+        <UiInput id="proj-code" v-model="form.code" required :disabled="!canEdit || !isEdit" />
       </div>
       <div class="space-y-1.5">
         <UiFormLabel for="proj-client">{{ t('projects.fields.client') }}</UiFormLabel>
