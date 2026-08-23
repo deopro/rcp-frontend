@@ -121,7 +121,6 @@ export function useOrganizationApi() {
         `/api/employees${qs({
           'pagination[page]': page,
           'pagination[pageSize]': pageSize,
-          'populate[user]': 'true',
           'populate[team]': 'true',
           sort: 'full_name:asc',
         })}`,
@@ -131,7 +130,6 @@ export function useOrganizationApi() {
     getEmployee(documentId: string) {
       return api.get<OneResponse<Employee>>(
         `/api/employees/${documentId}${qs({
-          'populate[user]': 'true',
           'populate[team]': 'true',
         })}`,
       )

@@ -410,7 +410,8 @@
     }
   },
   "settings": {
-    "subtitle": "Appearance and language preferences"
+    "subtitle": "Appearance and language preferences",
+    "account": "Account"
   },
   "auth": {
     "loginTitle": "Sign in",
@@ -424,6 +425,7 @@
     "signIn": "Sign in",
     "signingIn": "Signing in…",
     "signOut": "Sign out",
+    "signingOut": "Signing out…",
     "loginSuccessTitle": "Signed in",
     "loginSuccessDescription": "Welcome back.",
     "loginErrorTitle": "Sign-in failed",

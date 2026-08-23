@@ -410,7 +410,8 @@
     }
   },
   "settings": {
-    "subtitle": "Preferências de aspeto e idioma"
+    "subtitle": "Preferências de aspeto e idioma",
+    "account": "Conta"
   },
   "auth": {
     "loginTitle": "Iniciar sessão",
@@ -424,6 +425,7 @@
     "signIn": "Entrar",
     "signingIn": "A entrar…",
     "signOut": "Terminar sessão",
+    "signingOut": "A terminar sessão…",
     "loginSuccessTitle": "Sessão iniciada",
     "loginSuccessDescription": "Bem-vindo de volta.",
     "loginErrorTitle": "Falha no login",

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useAuthStore } from '~/features/auth/stores/auth'
 import { formatUserLabel } from '~/shared/users/format-user-label'
+import { useAuthStore } from '~/features/auth/stores/auth'
 
 const { t } = useI18n()
 const auth = useAuthStore()
-const toast = useToast()
+const { logout, loggingOut } = useLogout()
 
 const displayName = computed(() =>
   auth.user ? formatUserLabel(auth.user) : '',
@@ -26,12 +26,7 @@ const links = computed(() => [
 ])
 
 async function onLogout() {
-  await auth.logout()
-  toast.info({
-    title: t('auth.logoutTitle'),
-    description: t('auth.logoutDescription'),
-  })
-  await navigateTo('/login')
+  await logout()
 }
 </script>
 
