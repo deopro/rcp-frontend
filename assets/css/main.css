@@ -16,8 +16,8 @@
   --rcp-input-bg: #ffffff;
   --rcp-hover: #f6f8fa;
   --rcp-overlay: rgb(0 0 0 / 0.4);
-  --rcp-primary: #0366d6;
-  --rcp-primary-fg: #ffffff;
+  --rcp-primary: #0f172a;
+  --rcp-primary-fg: #f8fafc;
   --rcp-accent: #0366d6;
   --rcp-danger: #d73a49;
   --rcp-success: #1a7f37;
@@ -63,8 +63,8 @@
   --rcp-input-bg: #24292e;
   --rcp-hover: #2f363d;
   --rcp-overlay: rgb(0 0 0 / 0.5);
-  --rcp-primary: #0366d6;
-  --rcp-primary-fg: #ffffff;
+  --rcp-primary: #f1f5f9;
+  --rcp-primary-fg: #020617;
   --rcp-accent: #2e8fff;
   --rcp-danger: #d73a49;
   --rcp-success: #2ea44e;
