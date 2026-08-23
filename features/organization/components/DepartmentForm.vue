@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Department, DepartmentInput, UserOption } from '../types'
+import { formatUserLabel } from '~/shared/users/format-user-label'
 import StatusBadge from './StatusBadge.vue'
 
 const props = defineProps<{
@@ -102,7 +103,7 @@ async function onDelete() {
         <UiSelect id="dept-manager" v-model="form.manager" :disabled="!canEdit">
           <option value="">{{ t('org.none') }}</option>
           <option v-for="u in userOptions" :key="u.id" :value="String(u.id)">
-            {{ u.email }}
+            {{ formatUserLabel(u) }}
           </option>
         </UiSelect>
       </div>

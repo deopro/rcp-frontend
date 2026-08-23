@@ -2,6 +2,7 @@
 import type { Employee, EmployeeInput, Team, UserOption } from '../types'
 import StatusBadge from './StatusBadge.vue'
 import { isValidEmail } from '~/shared/forms/validation'
+import { formatUserLabel } from '~/shared/users/format-user-label'
 
 const props = defineProps<{
   employee?: Employee | null
@@ -153,7 +154,7 @@ async function onDelete() {
         <UiSelect id="emp-user" v-model="form.user" :disabled="!canEdit">
           <option value="">{{ t('org.none') }}</option>
           <option v-for="u in userOptions" :key="u.id" :value="String(u.id)">
-            {{ u.email }}
+            {{ formatUserLabel(u) }}
           </option>
         </UiSelect>
       </div>

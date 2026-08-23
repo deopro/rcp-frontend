@@ -16,6 +16,8 @@ export type UserRef = {
   documentId?: string
   username?: string
   email?: string
+  first_name?: string | null
+  last_name?: string | null
 }
 
 export type Department = {
@@ -61,6 +63,8 @@ export type UserOption = {
   id: number
   username: string
   email: string
+  first_name?: string | null
+  last_name?: string | null
 }
 
 export type DepartmentInput = {
