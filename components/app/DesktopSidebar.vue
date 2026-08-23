@@ -10,6 +10,7 @@ import {
   Sparkles,
   UserRound,
   Users,
+  UsersRound,
 } from 'lucide-vue-next'
 
 const { t } = useI18n()
@@ -18,6 +19,7 @@ const route = useRoute()
 const links = computed(() => [
   { to: '/', label: t('nav.dashboard'), icon: LayoutDashboard },
   { to: '/allocations', label: t('nav.allocations'), icon: CalendarDays },
+  { to: '/bench', label: t('nav.bench'), icon: UsersRound },
   { to: '/projects', label: t('nav.projects'), icon: Briefcase },
   { to: '/clients', label: t('nav.clients'), icon: Contact2 },
   { to: '/skills', label: t('nav.skills'), icon: Sparkles },

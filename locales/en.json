@@ -63,8 +63,35 @@
   "home": {
     "welcome": "Welcome to RCP",
     "subtitle": "Replace Excel with modern, secure, mobile-first allocation.",
-    "foundationReady": "Leave and holidays ready",
-    "nextMilestone": "Next: bench management (Milestone 8)"
+    "foundationReady": "Bench ready",
+    "nextMilestone": "Next: approvals workflow (Milestone 9)"
+  },
+  "bench": {
+    "title": "Bench",
+    "subtitle": "Available capacity in the selected window — filter by team and skills",
+    "loading": "Loading bench…",
+    "empty": "No available resources for this window and filters.",
+    "allocate": "Open allocations",
+    "filters": {
+      "skills": "Skills"
+    },
+    "kpis": {
+      "resources": "Available people",
+      "remaining": "Bench hours",
+      "benchPct": "Bench %",
+      "utilization": "Utilization"
+    },
+    "columns": {
+      "available": "Available",
+      "allocated": "Allocated",
+      "remaining": "Remaining",
+      "benchPct": "Bench %"
+    },
+    "forecast": {
+      "title": "Forecast (preview)",
+      "message": "Full forecasting arrives in Milestone 11. Current bench is shown as the baseline.",
+      "baseline": "Baseline"
+    }
   },
   "leave": {
     "title": "Leave",
