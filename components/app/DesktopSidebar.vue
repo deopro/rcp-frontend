@@ -40,7 +40,8 @@ function isActive(path: string) {
 
 <template>
   <aside
-    class="hidden h-full w-64 shrink-0 flex-col overflow-hidden border-r border-border bg-surface md:flex"
+    class="fixed bottom-0 z-40 hidden w-64 flex-col overflow-hidden border-r border-border bg-surface md:flex"
+    style="top: var(--rcp-safe-top); left: var(--rcp-safe-left);"
     aria-label="Sidebar"
   >
     <div class="flex h-header items-center gap-2 border-b border-border px-5">

@@ -52,18 +52,27 @@
 
   html {
     @apply antialiased;
+    height: 100%;
+    overflow: hidden;
     font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
     background: var(--rcp-bg);
     color: var(--rcp-fg);
   }
 
   body {
-    min-height: 100dvh;
+    height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
     padding-top: var(--rcp-safe-top);
     padding-left: var(--rcp-safe-left);
     padding-right: var(--rcp-safe-right);
     background: var(--rcp-bg);
     color: var(--rcp-fg);
+  }
+
+  #__nuxt {
+    height: 100%;
+    overflow: hidden;
   }
 
   :focus-visible {
