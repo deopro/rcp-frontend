@@ -36,7 +36,7 @@ function isActive(path: string) {
 
 <template>
   <aside
-    class="hidden h-dvh w-64 shrink-0 flex-col border-r border-border bg-surface md:flex"
+    class="hidden h-full w-64 shrink-0 flex-col overflow-hidden border-r border-border bg-surface md:flex"
     aria-label="Sidebar"
   >
     <div class="flex h-header items-center gap-2 border-b border-border px-5">
@@ -49,7 +49,7 @@ function isActive(path: string) {
       </div>
     </div>
 
-    <nav class="flex-1 space-y-1 overflow-y-auto p-3">
+    <nav class="flex-1 space-y-1 overflow-hidden p-3">
       <NuxtLink
         v-for="link in links"
         :key="link.to"

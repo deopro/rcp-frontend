@@ -1,15 +1,15 @@
 <template>
-  <div class="flex min-h-dvh bg-background text-foreground">
+  <div class="flex h-dvh overflow-hidden bg-background text-foreground">
     <AppDesktopSidebar />
 
-    <div class="flex min-w-0 flex-1 flex-col">
+    <div class="flex min-h-0 min-w-0 flex-1 flex-col">
       <AppHeader>
         <template #actions>
           <slot name="header-actions" />
         </template>
       </AppHeader>
 
-      <main class="flex-1 overflow-y-auto px-4 py-4 pb-safe-nav md:px-6 md:pb-6">
+      <main class="min-h-0 flex-1 overflow-y-auto px-4 py-4 pb-safe-nav md:px-6 md:pb-6">
         <slot />
       </main>
     </div>
