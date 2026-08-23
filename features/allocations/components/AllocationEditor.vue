@@ -10,6 +10,8 @@ const props = defineProps<{
   capacity: number
   allocated: number
   canEdit: boolean
+  /** When set (e.g. after drag-and-drop), open the form with this project selected. */
+  presetProjectId?: number | null
   onSave: (input: AllocationInput, documentId?: string) => Promise<void>
   onRemove?: (documentId: string) => Promise<void>
 }>()
@@ -32,12 +34,16 @@ const form = reactive({
 const saving = ref(false)
 const remaining = computed(() => Math.max(0, props.capacity - props.allocated))
 
-function openAdd() {
+function resetForm(projectId?: number | null) {
   editing.value = null
-  form.project = ''
-  form.hours = String(Math.min(8, remaining.value || 8))
+  form.project = projectId != null ? String(projectId) : ''
+  form.hours = String(Math.min(8, remaining.value || 8) || 8)
   form.notes = ''
   form.status = 'draft'
+}
+
+function openAdd() {
+  resetForm()
   panel.value = 'form'
 }
 
@@ -49,6 +55,20 @@ function openEdit(row: GridAllocation) {
   form.status = row.status
   panel.value = 'form'
 }
+
+watch(
+  () => [props.presetProjectId, props.employeeId, props.date] as const,
+  ([projectId]) => {
+    if (projectId != null && props.canEdit) {
+      resetForm(projectId)
+      panel.value = 'form'
+    } else {
+      panel.value = 'list'
+      editing.value = null
+    }
+  },
+  { immediate: true },
+)
 
 async function onSubmit() {
   if (!props.canEdit) return
@@ -79,6 +99,14 @@ async function onSubmit() {
   } finally {
     saving.value = false
   }
+}
+
+function cancelForm() {
+  if (props.presetProjectId != null) {
+    emit('cancel')
+    return
+  }
+  panel.value = 'list'
 }
 
 async function onDelete(documentId: string) {
@@ -131,7 +159,11 @@ async function onDelete(documentId: string) {
     <form v-else class="space-y-3" novalidate @submit.prevent="onSubmit">
       <div class="space-y-1.5">
         <UiFormLabel for="alloc-project" required>{{ t('allocations.fields.project') }}</UiFormLabel>
-        <UiSelect id="alloc-project" v-model="form.project" :disabled="!canEdit || Boolean(editing)">
+        <UiSelect
+          id="alloc-project"
+          v-model="form.project"
+          :disabled="!canEdit || Boolean(editing) || presetProjectId != null"
+        >
           <option value="">{{ t('org.select') }}</option>
           <option v-for="p in projects" :key="p.id" :value="String(p.id)">
             {{ p.code ? `${p.code} — ${p.name}` : p.name }}
@@ -157,7 +189,7 @@ async function onDelete(documentId: string) {
       </div>
       <div class="flex flex-wrap gap-2">
         <UiButton v-if="canEdit" type="submit" :disabled="saving">{{ t('actions.save') }}</UiButton>
-        <UiButton type="button" variant="outline" @click="panel = 'list'">{{ t('actions.cancel') }}</UiButton>
+        <UiButton type="button" variant="outline" @click="cancelForm">{{ t('actions.cancel') }}</UiButton>
         <UiButton
           v-if="editing && canEdit && onRemove"
           type="button"

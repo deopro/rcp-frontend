@@ -23,6 +23,7 @@ const { showApiError } = useApiErrorToast()
 const selectedCell = ref<{ employeeId: number; date: string } | null>(null)
 const editorOpen = ref(false)
 const dragProjectId = ref<number | null>(null)
+const presetProjectId = ref<number | null>(null)
 const mobileDay = ref<string>('')
 
 const canEdit = computed(() =>
@@ -71,14 +72,20 @@ onMounted(async () => {
 
 function openCell(employeeId: number, date: string) {
   selectedCell.value = { employeeId, date }
+  presetProjectId.value = null
   editorOpen.value = true
+}
+
+function closeEditor() {
+  editorOpen.value = false
+  presetProjectId.value = null
 }
 
 async function onSave(input: AllocationInput, documentId?: string) {
   try {
     await store.saveAllocation(input, documentId)
     toast.success({ title: documentId ? t('forms.updated') : t('forms.created') })
-    editorOpen.value = false
+    closeEditor()
   } catch (e) {
     handleCapacityError(e)
   }
@@ -88,7 +95,7 @@ async function onRemove(documentId: string) {
   try {
     await store.removeAllocation(documentId)
     toast.success({ title: t('forms.deleted') })
-    editorOpen.value = false
+    closeEditor()
   } catch (e) {
     showApiError(e)
   }
@@ -105,22 +112,12 @@ function handleCapacityError(e: unknown) {
   showApiError(e)
 }
 
-async function onDropProject(employeeId: number, date: string, projectId: number) {
+function onDropProject(employeeId: number, date: string, projectId: number) {
   if (!canEdit.value) return
-  try {
-    await store.saveAllocation({
-      employee: employeeId,
-      project: projectId,
-      allocation_date: date,
-      hours: 8,
-      status: 'draft',
-    })
-    toast.success({ title: t('forms.created') })
-  } catch (e) {
-    handleCapacityError(e)
-  } finally {
-    dragProjectId.value = null
-  }
+  selectedCell.value = { employeeId, date }
+  presetProjectId.value = projectId
+  editorOpen.value = true
+  dragProjectId.value = null
 }
 
 function onDragStart(projectId: number) {
@@ -257,7 +254,7 @@ const mobileEmployees = computed(() => store.grid?.capacity.employees || [])
       <div
         v-if="editorOpen && selectedCell && selectedEmployee && selectedDayCapacity"
         class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 md:items-center"
-        @click.self="editorOpen = false"
+        @click.self="closeEditor"
       >
         <div class="max-h-[90dvh] w-full max-w-md overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-soft">
           <AllocationEditor
@@ -269,9 +266,10 @@ const mobileEmployees = computed(() => store.grid?.capacity.employees || [])
             :capacity="selectedDayCapacity.daily_capacity"
             :allocated="selectedDayCapacity.allocated_hours"
             :can-edit="canEdit && selectedDayCapacity.is_working_day"
+            :preset-project-id="presetProjectId"
             @save="onSave"
             @remove="onRemove"
-            @cancel="editorOpen = false"
+            @cancel="closeEditor"
           />
         </div>
       </div>

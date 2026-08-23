@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { useAuthStore } from '~/features/auth/stores/auth'
+import { formatUserLabel } from '~/shared/users/format-user-label'
 
 const { t } = useI18n()
 const auth = useAuthStore()
 const toast = useToast()
+
+const displayName = computed(() =>
+  auth.user ? formatUserLabel(auth.user) : '',
+)
 
 const links = computed(() => [
   { to: '/projects', label: t('nav.projects') },
@@ -11,6 +16,8 @@ const links = computed(() => [
   { to: '/employees', label: t('nav.employees') },
   { to: '/departments', label: t('nav.departments') },
   { to: '/teams', label: t('org.teams.title') },
+  { to: '/leave', label: t('leave.title') },
+  { to: '/holidays', label: t('leave.holidays.title') },
   { to: '/settings', label: t('nav.settings') },
   { to: '/reports', label: t('nav.reports') },
   { to: '/skills', label: t('nav.skills') },
@@ -35,7 +42,7 @@ async function onLogout() {
       v-if="auth.user"
       class="rounded-lg border border-border bg-surface p-4 shadow-soft"
     >
-      <p class="text-sm font-medium">{{ auth.user.username || auth.user.email }}</p>
+      <p class="text-sm font-medium">{{ displayName }}</p>
       <p class="text-xs text-muted">{{ auth.user.email }}</p>
       <p v-if="auth.user.role" class="mt-1 text-xs text-muted">
         {{ auth.user.role.name }}

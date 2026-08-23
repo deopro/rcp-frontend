@@ -11,6 +11,8 @@ export type AuthUser = {
   id: number
   username: string
   email: string
+  first_name?: string | null
+  last_name?: string | null
   preferred_locale?: 'pt-PT' | 'en'
   status?: 'active' | 'inactive'
   role?: {
