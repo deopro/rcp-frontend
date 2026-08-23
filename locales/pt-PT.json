@@ -63,8 +63,62 @@
   "home": {
     "welcome": "Bem-vindo ao RCP",
     "subtitle": "Substitua o Excel por alocação moderna, segura e mobile-first.",
-    "foundationReady": "Dashboards prontos",
-    "nextMilestone": "Próximo: previsões (Marco 11)"
+    "foundationReady": "Previsões prontas",
+    "nextMilestone": "Próximo: recomendações IA (Marco 12)"
+  },
+  "forecast": {
+    "title": "Previsão",
+    "subtitle": "Capacidade, utilização e banco com estado sobre/sub/saudável",
+    "loading": "A carregar previsão…",
+    "empty": "Sem dados de previsão para esta janela e filtros.",
+    "today": "Repor janela",
+    "fields": {
+      "scope": "Âmbito",
+      "granularity": "Granularidade",
+      "from": "De",
+      "to": "Até"
+    },
+    "scopes": {
+      "org": "Organização",
+      "department": "Departamento",
+      "team": "Equipa",
+      "project": "Projeto"
+    },
+    "granularity": {
+      "day": "Diária",
+      "week": "Semanal",
+      "month": "Mensal"
+    },
+    "kpis": {
+      "utilization": "Utilização",
+      "bench": "Banco",
+      "remaining": "Horas restantes",
+      "overDays": "Dias sobre-alocados"
+    },
+    "health": {
+      "over": "Sobre-alocado",
+      "under": "Sub-utilizado",
+      "healthy": "Saudável"
+    },
+    "charts": {
+      "seriesTitle": "Previsão de utilização",
+      "allocated": "Alocado",
+      "utilization": "Utilização %",
+      "bench": "Horas restantes"
+    },
+    "columns": {
+      "period": "Período",
+      "utilization": "Utilização",
+      "bench": "Banco",
+      "over": "Horas a mais",
+      "health": "Estado"
+    },
+    "projectDemand": {
+      "title": "Procura do projeto",
+      "capacity": "Capacidade disponível",
+      "allocated": "Alocado",
+      "demand": "Preenchimento"
+    }
   },
   "dashboard": {
     "loading": "A carregar painel…",
@@ -130,9 +184,9 @@
       "benchPct": "% banco"
     },
     "forecast": {
-      "title": "Previsão (pré-visualização)",
-      "message": "A previsão completa chega no Marco 11. O banco atual é mostrado como linha de base.",
-      "baseline": "Linha de base"
+      "title": "Pré-visualização da previsão",
+      "open": "Abrir previsão",
+      "summary": "{utilization}% utilização · {over} dias sobre-alocados na janela"
     }
   },
   "leave": {

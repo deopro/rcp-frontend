@@ -23,6 +23,7 @@ const allLinks = computed(() => [
   { to: '/reports', label: t('nav.reports') },
   { to: '/skills', label: t('nav.skills') },
   { to: '/bench', label: t('nav.bench') },
+  { to: '/forecast', label: t('nav.forecast') },
   { to: '/approvals', label: t('nav.approvals') },
 ])
 

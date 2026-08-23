@@ -1,3 +1,5 @@
+import type { ForecastResult } from '~/features/forecast/types'
+
 export type BenchSkill = {
   id: number
   name: string
@@ -34,18 +36,4 @@ export type BenchResult = {
   employees: BenchEmployee[]
 }
 
-export type ForecastStub = {
-  status: 'stub'
-  milestone: number
-  message: string
-  scope: string
-  from: string
-  to: string
-  baseline: {
-    remaining_hours: number
-    utilization_pct: number
-    bench_pct: number
-    employees: number
-  }
-  series: { date: string; remaining_hours: number; utilization_pct: number }[]
-}
+export type { ForecastResult }

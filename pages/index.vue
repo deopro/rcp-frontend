@@ -148,6 +148,13 @@ async function refresh() {
           <p class="mt-1 text-sm text-muted">{{ t('bench.subtitle') }}</p>
         </NuxtLink>
         <NuxtLink
+          to="/forecast"
+          class="rounded-lg border border-border bg-surface p-4 shadow-soft transition-colors hover:border-accent"
+        >
+          <h3 class="text-sm font-semibold">{{ t('nav.forecast') }}</h3>
+          <p class="mt-1 text-sm text-muted">{{ t('forecast.subtitle') }}</p>
+        </NuxtLink>
+        <NuxtLink
           to="/approvals"
           class="rounded-lg border border-border bg-surface p-4 shadow-soft transition-colors hover:border-accent"
         >

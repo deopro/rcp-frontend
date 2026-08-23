@@ -63,8 +63,62 @@
   "home": {
     "welcome": "Welcome to RCP",
     "subtitle": "Replace Excel with modern, secure, mobile-first allocation.",
-    "foundationReady": "Dashboards ready",
-    "nextMilestone": "Next: forecasting (Milestone 11)"
+    "foundationReady": "Forecasting ready",
+    "nextMilestone": "Next: AI recommendations (Milestone 12)"
+  },
+  "forecast": {
+    "title": "Forecast",
+    "subtitle": "Capacity, utilization, and bench outlook with over/under/healthy status",
+    "loading": "Loading forecast…",
+    "empty": "No forecast data for this window and filters.",
+    "today": "Reset window",
+    "fields": {
+      "scope": "Scope",
+      "granularity": "Granularity",
+      "from": "From",
+      "to": "To"
+    },
+    "scopes": {
+      "org": "Organization",
+      "department": "Department",
+      "team": "Team",
+      "project": "Project"
+    },
+    "granularity": {
+      "day": "Daily",
+      "week": "Weekly",
+      "month": "Monthly"
+    },
+    "kpis": {
+      "utilization": "Utilization",
+      "bench": "Bench",
+      "remaining": "Remaining hours",
+      "overDays": "Over-allocation days"
+    },
+    "health": {
+      "over": "Over-allocated",
+      "under": "Under-utilized",
+      "healthy": "Healthy"
+    },
+    "charts": {
+      "seriesTitle": "Utilization forecast",
+      "allocated": "Allocated",
+      "utilization": "Utilization %",
+      "bench": "Remaining hours"
+    },
+    "columns": {
+      "period": "Period",
+      "utilization": "Utilization",
+      "bench": "Bench",
+      "over": "Over hours",
+      "health": "Status"
+    },
+    "projectDemand": {
+      "title": "Project demand",
+      "capacity": "Available capacity",
+      "allocated": "Allocated",
+      "demand": "Demand fill"
+    }
   },
   "dashboard": {
     "loading": "Loading dashboard…",
@@ -130,9 +184,9 @@
       "benchPct": "Bench %"
     },
     "forecast": {
-      "title": "Forecast (preview)",
-      "message": "Full forecasting arrives in Milestone 11. Current bench is shown as the baseline.",
-      "baseline": "Baseline"
+      "title": "Forecast preview",
+      "open": "Open forecast",
+      "summary": "{utilization}% utilization · {over} over-allocation days in window"
     }
   },
   "leave": {

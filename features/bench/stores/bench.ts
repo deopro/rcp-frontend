@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { useBenchApi } from '../api'
-import type { BenchResult, ForecastStub } from '../types'
-
+import type { BenchResult, ForecastResult } from '../types'
 function mondayOfWeek(d: Date): Date {
   const day = d.getDay()
   const diff = day === 0 ? -6 : 1 - day
@@ -26,7 +25,7 @@ function toIso(d: Date): string {
 
 export const useBenchStore = defineStore('bench', () => {
   const data = ref<BenchResult | null>(null)
-  const forecast = ref<ForecastStub | null>(null)
+  const forecast = ref<ForecastResult | null>(null)
   const loading = ref(false)
   const weekStart = ref(mondayOfWeek(new Date()))
   const teamId = ref<number | undefined>(undefined)
@@ -49,7 +48,7 @@ export const useBenchStore = defineStore('bench', () => {
           teamId: teamId.value,
           skillIds: skillIds.value,
         }),
-        api().loadForecastStub({
+        api().loadForecast({
           from: from.value,
           to: to.value,
           teamId: teamId.value,
