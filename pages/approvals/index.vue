@@ -41,6 +41,16 @@ const filtered = computed(() => {
   return store.approvals.filter((a) => a.status === statusFilter.value)
 })
 
+const {
+  page,
+  pageSize,
+  pageCount,
+  total,
+  pageItems,
+  from,
+  to,
+} = useClientPagination(filtered)
+
 onMounted(async () => {
   try {
     await Promise.all([store.loadApprovals(), org.loadTeams()])
@@ -188,7 +198,7 @@ function periodLabel(row: Approval) {
           </tr>
         </thead>
         <tbody class="divide-y divide-border">
-          <tr v-for="row in filtered" :key="row.documentId">
+          <tr v-for="row in pageItems" :key="row.documentId">
             <td class="px-4 py-3 font-medium">{{ row.team?.name || t('org.none') }}</td>
             <td class="px-4 py-3 font-mono text-xs">{{ periodLabel(row) }}</td>
             <td class="px-4 py-3">
@@ -221,7 +231,7 @@ function periodLabel(row: Approval) {
 
     <ul class="space-y-3 md:hidden">
       <li
-        v-for="row in filtered"
+        v-for="row in pageItems"
         :key="row.documentId"
         class="rounded-lg border border-border bg-surface p-4 shadow-soft"
       >
@@ -250,6 +260,15 @@ function periodLabel(row: Approval) {
         </div>
       </li>
     </ul>
+
+    <UiPagination
+      v-model:page="page"
+      v-model:page-size="pageSize"
+      :page-count="pageCount"
+      :total="total"
+      :from="from"
+      :to="to"
+    />
 
     <Teleport to="body">
       <div

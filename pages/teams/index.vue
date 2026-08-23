@@ -29,6 +29,16 @@ function leaderLabel(team: Team) {
   return userLabelFromOptions(team.team_leader, org.userOptions, t('org.none'))
 }
 
+const {
+  page,
+  pageSize,
+  pageCount,
+  total,
+  pageItems,
+  from,
+  to,
+} = useClientPagination(() => org.teams)
+
 onMounted(async () => {
   try {
     await Promise.all([
@@ -113,7 +123,7 @@ async function onRemove(documentId: string) {
         </thead>
         <tbody class="divide-y divide-border">
           <tr
-            v-for="row in org.teams"
+            v-for="row in pageItems"
             :key="row.documentId"
             class="hover:bg-hover"
           >
@@ -133,7 +143,7 @@ async function onRemove(documentId: string) {
 
     <ul class="space-y-3 md:hidden">
       <li
-        v-for="row in org.teams"
+        v-for="row in pageItems"
         :key="row.documentId"
         class="rounded-lg border border-border bg-surface p-4 shadow-soft"
       >
@@ -153,6 +163,15 @@ async function onRemove(documentId: string) {
         </UiButton>
       </li>
     </ul>
+
+    <UiPagination
+      v-model:page="page"
+      v-model:page-size="pageSize"
+      :page-count="pageCount"
+      :total="total"
+      :from="from"
+      :to="to"
+    />
 
     <Teleport to="body">
       <div

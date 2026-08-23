@@ -18,6 +18,16 @@ const selected = ref<Holiday | null>(null)
 const canWrite = computed(() => auth.hasRole('administrator'))
 const canDelete = computed(() => auth.hasRole('administrator'))
 
+const {
+  page,
+  pageSize,
+  pageCount,
+  total,
+  pageItems,
+  from,
+  to,
+} = useClientPagination(() => store.holidays)
+
 onMounted(async () => {
   try {
     await store.loadHolidays()
@@ -100,7 +110,7 @@ async function onRemove(documentId: string) {
           </tr>
         </thead>
         <tbody class="divide-y divide-border">
-          <tr v-for="row in store.holidays" :key="row.documentId">
+          <tr v-for="row in pageItems" :key="row.documentId">
             <td class="px-4 py-3 font-mono text-xs">{{ row.date }}</td>
             <td class="px-4 py-3 font-medium">{{ row.name }}</td>
             <td class="px-4 py-3">{{ row.country }}</td>
@@ -117,7 +127,7 @@ async function onRemove(documentId: string) {
 
     <ul class="space-y-3 md:hidden">
       <li
-        v-for="row in store.holidays"
+        v-for="row in pageItems"
         :key="row.documentId"
         class="rounded-lg border border-border bg-surface p-4 shadow-soft"
       >
@@ -128,6 +138,15 @@ async function onRemove(documentId: string) {
         </UiButton>
       </li>
     </ul>
+
+    <UiPagination
+      v-model:page="page"
+      v-model:page-size="pageSize"
+      :page-count="pageCount"
+      :total="total"
+      :from="from"
+      :to="to"
+    />
 
     <Teleport to="body">
       <div

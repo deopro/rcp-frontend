@@ -562,5 +562,15 @@
   },
   "empty": {
     "generic": "Nothing to show yet."
+  },
+  "pagination": {
+    "label": "Pagination",
+    "showing": "Showing {from}–{to} of {total}",
+    "perPage": "Per page",
+    "page": "Page {page}",
+    "first": "First page",
+    "prev": "Previous page",
+    "next": "Next page",
+    "last": "Last page"
   }
 }

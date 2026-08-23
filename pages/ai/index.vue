@@ -101,6 +101,17 @@ function scoreClass(score: number) {
   if (score >= 50) return 'text-amber-700 dark:text-amber-300'
   return 'text-muted'
 }
+
+const matches = computed(() => store.result?.matches ?? [])
+const {
+  page,
+  pageSize,
+  pageCount,
+  total,
+  pageItems,
+  from,
+  to,
+} = useClientPagination(matches)
 </script>
 
 <template>
@@ -208,7 +219,7 @@ function scoreClass(score: number) {
 
       <ul v-else class="space-y-3">
         <li
-          v-for="match in store.result.matches"
+          v-for="match in pageItems"
           :key="match.employee_id"
           class="rounded-lg border border-border bg-surface p-4 shadow-soft"
         >
@@ -243,6 +254,15 @@ function scoreClass(score: number) {
           </UiButton>
         </li>
       </ul>
+
+      <UiPagination
+        v-model:page="page"
+        v-model:page-size="pageSize"
+        :page-count="pageCount"
+        :total="total"
+        :from="from"
+        :to="to"
+      />
     </template>
 
     <Teleport to="body">

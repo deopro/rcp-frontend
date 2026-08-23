@@ -562,5 +562,15 @@
   },
   "empty": {
     "generic": "Ainda não há dados para mostrar."
+  },
+  "pagination": {
+    "label": "Paginação",
+    "showing": "A mostrar {from}–{to} de {total}",
+    "perPage": "Por página",
+    "page": "Página {page}",
+    "first": "Primeira página",
+    "prev": "Página anterior",
+    "next": "Página seguinte",
+    "last": "Última página"
   }
 }

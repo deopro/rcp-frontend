@@ -45,6 +45,36 @@ const lockedEmployeeId = computed(() => {
   return org.employees[0]?.id
 })
 
+const {
+  page: matrixPage,
+  pageSize: matrixPageSize,
+  pageCount: matrixPageCount,
+  total: matrixTotal,
+  pageItems: matrixPageItems,
+  from: matrixFrom,
+  to: matrixTo,
+} = useClientPagination(() => store.filteredMatrix)
+
+const {
+  page: categoryPage,
+  pageSize: categoryPageSize,
+  pageCount: categoryPageCount,
+  total: categoryTotal,
+  pageItems: categoryPageItems,
+  from: categoryFrom,
+  to: categoryTo,
+} = useClientPagination(() => store.categories)
+
+const {
+  page: skillPage,
+  pageSize: skillPageSize,
+  pageCount: skillPageCount,
+  total: skillTotal,
+  pageItems: skillPageItems,
+  from: skillFrom,
+  to: skillTo,
+} = useClientPagination(() => store.skills)
+
 onMounted(async () => {
   try {
     await Promise.all([store.loadAll(), org.loadEmployees()])
@@ -255,7 +285,7 @@ const panelTitle = computed(() => {
         </thead>
         <tbody class="divide-y divide-border">
           <tr
-            v-for="row in store.filteredMatrix"
+            v-for="row in matrixPageItems"
             :key="row.documentId"
             class="hover:bg-hover"
           >
@@ -281,9 +311,9 @@ const panelTitle = computed(() => {
     </div>
 
     <!-- Mobile cards -->
-    <ul class="space-y-3 md:hidden">
+    <ul v-if="store.filteredMatrix.length" class="space-y-3 md:hidden">
       <li
-        v-for="row in store.filteredMatrix"
+        v-for="row in matrixPageItems"
         :key="row.documentId"
         class="rounded-lg border border-border bg-surface p-4 shadow-soft"
       >
@@ -307,6 +337,15 @@ const panelTitle = computed(() => {
       </li>
     </ul>
 
+    <UiPagination
+      v-model:page="matrixPage"
+      v-model:page-size="matrixPageSize"
+      :page-count="matrixPageCount"
+      :total="matrixTotal"
+      :from="matrixFrom"
+      :to="matrixTo"
+    />
+
     <!-- Catalog quick lists (admin) -->
     <section v-if="canWriteCatalog" class="grid gap-4 lg:grid-cols-2">
       <div class="rounded-lg border border-border bg-surface p-4">
@@ -316,7 +355,7 @@ const panelTitle = computed(() => {
         </div>
         <ul class="divide-y divide-border text-sm">
           <li
-            v-for="cat in store.categories"
+            v-for="cat in categoryPageItems"
             :key="cat.documentId"
             class="flex items-center justify-between py-2"
           >
@@ -326,6 +365,15 @@ const panelTitle = computed(() => {
             </UiButton>
           </li>
         </ul>
+        <UiPagination
+          class="mt-3"
+          v-model:page="categoryPage"
+          v-model:page-size="categoryPageSize"
+          :page-count="categoryPageCount"
+          :total="categoryTotal"
+          :from="categoryFrom"
+          :to="categoryTo"
+        />
       </div>
       <div class="rounded-lg border border-border bg-surface p-4">
         <div class="mb-3 flex items-center justify-between">
@@ -334,7 +382,7 @@ const panelTitle = computed(() => {
         </div>
         <ul class="divide-y divide-border text-sm">
           <li
-            v-for="skill in store.skills"
+            v-for="skill in skillPageItems"
             :key="skill.documentId"
             class="flex items-center justify-between py-2"
           >
@@ -347,6 +395,15 @@ const panelTitle = computed(() => {
             </UiButton>
           </li>
         </ul>
+        <UiPagination
+          class="mt-3"
+          v-model:page="skillPage"
+          v-model:page-size="skillPageSize"
+          :page-count="skillPageCount"
+          :total="skillTotal"
+          :from="skillFrom"
+          :to="skillTo"
+        />
       </div>
     </section>
 
