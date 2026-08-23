@@ -125,7 +125,7 @@
     "remaining": "Remaining",
     "cellEmpty": "No allocations for this day.",
     "addLine": "Add allocation",
-    "dragHint": "Drag a project onto a cell to quick-add 8h (desktop)",
+    "dragHint": "Drag a project onto a cell, then set the hours",
     "copyYesterday": "Copy yesterday",
     "copyWeek": "Copy previous week",
     "copyDone": "Copy complete",
