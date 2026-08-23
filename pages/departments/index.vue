@@ -4,6 +4,7 @@ import DepartmentForm from '~/features/organization/components/DepartmentForm.vu
 import StatusBadge from '~/features/organization/components/StatusBadge.vue'
 import { useOrganizationStore } from '~/features/organization/stores/organization'
 import type { Department, DepartmentInput } from '~/features/organization/types'
+import { userLabelFromOptions } from '~/shared/users/user-label-from-options'
 
 definePageMeta({
   middleware: ['role'],
@@ -22,9 +23,13 @@ const selected = ref<Department | null>(null)
 const canWrite = computed(() => auth.hasRole('administrator'))
 const canDelete = computed(() => auth.hasRole('administrator'))
 
+function managerLabel(department: Department) {
+  return userLabelFromOptions(department.manager, org.userOptions, t('org.none'))
+}
+
 onMounted(async () => {
   try {
-    await Promise.all([org.loadDepartments(), canWrite.value ? org.loadUserOptions() : Promise.resolve()])
+    await Promise.all([org.loadDepartments(), org.loadUserOptions()])
   } catch (e) {
     showApiError(e)
   }
@@ -105,7 +110,7 @@ async function onRemove(documentId: string) {
             class="hover:bg-slate-50 dark:hover:bg-slate-800/50"
           >
             <td class="px-4 py-3 font-medium">{{ row.name }}</td>
-            <td class="px-4 py-3 text-muted">{{ row.manager?.email || t('org.none') }}</td>
+            <td class="px-4 py-3 text-muted">{{ managerLabel(row) }}</td>
             <td class="px-4 py-3"><StatusBadge :status="row.status" /></td>
             <td class="px-4 py-3 text-right">
               <UiButton size="sm" variant="ghost" @click="openEdit(row)">
@@ -127,7 +132,7 @@ async function onRemove(documentId: string) {
         <div class="flex items-start justify-between gap-2">
           <div>
             <p class="font-medium">{{ row.name }}</p>
-            <p class="mt-1 text-xs text-muted">{{ row.manager?.email || t('org.none') }}</p>
+            <p class="mt-1 text-xs text-muted">{{ managerLabel(row) }}</p>
           </div>
           <StatusBadge :status="row.status" />
         </div>

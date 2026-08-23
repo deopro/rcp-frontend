@@ -23,7 +23,8 @@ export function useApprovalsApi() {
         `/api/approvals${qs({
           'pagination[page]': page,
           'pagination[pageSize]': pageSize,
-          'populate[team]': 'true',
+          'populate[team][fields][0]': 'name',
+          'populate[team][fields][1]': 'id',
           'populate[submitted_by]': 'true',
           'populate[approved_by]': 'true',
           'populate[locked_by]': 'true',

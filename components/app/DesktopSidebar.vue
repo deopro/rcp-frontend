@@ -8,6 +8,7 @@ import {
   Contact2,
   LayoutDashboard,
   LogOut,
+  Palmtree,
   Settings,
   Sparkles,
   UserRound,
@@ -16,6 +17,7 @@ import {
 } from 'lucide-vue-next'
 import { useAuthStore } from '~/features/auth/stores/auth'
 import { formatUserLabel } from '~/shared/users/format-user-label'
+import { filterNavLinks } from '~/shared/navigation/nav-access'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -26,9 +28,10 @@ const displayName = computed(() =>
   auth.user ? formatUserLabel(auth.user) : '',
 )
 
-const links = computed(() => [
+const allLinks = computed(() => [
   { to: '/', label: t('nav.dashboard'), icon: LayoutDashboard },
   { to: '/allocations', label: t('nav.allocations'), icon: CalendarDays },
+  { to: '/leave', label: t('leave.title'), icon: Palmtree },
   { to: '/bench', label: t('nav.bench'), icon: UsersRound },
   { to: '/approvals', label: t('nav.approvals'), icon: ClipboardCheck },
   { to: '/projects', label: t('nav.projects'), icon: Briefcase },
@@ -40,6 +43,8 @@ const links = computed(() => [
   { to: '/reports', label: t('nav.reports'), icon: BarChart3 },
   { to: '/settings', label: t('nav.settings'), icon: Settings },
 ])
+
+const links = computed(() => filterNavLinks(allLinks.value, auth.roleType))
 
 function isActive(path: string) {
   if (path === '/') return route.path === '/'

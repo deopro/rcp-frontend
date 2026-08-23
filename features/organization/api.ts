@@ -32,7 +32,6 @@ export function useOrganizationApi() {
         `/api/departments${qs({
           'pagination[page]': page,
           'pagination[pageSize]': pageSize,
-          'populate[manager]': 'true',
           sort: 'name:asc',
         })}`,
       )
@@ -40,7 +39,7 @@ export function useOrganizationApi() {
 
     getDepartment(documentId: string) {
       return api.get<OneResponse<Department>>(
-        `/api/departments/${documentId}${qs({ 'populate[manager]': 'true' })}`,
+        `/api/departments/${documentId}${qs({})}`,
       )
     },
 
@@ -74,7 +73,6 @@ export function useOrganizationApi() {
           'pagination[page]': page,
           'pagination[pageSize]': pageSize,
           'populate[department]': 'true',
-          'populate[team_leader]': 'true',
           sort: 'name:asc',
         })}`,
       )
@@ -84,7 +82,6 @@ export function useOrganizationApi() {
       return api.get<OneResponse<Team>>(
         `/api/teams/${documentId}${qs({
           'populate[department]': 'true',
-          'populate[team_leader]': 'true',
           'populate[employees]': 'true',
         })}`,
       )
@@ -121,7 +118,8 @@ export function useOrganizationApi() {
         `/api/employees${qs({
           'pagination[page]': page,
           'pagination[pageSize]': pageSize,
-          'populate[team]': 'true',
+          'populate[team][fields][0]': 'name',
+          'populate[team][fields][1]': 'id',
           sort: 'full_name:asc',
         })}`,
       )
@@ -130,7 +128,8 @@ export function useOrganizationApi() {
     getEmployee(documentId: string) {
       return api.get<OneResponse<Employee>>(
         `/api/employees/${documentId}${qs({
-          'populate[team]': 'true',
+          'populate[team][fields][0]': 'name',
+          'populate[team][fields][1]': 'id',
         })}`,
       )
     },

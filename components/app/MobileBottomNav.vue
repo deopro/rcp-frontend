@@ -4,19 +4,26 @@ import {
   CalendarDays,
   Home,
   MoreHorizontal,
-  Users,
+  Palmtree,
+  Sparkles,
 } from 'lucide-vue-next'
+import { useAuthStore } from '~/features/auth/stores/auth'
+import { filterNavLinks } from '~/shared/navigation/nav-access'
 
 const { t } = useI18n()
 const route = useRoute()
+const auth = useAuthStore()
 
-const items = computed(() => [
+const allItems = computed(() => [
   { to: '/', label: t('nav.home'), icon: Home, match: /^\/$/ },
   { to: '/allocations', label: t('nav.allocations'), icon: CalendarDays, match: /^\/allocations/ },
+  { to: '/leave', label: t('leave.title'), icon: Palmtree, match: /^\/leave/ },
   { to: '/projects', label: t('nav.projects'), icon: Briefcase, match: /^\/projects/ },
-  { to: '/team', label: t('nav.team'), icon: Users, match: /^\/team/ },
+  { to: '/skills', label: t('nav.skills'), icon: Sparkles, match: /^\/skills/ },
   { to: '/more', label: t('nav.more'), icon: MoreHorizontal, match: /^\/more/ },
 ])
+
+const items = computed(() => filterNavLinks(allItems.value, auth.roleType))
 
 function isActive(match: RegExp) {
   return match.test(route.path)
@@ -29,8 +36,8 @@ function isActive(match: RegExp) {
     style="padding-bottom: var(--rcp-safe-bottom)"
     :aria-label="t('nav.home')"
   >
-    <ul class="mx-auto grid h-nav max-w-lg grid-cols-5">
-      <li v-for="item in items" :key="item.to" class="flex">
+    <ul class="mx-auto flex h-nav max-w-lg">
+      <li v-for="item in items" :key="item.to" class="flex min-w-0 flex-1">
         <NuxtLink
           :to="item.to"
           class="touch-target flex flex-1 flex-col items-center justify-center gap-0.5 text-[11px] font-medium transition-colors"

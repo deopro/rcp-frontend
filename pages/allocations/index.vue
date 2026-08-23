@@ -27,7 +27,7 @@ const presetProjectId = ref<number | null>(null)
 const mobileDay = ref<string>('')
 
 const canEdit = computed(() =>
-  auth.hasRole('administrator', 'department_manager', 'team_leader'),
+  auth.hasRole('administrator', 'department_manager', 'team_leader', 'employee'),
 )
 
 const activeProjects = computed(() =>

@@ -24,6 +24,9 @@ defineProps<{
       <slot name="actions" />
       <ClientOnly>
         <AppUserMenu />
+        <template #fallback>
+          <span aria-hidden="true" class="hidden" />
+        </template>
       </ClientOnly>
       <AppThemeToggle />
       <AppLanguageSwitcher />

@@ -4,6 +4,7 @@ import StatusBadge from '~/features/organization/components/StatusBadge.vue'
 import TeamForm from '~/features/organization/components/TeamForm.vue'
 import { useOrganizationStore } from '~/features/organization/stores/organization'
 import type { Team, TeamInput } from '~/features/organization/types'
+import { userLabelFromOptions } from '~/shared/users/user-label-from-options'
 
 definePageMeta({
   middleware: ['role'],
@@ -26,12 +27,16 @@ const canAssign = computed(() =>
   auth.hasRole('administrator', 'department_manager', 'team_leader', 'executive'),
 )
 
+function leaderLabel(team: Team) {
+  return userLabelFromOptions(team.team_leader, org.userOptions, t('org.none'))
+}
+
 onMounted(async () => {
   try {
     await Promise.all([
       org.loadTeams(),
       org.loadDepartments(),
-      canAssign.value ? org.loadUserOptions() : Promise.resolve(),
+      org.loadUserOptions(),
     ])
   } catch (e) {
     showApiError(e)
@@ -116,7 +121,7 @@ async function onRemove(documentId: string) {
           >
             <td class="px-4 py-3 font-medium">{{ row.name }}</td>
             <td class="px-4 py-3 text-muted">{{ row.department?.name || t('org.none') }}</td>
-            <td class="px-4 py-3 text-muted">{{ row.team_leader?.email || t('org.none') }}</td>
+            <td class="px-4 py-3 text-muted">{{ leaderLabel(row) }}</td>
             <td class="px-4 py-3"><StatusBadge :status="row.status" /></td>
             <td class="px-4 py-3 text-right">
               <UiButton size="sm" variant="ghost" @click="openEdit(row)">
@@ -140,7 +145,7 @@ async function onRemove(documentId: string) {
             <p class="mt-1 text-xs text-muted">
               {{ row.department?.name || t('org.none') }}
               ·
-              {{ row.team_leader?.email || t('org.none') }}
+              {{ leaderLabel(row) }}
             </p>
           </div>
           <StatusBadge :status="row.status" />

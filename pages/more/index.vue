@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { formatUserLabel } from '~/shared/users/format-user-label'
 import { useAuthStore } from '~/features/auth/stores/auth'
+import { filterNavLinks } from '~/shared/navigation/nav-access'
 
 const { t } = useI18n()
 const auth = useAuthStore()
@@ -10,7 +11,7 @@ const displayName = computed(() =>
   auth.user ? formatUserLabel(auth.user) : '',
 )
 
-const links = computed(() => [
+const allLinks = computed(() => [
   { to: '/projects', label: t('nav.projects') },
   { to: '/clients', label: t('nav.clients') },
   { to: '/employees', label: t('nav.employees') },
@@ -24,6 +25,8 @@ const links = computed(() => [
   { to: '/bench', label: t('nav.bench') },
   { to: '/approvals', label: t('nav.approvals') },
 ])
+
+const links = computed(() => filterNavLinks(allLinks.value, auth.roleType))
 
 async function onLogout() {
   await logout()

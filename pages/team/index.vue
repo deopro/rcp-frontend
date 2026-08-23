@@ -1,12 +1,23 @@
 <script setup lang="ts">
 /** Team hub — links to teams & employees (mobile-friendly). */
-const { t } = useI18n()
+import { filterNavLinks } from '~/shared/navigation/nav-access'
+import { useAuthStore } from '~/features/auth/stores/auth'
 
-const links = computed(() => [
+definePageMeta({
+  middleware: ['role'],
+  roles: ['administrator', 'executive', 'department_manager', 'team_leader'],
+})
+
+const { t } = useI18n()
+const auth = useAuthStore()
+
+const allLinks = computed(() => [
   { to: '/teams', label: t('org.teams.title'), hint: t('org.teams.subtitle') },
   { to: '/employees', label: t('org.employees.title'), hint: t('org.employees.subtitle') },
   { to: '/departments', label: t('org.departments.title'), hint: t('org.departments.subtitle') },
 ])
+
+const links = computed(() => filterNavLinks(allLinks.value, auth.roleType))
 </script>
 
 <template>

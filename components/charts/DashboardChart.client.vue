@@ -11,7 +11,9 @@ const colorMode = useColorMode()
 let chart: import('echarts/core').ECharts | null = null
 
 async function render() {
-  if (!import.meta.client || !el.value) return
+  if (!import.meta.client) return
+  await nextTick()
+  if (!el.value || el.value.clientWidth === 0) return
 
   const echarts = await import('echarts/core')
   const { BarChart, LineChart, PieChart } = await import('echarts/charts')
@@ -40,7 +42,8 @@ watch(
   { deep: true },
 )
 
-onMounted(() => {
+onMounted(async () => {
+  await nextTick()
   render()
   window.addEventListener('resize', onResize)
 })

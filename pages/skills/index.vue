@@ -32,10 +32,18 @@ const selectedSkill = ref<Skill | null>(null)
 const selectedRecord = ref<EmployeeSkill | null>(null)
 
 const canWriteMatrix = computed(() =>
-  auth.hasRole('administrator', 'department_manager', 'team_leader'),
+  auth.hasRole('administrator', 'department_manager', 'team_leader', 'employee'),
 )
 const canWriteCatalog = computed(() => auth.hasRole('administrator'))
 const canDelete = computed(() => auth.hasRole('administrator'))
+const canDeleteMatrix = computed(() =>
+  auth.hasRole('administrator', 'department_manager', 'team_leader', 'employee'),
+)
+
+const lockedEmployeeId = computed(() => {
+  if (!auth.hasRole('employee')) return undefined
+  return org.employees[0]?.id
+})
 
 onMounted(async () => {
   try {
@@ -356,7 +364,8 @@ const panelTitle = computed(() => {
             :employees="org.employees"
             :skills="store.skills"
             :can-edit="canWriteMatrix"
-            :can-delete="canDelete"
+            :can-delete="canDeleteMatrix"
+            :locked-employee-id="lockedEmployeeId"
             @save="onSaveMatrix"
             @remove="onRemoveMatrix"
             @cancel="closePanel"
