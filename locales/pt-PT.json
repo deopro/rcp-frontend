@@ -150,6 +150,7 @@
       "employee": "Colaborador",
       "startDate": "Data de início",
       "endDate": "Data de fim",
+      "days": "Dias",
       "type": "Tipo",
       "status": "Estado",
       "notes": "Notas"

@@ -4,6 +4,7 @@ import { useOrganizationStore } from '~/features/organization/stores/organizatio
 import LeaveForm from '~/features/leave/components/LeaveForm.vue'
 import { useLeaveStore } from '~/features/leave/stores/leave'
 import type { Leave, LeaveInput, LeaveType } from '~/features/leave/types'
+import { formatUserLabel } from '~/shared/users/format-user-label'
 
 definePageMeta({ middleware: ['role'] })
 
@@ -127,6 +128,30 @@ function statusClass(status: string) {
   if (status === 'rejected') return 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-200'
   return 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200'
 }
+
+function formatLeaveDate(iso: string | null | undefined): string {
+  if (!iso) return '—'
+  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso)
+  if (!match) return iso
+  return `${match[3]}-${match[2]}-${match[1]}`
+}
+
+function leaveDays(start: string, end: string): number {
+  const startMs = Date.parse(`${start}T12:00:00`)
+  const endMs = Date.parse(`${end}T12:00:00`)
+  if (!Number.isFinite(startMs) || !Number.isFinite(endMs) || endMs < startMs) return 0
+  return Math.floor((endMs - startMs) / 86_400_000) + 1
+}
+
+function leavePersonName(row: Leave): string {
+  if (!canPickEmployee.value && auth.user) {
+    const name = [auth.user.first_name, auth.user.last_name].filter(Boolean).join(' ').trim()
+    if (name) return name
+  }
+  if (row.employee?.full_name) return row.employee.full_name
+  if (auth.user) return formatUserLabel(auth.user)
+  return t('org.none')
+}
 </script>
 
 <template>
@@ -169,20 +194,22 @@ function statusClass(status: string) {
       <table class="w-full text-left text-sm">
         <thead class="border-b border-border bg-slate-50 text-muted dark:bg-slate-900/50">
           <tr>
-            <th v-if="canPickEmployee" class="px-4 py-3 font-medium">{{ t('leave.fields.employee') }}</th>
+            <th class="px-4 py-3 font-medium">{{ t('leave.fields.employee') }}</th>
             <th v-if="canPickEmployee" class="px-4 py-3 font-medium">{{ t('leave.fields.type') }}</th>
             <th class="px-4 py-3 font-medium">{{ t('leave.fields.startDate') }}</th>
             <th class="px-4 py-3 font-medium">{{ t('leave.fields.endDate') }}</th>
+            <th class="px-4 py-3 font-medium">{{ t('leave.fields.days') }}</th>
             <th v-if="canPickEmployee" class="px-4 py-3 font-medium">{{ t('leave.fields.status') }}</th>
             <th class="px-4 py-3" />
           </tr>
         </thead>
         <tbody class="divide-y divide-border">
           <tr v-for="row in filtered" :key="row.documentId">
-            <td v-if="canPickEmployee" class="px-4 py-3 font-medium">{{ row.employee?.full_name || t('org.none') }}</td>
+            <td class="px-4 py-3 font-medium">{{ leavePersonName(row) }}</td>
             <td v-if="canPickEmployee" class="px-4 py-3">{{ t(`leave.types.${row.leave_type}`) }}</td>
-            <td class="px-4 py-3 font-mono text-xs">{{ row.start_date }}</td>
-            <td class="px-4 py-3 font-mono text-xs">{{ row.end_date }}</td>
+            <td class="px-4 py-3 font-mono text-xs">{{ formatLeaveDate(row.start_date) }}</td>
+            <td class="px-4 py-3 font-mono text-xs">{{ formatLeaveDate(row.end_date) }}</td>
+            <td class="px-4 py-3">{{ leaveDays(row.start_date, row.end_date) }}</td>
             <td v-if="canPickEmployee" class="px-4 py-3">
               <span class="inline-flex rounded-md px-2 py-0.5 text-xs font-medium" :class="statusClass(row.status)">
                 {{ t(`leave.status.${row.status}`) }}
@@ -224,14 +251,13 @@ function statusClass(status: string) {
       >
         <div class="flex items-start justify-between gap-2">
           <div>
-            <p v-if="canPickEmployee" class="font-medium">{{ row.employee?.full_name }}</p>
-            <p :class="canPickEmployee ? 'mt-1 text-xs text-muted' : 'font-medium'">
+            <p class="font-medium">{{ leavePersonName(row) }}</p>
+            <p class="mt-1 text-xs text-muted">
               <template v-if="canPickEmployee">
-                {{ t(`leave.types.${row.leave_type}`) }} · {{ row.start_date }} → {{ row.end_date }}
+                {{ t(`leave.types.${row.leave_type}`) }} ·
               </template>
-              <template v-else>
-                {{ row.start_date }} → {{ row.end_date }}
-              </template>
+              {{ formatLeaveDate(row.start_date) }} → {{ formatLeaveDate(row.end_date) }}
+              · {{ leaveDays(row.start_date, row.end_date) }} {{ t('leave.fields.days').toLowerCase() }}
             </p>
           </div>
           <span

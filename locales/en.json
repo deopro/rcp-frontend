@@ -150,6 +150,7 @@
       "employee": "Employee",
       "startDate": "Start date",
       "endDate": "End date",
+      "days": "Days",
       "type": "Type",
       "status": "Status",
       "notes": "Notes"
