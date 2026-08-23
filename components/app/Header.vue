@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Settings } from 'lucide-vue-next'
+
 const { t } = useI18n()
 
 defineProps<{
@@ -17,14 +19,23 @@ defineProps<{
       <div class="min-w-0">
         <h1 class="truncate text-base font-semibold tracking-tight md:text-lg">
           {{ title || t('app.name') }}
+          <span class="ml-2 font-normal text-muted">{{ t('app.tagline') }}</span>
         </h1>
       </div>
     </div>
-    <div class="flex items-center gap-2">
+    <div class="flex shrink-0 items-center gap-2">
       <slot name="actions" />
-      <AppUserMenu />
+      <NuxtLink
+        to="/settings"
+        class="touch-target inline-flex items-center justify-center rounded-lg border border-border bg-input text-foreground shadow-soft transition-colors hover:bg-hover"
+        :aria-label="t('nav.settings')"
+        :title="t('nav.settings')"
+      >
+        <Settings class="h-4 w-4" aria-hidden="true" />
+      </NuxtLink>
       <AppThemeToggle />
       <AppLanguageSwitcher />
+      <AppUserMenu />
     </div>
   </header>
 </template>
