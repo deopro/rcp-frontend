@@ -12,6 +12,7 @@ import {
   Settings,
   Sparkles,
   UserRound,
+  TrendingUp,
   Users,
   UsersRound,
 } from 'lucide-vue-next'
@@ -33,6 +34,7 @@ const allLinks = computed(() => [
   { to: '/allocations', label: t('nav.allocations'), icon: CalendarDays },
   { to: '/leave', label: t('leave.title'), icon: Palmtree },
   { to: '/bench', label: t('nav.bench'), icon: UsersRound },
+  { to: '/forecast', label: t('nav.forecast'), icon: TrendingUp },
   { to: '/approvals', label: t('nav.approvals'), icon: ClipboardCheck },
   { to: '/projects', label: t('nav.projects'), icon: Briefcase },
   { to: '/clients', label: t('nav.clients'), icon: Contact2 },

@@ -1,6 +1,5 @@
 import { useApiClient } from '~/shared/api/client'
-import type { BenchResult, ForecastStub } from './types'
-
+import type { BenchResult, ForecastResult } from './types'
 function qs(params: Record<string, string | number | undefined>) {
   const search = new URLSearchParams()
   for (const [k, v] of Object.entries(params)) {
@@ -30,15 +29,15 @@ export function useBenchApi() {
       )
     },
 
-    loadForecastStub(opts: { from: string; to: string; scope?: string; teamId?: number }) {
-      return api.get<{ data: ForecastStub }>(
+    loadForecast(opts: { from: string; to: string; teamId?: number }) {
+      return api.get<{ data: ForecastResult }>(
         `/api/forecast${qs({
           from: opts.from,
           to: opts.to,
-          scope: opts.scope || 'org',
+          scope: opts.teamId ? 'team' : 'org',
+          granularity: 'week',
           team: opts.teamId,
         })}`,
       )
-    },
-  }
+    },  }
 }

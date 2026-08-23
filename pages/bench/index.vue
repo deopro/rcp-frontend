@@ -133,17 +133,22 @@ async function refresh() {
         </div>
       </div>
 
-      <!-- Forecast stub -->
+      <!-- Forecast preview -->
       <div
-        v-if="store.forecast"
-        class="rounded-lg border border-dashed border-border bg-subtle p-4"
+        v-if="store.forecast?.series.length"
+        class="rounded-lg border border-border bg-surface p-4 shadow-soft"
       >
-        <p class="text-sm font-medium">{{ t('bench.forecast.title') }}</p>
-        <p class="mt-1 text-sm text-muted">{{ t('bench.forecast.message') }}</p>
-        <p class="mt-2 text-xs text-muted">
-          {{ t('bench.forecast.baseline') }}:
-          {{ store.forecast.baseline.remaining_hours }}h
-          ({{ store.forecast.baseline.bench_pct }}% {{ t('bench.kpis.benchPct').toLowerCase() }})
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <p class="text-sm font-medium">{{ t('bench.forecast.title') }}</p>
+          <NuxtLink to="/forecast" class="text-xs font-medium text-accent">
+            {{ t('bench.forecast.open') }} →
+          </NuxtLink>
+        </div>
+        <p class="mt-1 text-xs text-muted">
+          {{ t('bench.forecast.summary', {
+            utilization: store.forecast.baseline.utilization_pct,
+            over: store.forecast.baseline.over_allocation_days,
+          }) }}
         </p>
       </div>
 
