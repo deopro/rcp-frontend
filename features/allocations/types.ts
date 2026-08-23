@@ -5,6 +5,8 @@ export type AllocationStatus = 'draft' | 'submitted'
 export type DayCapacity = {
   date: string
   is_working_day: boolean
+  is_holiday?: boolean
+  is_leave?: boolean
   daily_capacity: number
   available_hours: number
   allocated_hours: number
@@ -23,6 +25,7 @@ export type EmployeeCapacityRow = {
 export type CapacityResult = {
   from: string
   to: string
+  holiday_dates?: string[]
   employees: EmployeeCapacityRow[]
 }
 

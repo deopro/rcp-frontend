@@ -19,6 +19,13 @@ const { t } = useI18n()
 
     <section class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
       <NuxtLink
+        to="/leave"
+        class="rounded-lg border border-border bg-surface p-4 shadow-soft transition-colors hover:border-accent"
+      >
+        <h3 class="text-sm font-semibold">{{ t('leave.title') }}</h3>
+        <p class="mt-1 text-sm text-muted">{{ t('leave.subtitle') }}</p>
+      </NuxtLink>
+      <NuxtLink
         to="/allocations"
         class="rounded-lg border border-border bg-surface p-4 shadow-soft transition-colors hover:border-accent"
       >

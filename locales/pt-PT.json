@@ -63,8 +63,59 @@
   "home": {
     "welcome": "Bem-vindo ao RCP",
     "subtitle": "Substitua o Excel por alocação moderna, segura e mobile-first.",
-    "foundationReady": "Alocações prontas",
-    "nextMilestone": "Próximo: férias e feriados (Marco 7)"
+    "foundationReady": "Férias e feriados prontos",
+    "nextMilestone": "Próximo: gestão do banco (Marco 8)"
+  },
+  "leave": {
+    "title": "Ausências",
+    "subtitle": "Pedidos e aprovações que reduzem a capacidade disponível",
+    "loading": "A carregar…",
+    "add": "Pedir ausência",
+    "edit": "Editar ausência",
+    "empty": "Ainda não há ausências.",
+    "fields": {
+      "date": "Data",
+      "name": "Nome",
+      "country": "País",
+      "region": "Região",
+      "employee": "Colaborador",
+      "startDate": "Data de início",
+      "endDate": "Data de fim",
+      "type": "Tipo",
+      "status": "Estado",
+      "notes": "Notas"
+    },
+    "types": {
+      "annual": "Férias",
+      "sick": "Doença",
+      "unpaid": "Não remunerada",
+      "other": "Outra"
+    },
+    "status": {
+      "pending": "Pendente",
+      "approved": "Aprovada",
+      "rejected": "Rejeitada"
+    },
+    "review": {
+      "approve": "Aprovar",
+      "reject": "Rejeitar",
+      "approved": "Ausência aprovada",
+      "rejected": "Ausência rejeitada"
+    },
+    "validation": {
+      "dateRange": "A data de fim deve ser igual ou posterior à data de início."
+    },
+    "grid": {
+      "holiday": "Feriado",
+      "leave": "Ausência"
+    },
+    "holidays": {
+      "title": "Feriados",
+      "subtitle": "Feriados públicos que zeram a capacidade de todos",
+      "add": "Novo feriado",
+      "edit": "Editar feriado",
+      "empty": "Ainda não há feriados configurados."
+    }
   },
   "allocations": {
     "title": "Alocações",

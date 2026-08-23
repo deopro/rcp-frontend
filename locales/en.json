@@ -63,8 +63,59 @@
   "home": {
     "welcome": "Welcome to RCP",
     "subtitle": "Replace Excel with modern, secure, mobile-first allocation.",
-    "foundationReady": "Allocations ready",
-    "nextMilestone": "Next: leave and holidays (Milestone 7)"
+    "foundationReady": "Leave and holidays ready",
+    "nextMilestone": "Next: bench management (Milestone 8)"
+  },
+  "leave": {
+    "title": "Leave",
+    "subtitle": "Requests and approvals that reduce available capacity",
+    "loading": "Loading…",
+    "add": "Request leave",
+    "edit": "Edit leave",
+    "empty": "No leave records yet.",
+    "fields": {
+      "date": "Date",
+      "name": "Name",
+      "country": "Country",
+      "region": "Region",
+      "employee": "Employee",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "type": "Type",
+      "status": "Status",
+      "notes": "Notes"
+    },
+    "types": {
+      "annual": "Annual",
+      "sick": "Sick",
+      "unpaid": "Unpaid",
+      "other": "Other"
+    },
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "review": {
+      "approve": "Approve",
+      "reject": "Reject",
+      "approved": "Leave approved",
+      "rejected": "Leave rejected"
+    },
+    "validation": {
+      "dateRange": "End date must be on or after start date."
+    },
+    "grid": {
+      "holiday": "Holiday",
+      "leave": "Leave"
+    },
+    "holidays": {
+      "title": "Holidays",
+      "subtitle": "Public holidays that zero capacity for everyone",
+      "add": "New holiday",
+      "edit": "Edit holiday",
+      "empty": "No holidays configured yet."
+    }
   },
   "allocations": {
     "title": "Allocations",

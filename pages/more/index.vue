@@ -11,6 +11,8 @@ const links = computed(() => [
   { to: '/employees', label: t('nav.employees') },
   { to: '/departments', label: t('nav.departments') },
   { to: '/teams', label: t('org.teams.title') },
+  { to: '/leave', label: t('leave.title') },
+  { to: '/holidays', label: t('leave.holidays.title') },
   { to: '/settings', label: t('nav.settings') },
   { to: '/reports', label: t('nav.reports') },
   { to: '/skills', label: t('nav.skills') },
