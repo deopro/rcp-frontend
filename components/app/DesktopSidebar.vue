@@ -81,22 +81,20 @@ function isActive(path: string) {
       </NuxtLink>
     </nav>
 
-    <ClientOnly>
-      <div v-if="auth.user" class="shrink-0 border-t border-border p-3">
-        <div class="px-3 py-2">
-          <p class="truncate text-sm font-medium">{{ displayName }}</p>
-          <p class="truncate text-xs text-muted">{{ auth.user.email }}</p>
-        </div>
-        <button
-          type="button"
-          class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-danger transition-colors hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50"
-          :disabled="loggingOut"
-          @click="logout"
-        >
-          <LogOut class="h-4 w-4" aria-hidden="true" />
-          {{ loggingOut ? t('auth.signingOut') : t('auth.signOut') }}
-        </button>
+    <div v-if="auth.user" class="shrink-0 border-t border-border p-3">
+      <div class="px-3 py-2">
+        <p class="truncate text-sm font-medium">{{ displayName }}</p>
+        <p class="truncate text-xs text-muted">{{ auth.user.email }}</p>
       </div>
-    </ClientOnly>
+      <button
+        type="button"
+        class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-danger transition-colors hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50"
+        :disabled="loggingOut"
+        @click="logout"
+      >
+        <LogOut class="h-4 w-4" aria-hidden="true" />
+        {{ loggingOut ? t('auth.signingOut') : t('auth.signOut') }}
+      </button>
+    </div>
   </aside>
 </template>

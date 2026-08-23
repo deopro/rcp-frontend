@@ -22,12 +22,7 @@ defineProps<{
     </div>
     <div class="flex items-center gap-2">
       <slot name="actions" />
-      <ClientOnly>
-        <AppUserMenu />
-        <template #fallback>
-          <span aria-hidden="true" class="hidden" />
-        </template>
-      </ClientOnly>
+      <AppUserMenu />
       <AppThemeToggle />
       <AppLanguageSwitcher />
     </div>

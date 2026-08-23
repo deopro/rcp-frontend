@@ -10,12 +10,14 @@ export function useLogout() {
     if (loggingOut.value) return
     loggingOut.value = true
     try {
-      await auth.logout()
+      // Clear local session first so UI can leave immediately.
+      const logoutPromise = auth.logout()
       toast.info({
         title: t('auth.logoutTitle'),
         description: t('auth.logoutDescription'),
       })
-      await navigateTo('/login', { external: true })
+      await navigateTo('/login')
+      await logoutPromise
     } finally {
       loggingOut.value = false
     }

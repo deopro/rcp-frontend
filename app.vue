@@ -3,7 +3,5 @@
     <NuxtPage />
   </NuxtLayout>
   <UiToaster />
-  <ClientOnly>
-    <UiConfirmDialog />
-  </ClientOnly>
+  <UiConfirmDialog />
 </template>

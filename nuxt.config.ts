@@ -1,6 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
+  // Authenticated app shell — client render avoids auth/layout hydration mismatches.
+  ssr: false,
   // Nuxt 4 with classic root pages/components layout
   future: {
     compatibilityVersion: 4,
