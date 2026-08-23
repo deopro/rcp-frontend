@@ -191,9 +191,7 @@ function leavePersonName(row: Leave): string {
       </UiSelect>
     </div>
 
-    <div v-if="store.loading && !store.leaves.length" class="text-sm text-muted">
-      {{ t('leave.loading') }}
-    </div>
+    <UiPageSkeleton v-if="store.loading && !store.leaves.length" />
 
     <div
       v-else-if="!filtered.length"

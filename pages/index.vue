@@ -118,9 +118,7 @@ async function refresh() {
 
     <DashboardFilters v-if="showFilters" v-bind="filterProps" />
 
-    <div v-if="store.loading && !store.data" class="text-sm text-muted">
-      {{ t('dashboard.loading') }}
-    </div>
+    <UiPageSkeleton v-if="store.loading && !store.data" variant="dashboard" />
 
     <template v-else-if="store.data">
       <DashboardKpiGrid :kpis="store.data.kpis" :variant="variant" />

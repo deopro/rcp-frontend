@@ -1,3 +1,5 @@
+import { ApiError } from '~/shared/api/client'
+import { ApiErrorCode } from '~/shared/api/error-codes'
 import type { ReportDownloadInput } from './types'
 
 function toProxyPath(strapiPath: string): string {
@@ -26,14 +28,7 @@ export function useReportsApi() {
     const path = toProxyPath(`/api/reports/${input.type}?${params.toString()}`)
     const response = await fetch(path, { credentials: 'include' })
     if (!response.ok) {
-      let message = `Export failed (${response.status})`
-      try {
-        const data = (await response.json()) as { statusMessage?: string; error?: { message?: string } }
-        message = data.statusMessage || data.error?.message || message
-      } catch {
-        // binary or empty error body
-      }
-      throw new Error(message)
+      throw new ApiError('Export failed', response.status, ApiErrorCode.GENERIC)
     }
 
     const blob = await response.blob()

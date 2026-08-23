@@ -3,10 +3,11 @@ import { useAuthStore } from '~/features/auth/stores/auth'
 import { usePushNotifications } from '~/features/notifications/composables/usePushNotifications'
 import { useNotificationsStore } from '~/features/notifications/stores/notifications'
 import type { AppNotification } from '~/features/notifications/types'
+import { formatNotificationCopy } from '~/shared/notifications/format-copy'
 
 definePageMeta({})
 
-const { t, locale } = useI18n()
+const { t, te, locale } = useI18n()
 const auth = useAuthStore()
 const store = useNotificationsStore()
 const push = usePushNotifications()
@@ -27,6 +28,10 @@ onMounted(async () => {
 
 function typeLabel(type: string) {
   return t(`notifications.types.${type}`)
+}
+
+function copyFor(n: AppNotification) {
+  return formatNotificationCopy(t, te, n)
 }
 
 function formatWhen(iso?: string) {
@@ -128,7 +133,7 @@ async function onEnablePush() {
       </UiButton>
     </div>
 
-    <div v-if="store.loading" class="text-sm text-muted">{{ t('notifications.loading') }}</div>
+    <UiPageSkeleton v-if="store.loading" variant="list" :rows="5" />
 
     <div
       v-else-if="!store.items.length"
@@ -149,8 +154,8 @@ async function onEnablePush() {
             <p class="text-xs font-medium uppercase tracking-wide text-muted">
               {{ typeLabel(item.type) }}
             </p>
-            <p class="mt-1 font-medium">{{ item.title }}</p>
-            <p v-if="item.body" class="mt-1 text-sm text-muted">{{ item.body }}</p>
+            <p class="mt-1 font-medium">{{ copyFor(item).title }}</p>
+            <p v-if="copyFor(item).body" class="mt-1 text-sm text-muted">{{ copyFor(item).body }}</p>
             <p class="mt-2 text-xs text-muted">{{ formatWhen(item.created_at) }}</p>
           </div>
           <div class="flex gap-2">

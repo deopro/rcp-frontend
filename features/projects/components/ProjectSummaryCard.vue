@@ -8,9 +8,16 @@ const { t } = useI18n()
 <template>
   <div
     v-if="loading"
-    class="rounded-lg border border-border bg-surface p-4 text-sm text-muted"
+    class="grid grid-cols-2 gap-3 rounded-lg border border-border bg-surface p-4 sm:grid-cols-4"
+    role="status"
+    aria-live="polite"
+    aria-busy="true"
   >
-    {{ t('projects.loadingSummary') }}
+    <span class="sr-only">{{ t('a11y.loading') }}</span>
+    <div v-for="n in 4" :key="n" class="space-y-2">
+      <UiSkeleton class="h-3 w-16" />
+      <UiSkeleton class="h-6 w-20" />
+    </div>
   </div>
   <div
     v-else-if="summary"

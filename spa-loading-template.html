@@ -1,0 +1,230 @@
+<div class="rcp-spa-boot" role="status" aria-live="polite" aria-busy="true">
+  <span class="rcp-spa-boot__sr">A carregar</span>
+  <aside class="rcp-spa-boot__sidebar" aria-hidden="true">
+    <div class="rcp-spa-boot__brand">
+      <span class="rcp-spa-boot__mark">R</span>
+      <span class="rcp-spa-boot__bone rcp-spa-boot__bone--brand"></span>
+    </div>
+    <div class="rcp-spa-boot__nav">
+      <span class="rcp-spa-boot__bone rcp-spa-boot__bone--nav"></span>
+      <span class="rcp-spa-boot__bone rcp-spa-boot__bone--nav"></span>
+      <span class="rcp-spa-boot__bone rcp-spa-boot__bone--nav"></span>
+      <span class="rcp-spa-boot__bone rcp-spa-boot__bone--nav"></span>
+      <span class="rcp-spa-boot__bone rcp-spa-boot__bone--nav"></span>
+      <span class="rcp-spa-boot__bone rcp-spa-boot__bone--nav"></span>
+      <span class="rcp-spa-boot__bone rcp-spa-boot__bone--nav"></span>
+      <span class="rcp-spa-boot__bone rcp-spa-boot__bone--nav"></span>
+    </div>
+  </aside>
+  <div class="rcp-spa-boot__main">
+    <header class="rcp-spa-boot__header" aria-hidden="true">
+      <span class="rcp-spa-boot__bone rcp-spa-boot__bone--title"></span>
+      <span class="rcp-spa-boot__header-actions">
+        <span class="rcp-spa-boot__bone rcp-spa-boot__bone--icon"></span>
+        <span class="rcp-spa-boot__bone rcp-spa-boot__bone--icon"></span>
+        <span class="rcp-spa-boot__bone rcp-spa-boot__bone--icon"></span>
+      </span>
+    </header>
+    <div class="rcp-spa-boot__content" aria-hidden="true">
+      <div class="rcp-spa-boot__page-head">
+        <span class="rcp-spa-boot__bone rcp-spa-boot__bone--h"></span>
+        <span class="rcp-spa-boot__bone rcp-spa-boot__bone--sub"></span>
+      </div>
+      <div class="rcp-spa-boot__kpis">
+        <span class="rcp-spa-boot__card"></span>
+        <span class="rcp-spa-boot__card"></span>
+        <span class="rcp-spa-boot__card"></span>
+        <span class="rcp-spa-boot__card"></span>
+      </div>
+      <div class="rcp-spa-boot__panels">
+        <span class="rcp-spa-boot__panel"></span>
+        <span class="rcp-spa-boot__panel"></span>
+      </div>
+    </div>
+  </div>
+<style>
+  .rcp-spa-boot {
+    --boot-bg: var(--rcp-bg, #ffffff);
+    --boot-fg: var(--rcp-fg, #1f2328);
+    --boot-surface: var(--rcp-surface, #ffffff);
+    --boot-border: var(--rcp-border, #d0d7de);
+    --boot-subtle: var(--rcp-subtle, #f6f8fa);
+    --boot-muted: var(--rcp-muted, #656d76);
+    --boot-primary: var(--rcp-primary, #1f2328);
+    --boot-primary-fg: var(--rcp-primary-fg, #f6f8fa);
+    --boot-header: var(--rcp-header-height, 3.5rem);
+    display: flex;
+    height: 100%;
+    min-height: 100dvh;
+    background: var(--boot-bg);
+    color: var(--boot-fg);
+    font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  }
+  .dark .rcp-spa-boot {
+    --boot-bg: var(--rcp-bg, #24292e);
+    --boot-fg: var(--rcp-fg, #f6f8fa);
+    --boot-surface: var(--rcp-surface, #2f363d);
+    --boot-border: var(--rcp-border, #444c56);
+    --boot-subtle: var(--rcp-subtle, #272c32);
+    --boot-muted: var(--rcp-muted, #959da5);
+    --boot-primary: var(--rcp-primary, #f6f8fa);
+    --boot-primary-fg: var(--rcp-primary-fg, #1f2328);
+  }
+  .rcp-spa-boot__sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .rcp-spa-boot__sidebar {
+    display: none;
+    width: 16rem;
+    flex-shrink: 0;
+    border-right: 1px solid var(--boot-border);
+    background: var(--boot-surface);
+  }
+  .rcp-spa-boot__brand {
+    display: flex;
+    height: var(--boot-header);
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--boot-border);
+    padding: 0 1.25rem;
+  }
+  .rcp-spa-boot__mark {
+    display: flex;
+    height: 2rem;
+    width: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    background: var(--boot-primary);
+    color: var(--boot-primary-fg);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .rcp-spa-boot__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+  .rcp-spa-boot__main {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+  }
+  .rcp-spa-boot__header {
+    display: flex;
+    height: var(--boot-header);
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--boot-border);
+    background: var(--boot-surface);
+    padding: 0 1rem;
+  }
+  .rcp-spa-boot__header-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .rcp-spa-boot__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 1rem 5.5rem;
+  }
+  .rcp-spa-boot__page-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .rcp-spa-boot__kpis {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: 1fr 1fr;
+  }
+  .rcp-spa-boot__panels {
+    display: grid;
+    flex: 1;
+    gap: 0.75rem;
+    grid-template-columns: 1fr;
+  }
+  .rcp-spa-boot__bone,
+  .rcp-spa-boot__card,
+  .rcp-spa-boot__panel {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    border-radius: 0.375rem;
+    background: color-mix(in srgb, var(--boot-muted) 18%, var(--boot-subtle));
+  }
+  .rcp-spa-boot__bone::after,
+  .rcp-spa-boot__card::after,
+  .rcp-spa-boot__panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--boot-fg) 8%, transparent),
+      transparent
+    );
+    animation: rcp-spa-shimmer 1.35s ease-in-out infinite;
+  }
+  .rcp-spa-boot__bone--brand { height: 0.75rem; width: 4.5rem; }
+  .rcp-spa-boot__bone--nav { height: 2.25rem; width: 100%; border-radius: 0.5rem; }
+  .rcp-spa-boot__bone--title { height: 0.875rem; width: 8rem; }
+  .rcp-spa-boot__bone--icon { height: 2.25rem; width: 2.25rem; border-radius: 0.5rem; }
+  .rcp-spa-boot__bone--h { height: 1.25rem; width: 12rem; }
+  .rcp-spa-boot__bone--sub { height: 0.75rem; width: 16rem; max-width: 80%; }
+  .rcp-spa-boot__card {
+    height: 5.5rem;
+    border: 1px solid var(--boot-border);
+    background: var(--boot-surface);
+    border-radius: 0.5rem;
+  }
+  .rcp-spa-boot__card::before {
+    content: '';
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    height: 0.65rem;
+    width: 5rem;
+    border-radius: 0.25rem;
+    background: color-mix(in srgb, var(--boot-muted) 22%, var(--boot-subtle));
+  }
+  .rcp-spa-boot__panel {
+    min-height: 12rem;
+    border: 1px solid var(--boot-border);
+    background: var(--boot-surface);
+    border-radius: 0.5rem;
+  }
+  @media (min-width: 768px) {
+    .rcp-spa-boot__sidebar { display: block; }
+    .rcp-spa-boot__header { padding: 0 1.5rem; }
+    .rcp-spa-boot__content { padding: 1.5rem; }
+    .rcp-spa-boot__kpis { grid-template-columns: repeat(4, 1fr); }
+    .rcp-spa-boot__panels { grid-template-columns: 1fr 1fr; }
+  }
+  @keyframes rcp-spa-shimmer {
+    100% { transform: translateX(100%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rcp-spa-boot__bone::after,
+    .rcp-spa-boot__card::after,
+    .rcp-spa-boot__panel::after {
+      animation: none;
+    }
+  }
+</style>
+</div>

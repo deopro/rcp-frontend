@@ -32,7 +32,7 @@ function isActive(match: RegExp) {
   <nav
     class="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface md:hidden"
     style="padding-bottom: var(--rcp-safe-bottom)"
-    :aria-label="t('nav.home')"
+    :aria-label="t('a11y.mainNav')"
   >
     <ul class="mx-auto flex h-nav max-w-lg">
       <li v-for="item in items" :key="item.to" class="flex min-w-0 flex-1">

@@ -216,7 +216,9 @@ const {
       </button>
     </div>
 
-    <div v-if="store.loading && !store.grid" class="text-sm text-muted">{{ t('allocations.loading') }}</div>
+    <div v-if="store.loading && !store.grid">
+      <UiPageSkeleton variant="grid" :rows="6" />
+    </div>
 
     <template v-else-if="store.grid">
       <AllocationGrid

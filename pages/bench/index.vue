@@ -121,7 +121,7 @@ const {
       </div>
     </div>
 
-    <div v-if="store.loading && !store.data" class="text-sm text-muted">{{ t('bench.loading') }}</div>
+    <UiPageSkeleton v-if="store.loading && !store.data" variant="kpis" />
 
     <template v-else-if="store.data">
       <!-- KPI cards -->

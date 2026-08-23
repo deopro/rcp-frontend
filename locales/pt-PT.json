@@ -213,6 +213,47 @@
       "not_configured": "Push ainda não está configurado (faltam chaves VAPID).",
       "denied": "A permissão de push foi recusada.",
       "ready": "Pronto"
+    },
+    "copy": {
+      "teamFallback": "Equipa #{id}",
+      "approval_request": {
+        "title": "Aprovação submetida — {team}",
+        "body": "O período {range} aguarda revisão."
+      },
+      "approval_returned": {
+        "title": "Aprovação devolvida — {team}",
+        "body": "O período {range} foi devolvido para alterações.",
+        "bodyWithComments": "Período {range}: {comments}"
+      },
+      "approval_approved": {
+        "title": "Aprovação aprovada — {team}",
+        "body": "O período {range} foi aprovado."
+      },
+      "approval_locked": {
+        "title": "Período bloqueado — {team}",
+        "body": "As alocações de {range} estão bloqueadas."
+      },
+      "approval_reopened": {
+        "title": "Período reaberto — {team}",
+        "body": "As alocações de {range} podem voltar a ser editadas."
+      },
+      "over_allocation": {
+        "title": "Sobre-alocação — {employee}",
+        "body": "{allocated}h alocadas em {date} (capacidade {available}h)."
+      },
+      "missing_allocation": {
+        "title": "Alocação em falta — {employee}",
+        "body": "Sem horas registadas no dia útil {date}."
+      },
+      "bench_alert": {
+        "title": "Banco disponível — {employee}",
+        "body": "{remaining}h restantes ({benchPct}% banco) em {range}."
+      },
+      "capacity_alert": {
+        "titleHigh": "Alerta de utilização elevada",
+        "titleLow": "Alerta de utilização baixa",
+        "body": "A utilização do âmbito é {utilization}% em {range}."
+      }
     }
   },
   "dashboard": {
@@ -627,6 +668,25 @@
   },
   "empty": {
     "generic": "Ainda não há dados para mostrar."
+  },
+  "a11y": {
+    "loading": "A carregar conteúdo",
+    "sidebar": "Barra lateral",
+    "mainNav": "Navegação principal",
+    "userMenu": "Menu do utilizador",
+    "toasts": "Notificações",
+    "closeToast": "Fechar notificação"
+  },
+  "units": {
+    "hours": "h",
+    "percent": "%"
+  },
+  "roles": {
+    "employee": "Colaborador",
+    "team_leader": "Líder de equipa",
+    "department_manager": "Gestor de departamento",
+    "executive": "Executivo",
+    "administrator": "Administrador"
   },
   "pagination": {
     "label": "Paginação",

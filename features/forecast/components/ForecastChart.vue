@@ -21,8 +21,8 @@ const chartOption = computed(() => ({
     axisLabel: { rotate: props.data.granularity === 'day' ? 45 : 0, interval: 0 },
   },
   yAxis: [
-    { type: 'value' as const, name: 'h' },
-    { type: 'value' as const, max: 100, name: '%' },
+    { type: 'value' as const, name: t('units.hours') },
+    { type: 'value' as const, max: 100, name: t('units.percent') },
   ],
   series: [
     {

@@ -99,9 +99,7 @@ async function onRemove(documentId: string) {
       <UiButton v-if="canWrite" @click="openCreate">{{ t('org.employees.add') }}</UiButton>
     </div>
 
-    <div v-if="org.loading && !visibleEmployees.length" class="text-sm text-muted">
-      {{ t('org.loading') }}
-    </div>
+    <UiPageSkeleton v-if="org.loading && !visibleEmployees.length" />
 
     <div
       v-else-if="!visibleEmployees.length"

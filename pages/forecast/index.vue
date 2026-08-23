@@ -206,7 +206,7 @@ const {
       </div>
     </div>
 
-    <div v-if="store.loading && !store.data" class="text-sm text-muted">{{ t('forecast.loading') }}</div>
+    <UiPageSkeleton v-if="store.loading && !store.data" variant="kpis" />
 
     <template v-else-if="store.data">
       <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

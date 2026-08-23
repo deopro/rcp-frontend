@@ -175,9 +175,7 @@ function periodLabel(row: Approval) {
       </UiSelect>
     </div>
 
-    <div v-if="store.loading && !store.approvals.length" class="text-sm text-muted">
-      {{ t('approvals.loading') }}
-    </div>
+    <UiPageSkeleton v-if="store.loading && !store.approvals.length" />
 
     <div
       v-else-if="!filtered.length"

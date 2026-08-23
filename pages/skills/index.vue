@@ -258,9 +258,7 @@ const panelTitle = computed(() => {
       </UiButton>
     </div>
 
-    <div v-if="store.loading && !store.employeeSkills.length" class="text-sm text-muted">
-      {{ t('skills.loading') }}
-    </div>
+    <UiPageSkeleton v-if="store.loading && !store.employeeSkills.length" />
 
     <div
       v-else-if="!store.filteredMatrix.length"
@@ -366,9 +364,9 @@ const panelTitle = computed(() => {
           </li>
         </ul>
         <UiPagination
-          class="mt-3"
           v-model:page="categoryPage"
           v-model:page-size="categoryPageSize"
+          class="mt-3"
           :page-count="categoryPageCount"
           :total="categoryTotal"
           :from="categoryFrom"
@@ -396,9 +394,9 @@ const panelTitle = computed(() => {
           </li>
         </ul>
         <UiPagination
-          class="mt-3"
           v-model:page="skillPage"
           v-model:page-size="skillPageSize"
+          class="mt-3"
           :page-count="skillPageCount"
           :total="skillTotal"
           :from="skillFrom"

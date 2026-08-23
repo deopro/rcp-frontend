@@ -99,9 +99,7 @@ async function onRemove(documentId: string) {
       </UiButton>
     </div>
 
-    <div v-if="org.loading && !org.teams.length" class="text-sm text-muted">
-      {{ t('org.loading') }}
-    </div>
+    <UiPageSkeleton v-if="org.loading && !org.teams.length" />
 
     <div
       v-else-if="!org.teams.length"

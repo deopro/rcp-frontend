@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   // Authenticated app shell — client render avoids auth/layout hydration mismatches.
   ssr: false,
+  spaLoadingTemplate: true,
   // Nuxt 4 with classic root pages/components layout
   future: {
     compatibilityVersion: 4,
@@ -65,9 +66,9 @@ export default defineNuxtConfig({
   pwa: {
     registerType: 'autoUpdate',
     manifest: {
-      name: 'RCP — Resource Capacity Planning',
+      name: 'RCP — Planeamento de capacidade de recursos',
       short_name: 'RCP',
-      description: 'Enterprise resource capacity planning and allocation',
+      description: 'Planeamento empresarial de capacidade e alocação de recursos',
       theme_color: '#21262d',
       background_color: '#24292e',
       display: 'standalone',
@@ -101,6 +102,9 @@ export default defineNuxtConfig({
       installPrompt: true,
       registerPlugin: !import.meta.dev,
     },
+    devOptions: {
+      enabled: false,
+    },
   },
 
   app: {
@@ -120,5 +124,23 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
     typeCheck: false,
+  },
+
+  devServer: {
+    host: 'localhost',
+    port: 3000,
+  },
+
+  // Keep HMR on the Nuxt port. If 3000 is taken, Nuxt used to silently
+  // move to 3001 while the browser still talked to 3000/5173 (503 + WS errors).
+  vite: {
+    server: {
+      strictPort: true,
+      hmr: {
+        protocol: 'ws',
+        host: 'localhost',
+        clientPort: 3000,
+      },
+    },
   },
 })

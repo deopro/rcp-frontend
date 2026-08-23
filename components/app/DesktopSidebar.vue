@@ -60,7 +60,7 @@ function isActive(path: string) {
   <aside
     class="fixed bottom-0 z-40 flex w-64 flex-col overflow-hidden border-r border-border bg-surface max-md:hidden"
     style="top: var(--rcp-safe-top); left: var(--rcp-safe-left);"
-    aria-label="Sidebar"
+    :aria-label="t('a11y.sidebar')"
   >
     <div class="flex h-header items-center gap-2 border-b border-border px-5">
       <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground">

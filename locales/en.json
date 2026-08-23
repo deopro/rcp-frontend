@@ -213,6 +213,47 @@
       "not_configured": "Push is not configured yet (missing VAPID keys).",
       "denied": "Push permission was denied.",
       "ready": "Ready"
+    },
+    "copy": {
+      "teamFallback": "Team #{id}",
+      "approval_request": {
+        "title": "Approval submitted — {team}",
+        "body": "Period {range} is awaiting review."
+      },
+      "approval_returned": {
+        "title": "Approval returned — {team}",
+        "body": "Period {range} was returned for changes.",
+        "bodyWithComments": "Period {range}: {comments}"
+      },
+      "approval_approved": {
+        "title": "Approval approved — {team}",
+        "body": "Period {range} was approved."
+      },
+      "approval_locked": {
+        "title": "Period locked — {team}",
+        "body": "Allocations for {range} are now locked."
+      },
+      "approval_reopened": {
+        "title": "Period reopened — {team}",
+        "body": "Allocations for {range} can be edited again."
+      },
+      "over_allocation": {
+        "title": "Over-allocation — {employee}",
+        "body": "{allocated}h allocated on {date} (capacity {available}h)."
+      },
+      "missing_allocation": {
+        "title": "Missing allocation — {employee}",
+        "body": "No hours logged on working day {date}."
+      },
+      "bench_alert": {
+        "title": "Bench available — {employee}",
+        "body": "{remaining}h remaining ({benchPct}% bench) in {range}."
+      },
+      "capacity_alert": {
+        "titleHigh": "High utilization alert",
+        "titleLow": "Low utilization alert",
+        "body": "Scope utilization is {utilization}% for {range}."
+      }
     }
   },
   "dashboard": {
@@ -627,6 +668,25 @@
   },
   "empty": {
     "generic": "Nothing to show yet."
+  },
+  "a11y": {
+    "loading": "Loading content",
+    "sidebar": "Sidebar",
+    "mainNav": "Main navigation",
+    "userMenu": "User menu",
+    "toasts": "Notifications",
+    "closeToast": "Close notification"
+  },
+  "units": {
+    "hours": "h",
+    "percent": "%"
+  },
+  "roles": {
+    "employee": "Employee",
+    "team_leader": "Team leader",
+    "department_manager": "Department manager",
+    "executive": "Executive",
+    "administrator": "Administrator"
   },
   "pagination": {
     "label": "Pagination",

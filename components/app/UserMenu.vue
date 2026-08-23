@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ChevronDown, LogOut } from 'lucide-vue-next'
 import { useAuthStore } from '~/features/auth/stores/auth'
+import { formatRoleLabel } from '~/shared/auth/format-role'
 import { formatUserName } from '~/shared/users/format-user-label'
 
-const { t } = useI18n()
+const { t, te } = useI18n()
 const auth = useAuthStore()
 const { logout, loggingOut } = useLogout()
 
@@ -13,6 +14,8 @@ const menuRef = ref<HTMLElement | null>(null)
 const displayName = computed(() =>
   auth.user ? formatUserName(auth.user) : '',
 )
+
+const roleLabel = computed(() => formatRoleLabel(t, te, auth.user?.role))
 
 const initials = computed(() => {
   if (!auth.user) return '?'
@@ -43,6 +46,7 @@ async function onLogout() {
       class="touch-target inline-flex items-center gap-2 rounded-lg border border-border bg-input px-2 py-1.5 text-sm shadow-soft transition-colors hover:bg-hover"
       :aria-expanded="open"
       aria-haspopup="menu"
+      :aria-label="t('a11y.userMenu')"
       @click.stop="open = !open"
     >
       <span class="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
@@ -59,8 +63,8 @@ async function onLogout() {
     >
       <div class="border-b border-border px-4 py-3">
         <p class="truncate text-sm font-medium">{{ displayName }}</p>
-        <p v-if="auth.user.role" class="mt-1 truncate text-xs text-muted">
-          {{ auth.user.role.name }}
+        <p v-if="roleLabel" class="mt-1 truncate text-xs text-muted">
+          {{ roleLabel }}
         </p>
       </div>
       <button

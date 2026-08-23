@@ -37,15 +37,13 @@ export const useAiStore = defineStore('ai', () => {
   const from = computed(() => toIso(fromDate.value))
   const to = computed(() => toIso(toDate.value))
 
-  function api() {
-    return useAiApi()
-  }
+  const api = useAiApi()
 
   async function recommend() {
     if (!projectId.value) return
     loading.value = true
     try {
-      const res = await api().recommend({
+      const res = await api.recommend({
         project_id: projectId.value,
         from: from.value,
         to: to.value,
@@ -66,7 +64,7 @@ export const useAiStore = defineStore('ai', () => {
     if (!result.value) return
     applying.value = true
     try {
-      await api().apply({
+      await api.apply({
         recommendation_id: result.value.recommendation_id,
         employee_id: opts.employeeId,
         allocation_date: opts.allocationDate,

@@ -190,7 +190,7 @@ const {
       </div>
     </div>
 
-    <div v-if="store.loading" class="text-sm text-muted">{{ t('ai.loading') }}</div>
+    <UiPageSkeleton v-if="store.loading" variant="cards" :rows="4" />
 
     <template v-else-if="store.result">
       <div class="grid gap-3 sm:grid-cols-3">

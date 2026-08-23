@@ -17,7 +17,7 @@ const dayChartOption = computed(() => {
     legend: { bottom: 0 },
     grid: { left: 40, right: 16, top: 24, bottom: 48 },
     xAxis: { type: 'category' as const, data: labels },
-    yAxis: { type: 'value' as const, name: 'h' },
+    yAxis: { type: 'value' as const, name: t('units.hours') },
     series: [
       {
         name: t('dashboard.charts.available'),
@@ -41,7 +41,7 @@ const teamChartOption = computed(() => ({
     data: props.data.charts.utilization_by_team.map((t) => t.team_name),
     axisLabel: { rotate: 30, interval: 0 },
   },
-  yAxis: { type: 'value' as const, max: 100, name: '%' },
+  yAxis: { type: 'value' as const, max: 100, name: t('units.percent') },
   series: [
     {
       name: t('dashboard.charts.utilization'),
@@ -51,19 +51,41 @@ const teamChartOption = computed(() => ({
   ],
 }))
 
-const projectChartOption = computed(() => ({
-  tooltip: { trigger: 'item' as const },
-  series: [
-    {
-      type: 'pie' as const,
-      radius: ['35%', '70%'],
-      data: props.data.charts.allocation_by_project.map((p) => ({
-        name: p.project_name,
-        value: p.hours,
-      })),
+const projectChartOption = computed(() => {
+  const items = props.data.charts.allocation_by_project
+  const total = items.reduce((sum, p) => sum + p.hours, 0)
+  const pctByName = new Map(
+    items.map((p) => [
+      p.project_name,
+      total > 0 ? Math.round((p.hours / total) * 100) : 0,
+    ]),
+  )
+
+  return {
+    tooltip: {
+      trigger: 'item' as const,
+      formatter: `{b}<br/>{c} ${t('units.hours')} ({d}%)`,
     },
-  ],
-}))
+    legend: {
+      bottom: 0,
+      formatter: (name: string) => `${name} (${pctByName.get(name) ?? 0}%)`,
+    },
+    series: [
+      {
+        type: 'pie' as const,
+        radius: ['35%', '62%'],
+        percentPrecision: 0,
+        label: {
+          formatter: '{b}\n{d}%',
+        },
+        data: items.map((p) => ({
+          name: p.project_name,
+          value: p.hours,
+        })),
+      },
+    ],
+  }
+})
 </script>
 
 <template>
@@ -91,7 +113,7 @@ const projectChartOption = computed(() => ({
     >
       <h3 class="mb-3 text-sm font-semibold">{{ t('dashboard.charts.projectTitle') }}</h3>
       <ClientOnly>
-        <RcpChart :option="projectChartOption" />
+        <RcpChart :option="projectChartOption" height="300px" />
       </ClientOnly>
     </section>
   </div>

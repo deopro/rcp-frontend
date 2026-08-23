@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { useAuthStore } from '~/features/auth/stores/auth'
+import { formatRoleLabel } from '~/shared/auth/format-role'
 import { formatUserLabel } from '~/shared/users/format-user-label'
 
-const { t } = useI18n()
+const { t, te } = useI18n()
 const auth = useAuthStore()
 const { logout, loggingOut } = useLogout()
 
 const displayName = computed(() =>
   auth.user ? formatUserLabel(auth.user) : '',
 )
+
+const roleLabel = computed(() => formatRoleLabel(t, te, auth.user?.role))
 </script>
 
 <template>
@@ -26,8 +29,8 @@ const displayName = computed(() =>
       <div>
         <p class="text-sm font-medium">{{ displayName }}</p>
         <p class="text-xs text-muted">{{ auth.user.email }}</p>
-        <p v-if="auth.user.role" class="mt-1 text-xs text-muted">
-          {{ auth.user.role.name }}
+        <p v-if="roleLabel" class="mt-1 text-xs text-muted">
+          {{ roleLabel }}
         </p>
       </div>
       <UiButton
