@@ -34,6 +34,21 @@
   --rcp-toast-fg: #fafbfc;
   --rcp-toast-border: #e1e4e8;
   --rcp-shadow: 0 2px 7px rgb(71 83 95 / 0.19);
+  --rcp-chart-bg: transparent;
+  --rcp-chart-axis: #57606a;
+  --rcp-chart-grid: #e1e4e8;
+  --rcp-chart-legend: #57606a;
+  --rcp-chart-tooltip-bg: #24292e;
+  --rcp-chart-tooltip-fg: #fafbfc;
+  --rcp-chart-tooltip-border: #e1e4e8;
+  --rcp-chart-series-1: #0366d6;
+  --rcp-chart-series-2: #1a7f37;
+  --rcp-chart-series-3: #b08800;
+  --rcp-chart-series-4: #d73a49;
+  --rcp-chart-series-5: #6f42c1;
+  --rcp-chart-series-6: #e36209;
+  --rcp-chart-series-7: #0969da;
+  --rcp-chart-series-8: #2ea44e;
 }
 
 .dark {
@@ -59,6 +74,21 @@
   --rcp-toast-fg: #f6f8fa;
   --rcp-toast-border: #30363d;
   --rcp-shadow: 0 2px 7px rgb(0 0 0 / 0.5);
+  --rcp-chart-bg: transparent;
+  --rcp-chart-axis: #8b949e;
+  --rcp-chart-grid: #30363d;
+  --rcp-chart-legend: #8b949e;
+  --rcp-chart-tooltip-bg: #21262d;
+  --rcp-chart-tooltip-fg: #f6f8fa;
+  --rcp-chart-tooltip-border: #30363d;
+  --rcp-chart-series-1: #2e8fff;
+  --rcp-chart-series-2: #2ea44e;
+  --rcp-chart-series-3: #dbab09;
+  --rcp-chart-series-4: #f85149;
+  --rcp-chart-series-5: #a371f7;
+  --rcp-chart-series-6: #f0883e;
+  --rcp-chart-series-7: #58a6ff;
+  --rcp-chart-series-8: #3fb950;
 }
 
 @layer base {

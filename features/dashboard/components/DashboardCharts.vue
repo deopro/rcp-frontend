@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DashboardResult } from '../types'
-import DashboardChart from '~/components/charts/DashboardChart.client.vue'
+import RcpChart from '~/components/charts/RcpChart.client.vue'
 
 const props = defineProps<{ data: DashboardResult }>()
 const { t, locale } = useI18n()
@@ -71,7 +71,7 @@ const projectChartOption = computed(() => ({
     <section class="rounded-lg border border-border bg-surface p-4 shadow-soft lg:col-span-2">
       <h3 class="mb-3 text-sm font-semibold">{{ t('dashboard.charts.dailyTitle') }}</h3>
       <ClientOnly>
-        <DashboardChart :option="dayChartOption" height="300px" />
+        <RcpChart :option="dayChartOption" height="300px" />
       </ClientOnly>
     </section>
 
@@ -81,7 +81,7 @@ const projectChartOption = computed(() => ({
     >
       <h3 class="mb-3 text-sm font-semibold">{{ t('dashboard.charts.teamTitle') }}</h3>
       <ClientOnly>
-        <DashboardChart :option="teamChartOption" />
+        <RcpChart :option="teamChartOption" />
       </ClientOnly>
     </section>
 
@@ -91,7 +91,7 @@ const projectChartOption = computed(() => ({
     >
       <h3 class="mb-3 text-sm font-semibold">{{ t('dashboard.charts.projectTitle') }}</h3>
       <ClientOnly>
-        <DashboardChart :option="projectChartOption" />
+        <RcpChart :option="projectChartOption" />
       </ClientOnly>
     </section>
   </div>
