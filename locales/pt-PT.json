@@ -63,8 +63,35 @@
   "home": {
     "welcome": "Bem-vindo ao RCP",
     "subtitle": "Substitua o Excel por alocação moderna, segura e mobile-first.",
-    "foundationReady": "Férias e feriados prontos",
-    "nextMilestone": "Próximo: gestão do banco (Marco 8)"
+    "foundationReady": "Banco pronto",
+    "nextMilestone": "Próximo: fluxo de aprovações (Marco 9)"
+  },
+  "bench": {
+    "title": "Banco",
+    "subtitle": "Capacidade disponível na janela selecionada — filtrar por equipa e competências",
+    "loading": "A carregar banco…",
+    "empty": "Sem recursos disponíveis para esta janela e filtros.",
+    "allocate": "Abrir alocações",
+    "filters": {
+      "skills": "Competências"
+    },
+    "kpis": {
+      "resources": "Pessoas disponíveis",
+      "remaining": "Horas em banco",
+      "benchPct": "% em banco",
+      "utilization": "Utilização"
+    },
+    "columns": {
+      "available": "Disponível",
+      "allocated": "Alocado",
+      "remaining": "Restante",
+      "benchPct": "% banco"
+    },
+    "forecast": {
+      "title": "Previsão (pré-visualização)",
+      "message": "A previsão completa chega no Marco 11. O banco atual é mostrado como linha de base.",
+      "baseline": "Linha de base"
+    }
   },
   "leave": {
     "title": "Ausências",
