@@ -1,8 +1,8 @@
 <template>
-  <div class="flex h-dvh overflow-hidden bg-background text-foreground">
+  <div class="flex h-full overflow-hidden bg-background text-foreground">
     <AppDesktopSidebar />
 
-    <div class="flex min-h-0 min-w-0 flex-1 flex-col">
+    <div class="flex min-h-0 min-w-0 flex-1 flex-col md:pl-64">
       <AppHeader>
         <template #actions>
           <slot name="header-actions" />
