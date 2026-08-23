@@ -18,6 +18,7 @@
     "forecast": "Previsão",
     "ai": "Recomendações IA",
     "approvals": "Aprovações",
+    "notifications": "Notificações",
     "reports": "Relatórios",
     "settings": "Definições",
     "search": "Pesquisar"
@@ -64,8 +65,8 @@
   "home": {
     "welcome": "Bem-vindo ao RCP",
     "subtitle": "Substitua o Excel por alocação moderna, segura e mobile-first.",
-    "foundationReady": "Relatórios prontos",
-    "nextMilestone": "Próximo: notificações (Marco 14)"
+    "foundationReady": "Notificações prontas",
+    "nextMilestone": "Próximo: auditoria e administração (Marco 15)"
   },
   "forecast": {
     "title": "Previsão",
@@ -177,6 +178,41 @@
       "bench": "Banco",
       "skills": "Matriz de competências",
       "forecast": "Previsão"
+    }
+  },
+  "notifications": {
+    "title": "Notificações",
+    "subtitle": "Aprovações, alertas de capacidade, banco e alocações em falta",
+    "loading": "A carregar notificações…",
+    "empty": "Ainda sem notificações.",
+    "markRead": "Marcar como lida",
+    "markAll": "Marcar todas como lidas",
+    "markedAll": "Todas as notificações foram marcadas como lidas",
+    "open": "Abrir",
+    "scan": "Analisar alertas",
+    "scanning": "A analisar…",
+    "scanDone": "Análise de alertas concluída",
+    "scanResult": "Criadas {created} para {employees} colaboradores",
+    "types": {
+      "approval_request": "Pedido de aprovação",
+      "approval_returned": "Aprovação devolvida",
+      "approval_approved": "Aprovação aprovada",
+      "approval_locked": "Período bloqueado",
+      "approval_reopened": "Período reaberto",
+      "capacity_alert": "Alerta de capacidade",
+      "over_allocation": "Sobre-alocação",
+      "bench_alert": "Alerta de banco",
+      "missing_allocation": "Alocação em falta"
+    },
+    "push": {
+      "title": "Push no browser",
+      "hint": "A arquitetura está pronta. Ative quando as chaves VAPID estiverem configuradas no servidor.",
+      "enable": "Ativar notificações push",
+      "enabled": "Permissão de push concedida",
+      "unsupported": "Push não é suportado neste browser.",
+      "not_configured": "Push ainda não está configurado (faltam chaves VAPID).",
+      "denied": "A permissão de push foi recusada.",
+      "ready": "Pronto"
     }
   },
   "dashboard": {

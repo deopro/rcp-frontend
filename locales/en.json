@@ -18,6 +18,7 @@
     "forecast": "Forecast",
     "ai": "AI recommendations",
     "approvals": "Approvals",
+    "notifications": "Notifications",
     "reports": "Reports",
     "settings": "Settings",
     "search": "Search"
@@ -64,8 +65,8 @@
   "home": {
     "welcome": "Welcome to RCP",
     "subtitle": "Replace Excel with modern, secure, mobile-first allocation.",
-    "foundationReady": "Reports ready",
-    "nextMilestone": "Next: Notifications (Milestone 14)"
+    "foundationReady": "Notifications ready",
+    "nextMilestone": "Next: Audit & Administration (Milestone 15)"
   },
   "forecast": {
     "title": "Forecast",
@@ -177,6 +178,41 @@
       "bench": "Bench",
       "skills": "Skills matrix",
       "forecast": "Forecast"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "Approvals, capacity alerts, bench, and missing allocations",
+    "loading": "Loading notifications…",
+    "empty": "No notifications yet.",
+    "markRead": "Mark read",
+    "markAll": "Mark all read",
+    "markedAll": "All notifications marked as read",
+    "open": "Open",
+    "scan": "Scan alerts",
+    "scanning": "Scanning…",
+    "scanDone": "Alert scan complete",
+    "scanResult": "Created {created} for {employees} employees",
+    "types": {
+      "approval_request": "Approval request",
+      "approval_returned": "Approval returned",
+      "approval_approved": "Approval approved",
+      "approval_locked": "Period locked",
+      "approval_reopened": "Period reopened",
+      "capacity_alert": "Capacity alert",
+      "over_allocation": "Over-allocation",
+      "bench_alert": "Bench alert",
+      "missing_allocation": "Missing allocation"
+    },
+    "push": {
+      "title": "Browser push",
+      "hint": "Architecture is ready. Enable when VAPID keys are configured on the server.",
+      "enable": "Enable push notifications",
+      "enabled": "Push permission granted",
+      "unsupported": "Push is not supported in this browser.",
+      "not_configured": "Push is not configured yet (missing VAPID keys).",
+      "denied": "Push permission was denied.",
+      "ready": "Ready"
     }
   },
   "dashboard": {

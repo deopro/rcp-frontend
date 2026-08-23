@@ -20,6 +20,7 @@ const allLinks = computed(() => [
   { to: '/leave', label: t('leave.title') },
   { to: '/holidays', label: t('leave.holidays.title') },
   { to: '/settings', label: t('nav.settings') },
+  { to: '/notifications', label: t('nav.notifications') },
   { to: '/reports', label: t('nav.reports') },
   { to: '/skills', label: t('nav.skills') },
   { to: '/bench', label: t('nav.bench') },

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Settings } from 'lucide-vue-next'
+import NotificationBell from '~/features/notifications/components/NotificationBell.vue'
 
 const { t } = useI18n()
 
@@ -25,6 +26,7 @@ defineProps<{
     </div>
     <div class="flex shrink-0 items-center gap-2">
       <slot name="actions" />
+      <NotificationBell />
       <NuxtLink
         to="/settings"
         class="touch-target inline-flex items-center justify-center rounded-lg border border-border bg-input text-foreground shadow-soft transition-colors hover:bg-hover"
