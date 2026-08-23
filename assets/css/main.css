@@ -10,12 +10,18 @@
   --rcp-muted: #64748b;
   --rcp-border: #e2e8f0;
   --rcp-surface: #ffffff;
+  --rcp-subtle: #f1f5f9;
+  --rcp-subtle-fg: #475569;
+  --rcp-input-bg: #ffffff;
+  --rcp-hover: #f1f5f9;
+  --rcp-overlay: rgb(15 23 42 / 0.45);
   --rcp-primary: #0f172a;
   --rcp-primary-fg: #f8fafc;
   --rcp-accent: #2563eb;
   --rcp-danger: #dc2626;
   --rcp-success: #16a34a;
   --rcp-warning: #d97706;
+  --rcp-info: #0284c7;
   --rcp-radius: 0.75rem;
   --rcp-safe-top: env(safe-area-inset-top, 0px);
   --rcp-safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -29,20 +35,26 @@
 }
 
 .dark {
-  --rcp-bg: #020617;
-  --rcp-fg: #f1f5f9;
-  --rcp-muted: #94a3b8;
-  --rcp-border: #1e293b;
-  --rcp-surface: #0f172a;
-  --rcp-primary: #f1f5f9;
-  --rcp-primary-fg: #020617;
+  --rcp-bg: #252526;
+  --rcp-fg: #e8e8ea;
+  --rcp-muted: #a0a0a8;
+  --rcp-border: #4e4e52;
+  --rcp-surface: #3b3b3f;
+  --rcp-subtle: #2d2d30;
+  --rcp-subtle-fg: #c8c8cc;
+  --rcp-input-bg: #252526;
+  --rcp-hover: #454548;
+  --rcp-overlay: rgb(0 0 0 / 0.55);
+  --rcp-primary: #e8e8ea;
+  --rcp-primary-fg: #252526;
   --rcp-accent: #3b82f6;
   --rcp-danger: #f87171;
   --rcp-success: #4ade80;
   --rcp-warning: #fbbf24;
-  --rcp-toast-bg: #0f172a;
-  --rcp-toast-fg: #f1f5f9;
-  --rcp-toast-border: #1e293b;
+  --rcp-info: #38bdf8;
+  --rcp-toast-bg: #3b3b3f;
+  --rcp-toast-fg: #e8e8ea;
+  --rcp-toast-border: #4e4e52;
 }
 
 @layer base {
@@ -120,6 +132,67 @@
 
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
     background-color: color-mix(in srgb, var(--rcp-muted) 55%, transparent);
+  }
+
+  .bg-overlay {
+    background-color: var(--rcp-overlay);
+  }
+}
+
+@layer components {
+  .rcp-badge-neutral {
+    @apply bg-subtle text-subtle-foreground;
+  }
+
+  .rcp-badge-success {
+    background-color: color-mix(in srgb, var(--rcp-success) 18%, var(--rcp-surface));
+    color: var(--rcp-success);
+  }
+
+  .rcp-badge-warning {
+    background-color: color-mix(in srgb, var(--rcp-warning) 18%, var(--rcp-surface));
+    color: var(--rcp-warning);
+  }
+
+  .rcp-badge-danger {
+    background-color: color-mix(in srgb, var(--rcp-danger) 18%, var(--rcp-surface));
+    color: var(--rcp-danger);
+  }
+
+  .rcp-badge-info {
+    background-color: color-mix(in srgb, var(--rcp-info) 18%, var(--rcp-surface));
+    color: var(--rcp-info);
+  }
+
+  .rcp-badge-accent {
+    background-color: color-mix(in srgb, var(--rcp-accent) 18%, var(--rcp-surface));
+    color: var(--rcp-accent);
+  }
+
+  .rcp-cell-off {
+    @apply bg-subtle text-muted;
+  }
+
+  .rcp-cell-holiday {
+    background-color: color-mix(in srgb, var(--rcp-accent) 15%, var(--rcp-subtle));
+    @apply text-muted;
+  }
+
+  .rcp-cell-leave {
+    background-color: color-mix(in srgb, var(--rcp-info) 15%, var(--rcp-subtle));
+    @apply text-muted;
+  }
+
+  .rcp-cell-over {
+    background-color: color-mix(in srgb, var(--rcp-danger) 22%, var(--rcp-subtle));
+  }
+
+  .rcp-cell-full {
+    background-color: color-mix(in srgb, var(--rcp-warning) 22%, var(--rcp-subtle));
+  }
+
+  .rcp-cell-partial {
+    background-color: color-mix(in srgb, var(--rcp-success) 18%, var(--rcp-subtle));
   }
 }
 

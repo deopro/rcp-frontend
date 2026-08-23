@@ -123,7 +123,7 @@ async function onDelete(documentId: string) {
 
 <template>
   <div class="space-y-4">
-    <div class="rounded-lg border border-border bg-slate-50 p-3 dark:bg-slate-900/50">
+    <div class="rounded-lg border border-border bg-subtle p-3">
       <p class="text-sm font-medium">{{ employeeName }}</p>
       <p class="text-xs text-muted">{{ date }}</p>
       <p class="mt-2 text-xs">

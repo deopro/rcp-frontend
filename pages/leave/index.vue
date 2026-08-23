@@ -124,9 +124,9 @@ async function reject(row: Leave) {
 }
 
 function statusClass(status: string) {
-  if (status === 'approved') return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200'
-  if (status === 'rejected') return 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-200'
-  return 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200'
+  if (status === 'approved') return 'rcp-badge-success'
+  if (status === 'rejected') return 'rcp-badge-danger'
+  return 'rcp-badge-warning'
 }
 
 function formatLeaveDate(iso: string | null | undefined): string {
@@ -192,7 +192,7 @@ function leavePersonName(row: Leave): string {
 
     <div v-else class="hidden overflow-hidden rounded-lg border border-border bg-surface md:block">
       <table class="w-full text-left text-sm">
-        <thead class="border-b border-border bg-slate-50 text-muted dark:bg-slate-900/50">
+        <thead class="border-b border-border bg-subtle text-muted">
           <tr>
             <th class="px-4 py-3 font-medium">{{ t('leave.fields.employee') }}</th>
             <th v-if="canPickEmployee" class="px-4 py-3 font-medium">{{ t('leave.fields.type') }}</th>
@@ -296,7 +296,7 @@ function leavePersonName(row: Leave): string {
     <Teleport to="body">
       <div
         v-if="panelOpen"
-        class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 md:items-center"
+        class="fixed inset-0 z-50 flex items-end justify-center bg-overlay p-4 md:items-center"
         @click.self="closePanel"
       >
         <div class="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-soft">

@@ -40,7 +40,7 @@ async function onLogout() {
   <div v-if="auth.user" ref="menuRef" class="relative">
     <button
       type="button"
-      class="touch-target inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-2 py-1.5 text-sm shadow-soft transition-colors hover:bg-slate-50 dark:hover:bg-slate-800"
+      class="touch-target inline-flex items-center gap-2 rounded-lg border border-border bg-input px-2 py-1.5 text-sm shadow-soft transition-colors hover:bg-hover"
       :aria-expanded="open"
       aria-haspopup="menu"
       @click.stop="open = !open"
@@ -67,7 +67,7 @@ async function onLogout() {
       <button
         type="button"
         role="menuitem"
-        class="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm font-medium text-danger transition-colors hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50"
+        class="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm font-medium text-danger transition-colors hover:bg-hover disabled:opacity-50"
         :disabled="loggingOut"
         @click="onLogout"
       >

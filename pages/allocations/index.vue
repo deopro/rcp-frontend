@@ -199,7 +199,7 @@ const mobileEmployees = computed(() => store.grid?.capacity.employees || [])
         :key="p.id"
         type="button"
         draggable="true"
-        class="touch-target rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium hover:bg-slate-50 dark:hover:bg-slate-800"
+        class="touch-target rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium hover:bg-hover"
         @dragstart="(e) => { e.dataTransfer?.setData('application/rcp-project-id', String(p.id)); onDragStart(p.id) }"
         @dragend="dragProjectId = null"
       >
@@ -260,7 +260,7 @@ const mobileEmployees = computed(() => store.grid?.capacity.employees || [])
     <Teleport to="body">
       <div
         v-if="editorOpen && selectedCell && selectedEmployee && selectedDayCapacity"
-        class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 md:items-center"
+        class="fixed inset-0 z-50 flex items-end justify-center bg-overlay p-4 md:items-center"
         @click.self="closeEditor"
       >
         <div class="max-h-[90dvh] w-full max-w-md overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-soft">

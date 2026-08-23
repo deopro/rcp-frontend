@@ -31,7 +31,7 @@ const links = computed(() => filterNavLinks(allLinks.value, auth.roleType))
       <li v-for="link in links" :key="link.to">
         <NuxtLink
           :to="link.to"
-          class="touch-target block px-4 py-4 hover:bg-slate-50 dark:hover:bg-slate-800"
+          class="touch-target block px-4 py-4 hover:bg-hover"
         >
           <p class="text-sm font-medium">{{ link.label }}</p>
           <p class="mt-0.5 text-xs text-muted">{{ link.hint }}</p>

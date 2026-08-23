@@ -23,7 +23,7 @@ const actions = computed(() => [
         v-for="action in actions"
         :key="action.to"
         :to="action.to"
-        class="rounded-lg border border-border px-3 py-3 transition-colors hover:border-accent hover:bg-slate-50 dark:hover:bg-slate-800"
+        class="rounded-lg border border-border px-3 py-3 transition-colors hover:border-accent hover:bg-hover"
       >
         <p class="text-sm font-medium">{{ action.label }}</p>
         <p class="mt-1 text-xs text-muted">{{ action.desc }}</p>

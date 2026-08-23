@@ -35,7 +35,7 @@ const currentIcon = computed(() => {
   <div class="inline-flex items-center gap-1">
     <button
       type="button"
-      class="touch-target inline-flex items-center justify-center rounded-lg border border-border bg-surface text-foreground shadow-soft transition-colors hover:bg-slate-50 dark:hover:bg-slate-800"
+      class="touch-target inline-flex items-center justify-center rounded-lg border border-border bg-input text-foreground shadow-soft transition-colors hover:bg-hover"
       :aria-label="t('theme.toggle')"
       :title="t('theme.toggle')"
       @click="cycleTheme"
@@ -46,7 +46,7 @@ const currentIcon = computed(() => {
     <label class="sr-only" for="theme-select">{{ t('theme.label') }}</label>
     <select
       id="theme-select"
-      class="hidden rounded-lg border border-border bg-surface px-2 py-2 text-sm text-foreground shadow-soft sm:block"
+      class="hidden rounded-lg border border-border bg-input px-2 py-2 text-sm text-foreground shadow-soft sm:block"
       :value="ready ? colorMode.preference : 'system'"
       @change="colorMode.preference = ($event.target as HTMLSelectElement).value"
     >

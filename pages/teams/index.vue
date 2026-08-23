@@ -36,7 +36,7 @@ onMounted(async () => {
     await Promise.all([
       org.loadTeams(),
       org.loadDepartments(),
-      org.loadUserOptions(),
+      canAssign.value ? org.loadUserOptions() : Promise.resolve(),
     ])
   } catch (e) {
     showApiError(e)
@@ -104,7 +104,7 @@ async function onRemove(documentId: string) {
 
     <div v-else class="hidden overflow-hidden rounded-lg border border-border bg-surface md:block">
       <table class="w-full text-left text-sm">
-        <thead class="border-b border-border bg-slate-50 text-muted dark:bg-slate-900/50">
+        <thead class="border-b border-border bg-subtle text-muted">
           <tr>
             <th class="px-4 py-3 font-medium">{{ t('org.fields.name') }}</th>
             <th class="px-4 py-3 font-medium">{{ t('org.fields.department') }}</th>
@@ -117,7 +117,7 @@ async function onRemove(documentId: string) {
           <tr
             v-for="row in org.teams"
             :key="row.documentId"
-            class="hover:bg-slate-50 dark:hover:bg-slate-800/50"
+            class="hover:bg-hover"
           >
             <td class="px-4 py-3 font-medium">{{ row.name }}</td>
             <td class="px-4 py-3 text-muted">{{ row.department?.name || t('org.none') }}</td>
@@ -159,7 +159,7 @@ async function onRemove(documentId: string) {
     <Teleport to="body">
       <div
         v-if="panelOpen"
-        class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 md:items-center"
+        class="fixed inset-0 z-50 flex items-end justify-center bg-overlay p-4 md:items-center"
         @click.self="closePanel"
       >
         <div class="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-soft">

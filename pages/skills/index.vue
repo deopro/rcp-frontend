@@ -242,7 +242,7 @@ const panelTitle = computed(() => {
     <!-- Desktop matrix -->
     <div v-else class="hidden overflow-hidden rounded-lg border border-border bg-surface md:block">
       <table class="w-full text-left text-sm">
-        <thead class="border-b border-border bg-slate-50 text-muted dark:bg-slate-900/50">
+        <thead class="border-b border-border bg-subtle text-muted">
           <tr>
             <th class="px-4 py-3 font-medium">{{ t('skills.fields.employee') }}</th>
             <th class="px-4 py-3 font-medium">{{ t('skills.fields.skill') }}</th>
@@ -257,7 +257,7 @@ const panelTitle = computed(() => {
           <tr
             v-for="row in store.filteredMatrix"
             :key="row.documentId"
-            class="hover:bg-slate-50 dark:hover:bg-slate-800/50"
+            class="hover:bg-hover"
           >
             <td class="px-4 py-3">
               <p class="font-medium">{{ row.employee?.full_name }}</p>
@@ -353,7 +353,7 @@ const panelTitle = computed(() => {
     <Teleport to="body">
       <div
         v-if="panel"
-        class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 md:items-center"
+        class="fixed inset-0 z-50 flex items-end justify-center bg-overlay p-4 md:items-center"
         @click.self="closePanel"
       >
         <div class="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-soft">

@@ -52,7 +52,7 @@ async function onLogout() {
       <li v-for="link in links" :key="link.to">
         <NuxtLink
           :to="link.to"
-          class="touch-target flex items-center px-4 py-3 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800"
+          class="touch-target flex items-center px-4 py-3 text-sm font-medium hover:bg-hover"
         >
           {{ link.label }}
         </NuxtLink>
@@ -60,10 +60,11 @@ async function onLogout() {
       <li>
         <button
           type="button"
-          class="touch-target flex w-full items-center px-4 py-3 text-left text-sm font-medium text-danger hover:bg-slate-50 dark:hover:bg-slate-800"
+          class="touch-target flex w-full items-center px-4 py-3 text-left text-sm font-medium text-danger hover:bg-hover disabled:opacity-50"
+          :disabled="loggingOut"
           @click="onLogout"
         >
-          {{ t('auth.signOut') }}
+          {{ loggingOut ? t('auth.signingOut') : t('auth.signOut') }}
         </button>
       </li>
     </ul>

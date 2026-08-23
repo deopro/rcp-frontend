@@ -8,11 +8,7 @@ const { t } = useI18n()
 <template>
   <span
     class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium"
-    :class="
-      status === 'active'
-        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200'
-        : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'
-    "
+    :class="status === 'active' ? 'rcp-badge-success' : 'rcp-badge-neutral'"
   >
     {{ t(`org.status.${status}`) }}
   </span>

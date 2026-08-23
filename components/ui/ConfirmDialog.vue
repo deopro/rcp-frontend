@@ -15,7 +15,7 @@ onKeyStroke('Escape', (event) => {
   <Teleport to="body">
     <div
       v-if="state.open"
-      class="fixed inset-0 z-[60] flex items-end justify-center bg-black/40 p-4 md:items-center"
+      class="fixed inset-0 z-[60] flex items-end justify-center bg-overlay p-4 md:items-center"
       role="presentation"
       @click.self="dismiss"
     >

@@ -32,7 +32,7 @@ function isActive(match: RegExp) {
 
 <template>
   <nav
-    class="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface/95 backdrop-blur md:hidden"
+    class="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface md:hidden"
     style="padding-bottom: var(--rcp-safe-bottom)"
     :aria-label="t('nav.home')"
   >

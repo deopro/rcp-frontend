@@ -3,7 +3,7 @@ import { useOrganizationStore } from '~/features/organization/stores/organizatio
 import { useProjectsStore } from '~/features/projects/stores/projects'
 import { useDashboardStore } from '../stores/dashboard'
 
-const props = defineProps<{
+defineProps<{
   showDepartment?: boolean
   showTeam?: boolean
   showProject?: boolean

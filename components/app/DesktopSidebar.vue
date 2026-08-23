@@ -74,7 +74,7 @@ function isActive(path: string) {
         :key="link.to"
         :to="link.to"
         class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors"
-        :class="isActive(link.to) ? 'bg-slate-100 text-foreground dark:bg-slate-800' : 'text-muted hover:bg-slate-50 hover:text-foreground dark:hover:bg-slate-800'"
+        :class="isActive(link.to) ? 'bg-hover text-foreground' : 'text-muted hover:bg-hover hover:text-foreground'"
       >
         <component :is="link.icon" class="h-4 w-4" aria-hidden="true" />
         {{ link.label }}
@@ -88,7 +88,7 @@ function isActive(path: string) {
       </div>
       <button
         type="button"
-        class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-danger transition-colors hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50"
+        class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-danger transition-colors hover:bg-hover disabled:opacity-50"
         :disabled="loggingOut"
         @click="logout"
       >

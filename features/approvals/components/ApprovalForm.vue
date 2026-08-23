@@ -121,7 +121,7 @@ async function onDelete() {
         id="appr-comments"
         v-model="form.comments"
         rows="3"
-        class="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm"
+        class="w-full rounded-lg border border-border bg-input px-3 py-2 text-sm"
         :disabled="!canEdit"
       />
     </div>

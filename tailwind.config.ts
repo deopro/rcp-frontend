@@ -18,6 +18,12 @@ export default {
         foreground: 'var(--rcp-fg)',
         muted: 'var(--rcp-muted)',
         surface: 'var(--rcp-surface)',
+        subtle: {
+          DEFAULT: 'var(--rcp-subtle)',
+          foreground: 'var(--rcp-subtle-fg)',
+        },
+        input: 'var(--rcp-input-bg)',
+        hover: 'var(--rcp-hover)',
         primary: {
           DEFAULT: 'var(--rcp-primary)',
           foreground: 'var(--rcp-primary-fg)',
@@ -26,6 +32,7 @@ export default {
         danger: 'var(--rcp-danger)',
         success: 'var(--rcp-success)',
         warning: 'var(--rcp-warning)',
+        info: 'var(--rcp-info)',
       },
       fontFamily: {
         sans: ['IBM Plex Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],

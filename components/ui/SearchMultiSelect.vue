@@ -90,7 +90,7 @@ onKeyStroke('Escape', (event) => {
     <button
       :id="id"
       type="button"
-      class="flex min-h-11 w-full items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2 text-left text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-not-allowed disabled:opacity-50"
+      class="flex min-h-11 w-full items-center gap-2 rounded-lg border border-border bg-input px-3 py-2 text-left text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-not-allowed disabled:opacity-50"
       :disabled="disabled"
       :aria-expanded="open"
       @click="openPanel"
@@ -116,13 +116,13 @@ onKeyStroke('Escape', (event) => {
       <span
         v-for="opt in selectedOptions"
         :key="opt.id"
-        class="inline-flex max-w-full items-center gap-1 rounded-md border border-border bg-slate-50 px-2 py-0.5 text-xs dark:bg-slate-900/50"
+        class="inline-flex max-w-full items-center gap-1 rounded-md border border-border bg-subtle px-2 py-0.5 text-xs"
       >
         <span class="truncate">{{ opt.label }}</span>
         <button
           v-if="!disabled"
           type="button"
-          class="rounded p-0.5 text-muted hover:bg-slate-200 hover:text-foreground dark:hover:bg-slate-800"
+          class="rounded p-0.5 text-muted hover:bg-hover hover:text-foreground"
           :aria-label="t('forms.removeSelected', { label: opt.label })"
           @click="remove(opt.id, $event)"
         >
@@ -134,7 +134,7 @@ onKeyStroke('Escape', (event) => {
     <Teleport to="body">
       <div
         v-if="open"
-        class="fixed inset-0 z-[60] flex items-end justify-center bg-black/40 p-4 md:items-center"
+        class="fixed inset-0 z-[60] flex items-end justify-center bg-overlay p-4 md:items-center"
         role="presentation"
         @click.self="closePanel"
       >
@@ -177,7 +177,7 @@ onKeyStroke('Escape', (event) => {
                 type="button"
                 role="option"
                 :aria-selected="modelValue.includes(opt.id)"
-                class="flex w-full cursor-pointer items-start gap-2 rounded-lg px-3 py-2.5 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                class="flex w-full cursor-pointer items-start gap-2 rounded-lg px-3 py-2.5 text-left text-sm hover:bg-hover"
                 @click="toggle(opt.id)"
               >
                 <input
