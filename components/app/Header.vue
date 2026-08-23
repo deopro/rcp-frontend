@@ -18,9 +18,9 @@ defineProps<{
         R
       </div>
       <div class="min-w-0">
-        <h1 class="truncate text-base font-semibold tracking-tight md:text-lg">
+        <h1 class="truncate text-base font-semibold leading-none tracking-tight">
           {{ title || t('app.name') }}
-          <span class="ml-2 font-normal text-muted">{{ t('app.tagline') }}</span>
+          <span class="ml-2 text-sm font-normal text-muted">{{ t('app.tagline') }}</span>
         </h1>
       </div>
     </div>

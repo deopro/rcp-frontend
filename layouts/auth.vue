@@ -10,8 +10,8 @@ const { t } = useI18n()
           R
         </div>
         <div>
-          <p class="text-sm font-semibold">{{ t('app.name') }}</p>
-          <p class="text-xs text-muted">{{ t('app.tagline') }}</p>
+          <p class="text-base font-semibold leading-none tracking-tight">{{ t('app.name') }}</p>
+          <p class="mt-1 text-sm text-muted">{{ t('app.tagline') }}</p>
         </div>
       </div>
       <div class="flex items-center gap-2">
