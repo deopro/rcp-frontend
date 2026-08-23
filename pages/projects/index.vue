@@ -6,9 +6,7 @@ import ProjectStatusBadge from '~/features/projects/components/ProjectStatusBadg
 import { useProjectsStore } from '~/features/projects/stores/projects'
 import type { Project, ProjectInput } from '~/features/projects/types'
 
-definePageMeta({
-  middleware: ['role'],
-})
+definePageMeta({})
 
 const { t } = useI18n()
 const auth = useAuthStore()
@@ -24,8 +22,16 @@ const summaryLoading = ref(false)
 const canWrite = computed(() =>
   auth.hasRole('administrator', 'department_manager', 'team_leader'),
 )
-const canCreate = computed(() => auth.hasRole('administrator', 'department_manager'))
-const canDelete = computed(() => auth.hasRole('administrator', 'department_manager'))
+const isEmployee = computed(() => auth.hasRole('employee'))
+const canCreate = computed(() =>
+  auth.hasRole('administrator', 'department_manager', 'team_leader'),
+)
+const canDelete = computed(() =>
+  auth.hasRole('administrator', 'department_manager', 'team_leader'),
+)
+const pageSubtitle = computed(() =>
+  isEmployee.value ? t('projects.employee.subtitle') : t('projects.subtitle'),
+)
 
 const currentSummary = computed(() => {
   if (!selected.value?.documentId) return null
@@ -34,12 +40,15 @@ const currentSummary = computed(() => {
 
 onMounted(async () => {
   try {
-    await Promise.all([
-      projectsStore.loadProjects(),
-      projectsStore.loadClients(),
-      projectsStore.loadSkills(),
-      orgStore.loadEmployees(),
-    ])
+    const loads: Promise<unknown>[] = [projectsStore.loadProjects()]
+    if (!isEmployee.value) {
+      loads.push(
+        projectsStore.loadClients(),
+        projectsStore.loadSkills(),
+        orgStore.loadEmployees(),
+      )
+    }
+    await Promise.all(loads)
   } catch (e) {
     showApiError(e)
   }
@@ -97,13 +106,13 @@ async function onRemove(documentId: string) {
     <div class="flex flex-wrap items-center justify-between gap-3">
       <div>
         <h2 class="text-xl font-semibold">{{ t('projects.title') }}</h2>
-        <p class="text-sm text-muted">{{ t('projects.subtitle') }}</p>
+        <p class="text-sm text-muted">{{ pageSubtitle }}</p>
       </div>
       <div class="flex flex-wrap gap-2">
-        <NuxtLink to="/clients">
+        <NuxtLink v-if="!isEmployee" to="/clients">
           <UiButton variant="outline">{{ t('projects.clients.title') }}</UiButton>
         </NuxtLink>
-        <NuxtLink to="/skills">
+        <NuxtLink v-if="!isEmployee" to="/skills">
           <UiButton variant="outline">{{ t('nav.skills') }}</UiButton>
         </NuxtLink>
         <UiButton v-if="canCreate" @click="openCreate">{{ t('projects.add') }}</UiButton>
@@ -123,26 +132,26 @@ async function onRemove(documentId: string) {
 
     <div v-else class="hidden overflow-hidden rounded-lg border border-border bg-surface md:block">
       <table class="w-full text-left text-sm">
-        <thead class="border-b border-border bg-slate-50 text-muted dark:bg-slate-900/50">
+        <thead class="border-b border-border bg-subtle text-muted">
           <tr>
             <th class="px-4 py-3 font-medium">{{ t('projects.fields.name') }}</th>
             <th class="px-4 py-3 font-medium">{{ t('projects.fields.code') }}</th>
             <th class="px-4 py-3 font-medium">{{ t('projects.fields.client') }}</th>
             <th class="px-4 py-3 font-medium">{{ t('projects.fields.status') }}</th>
-            <th class="px-4 py-3 font-medium" />
+            <th v-if="!isEmployee" class="px-4 py-3 font-medium" />
           </tr>
         </thead>
         <tbody class="divide-y divide-border">
           <tr
             v-for="row in projectsStore.projects"
             :key="row.documentId"
-            class="hover:bg-slate-50 dark:hover:bg-slate-800/50"
+            class="hover:bg-hover"
           >
             <td class="px-4 py-3 font-medium">{{ row.name }}</td>
             <td class="px-4 py-3 font-mono text-xs">{{ row.code }}</td>
             <td class="px-4 py-3 text-muted">{{ row.client?.name || t('org.none') }}</td>
             <td class="px-4 py-3"><ProjectStatusBadge :status="row.status" /></td>
-            <td class="px-4 py-3 text-right">
+            <td v-if="!isEmployee" class="px-4 py-3 text-right">
               <UiButton size="sm" variant="ghost" @click="openEdit(row)">
                 {{ canWrite ? t('actions.edit') : t('org.view') }}
               </UiButton>
@@ -167,7 +176,13 @@ async function onRemove(documentId: string) {
           </div>
           <ProjectStatusBadge :status="row.status" />
         </div>
-        <UiButton class="mt-3 w-full" size="sm" variant="outline" @click="openEdit(row)">
+        <UiButton
+          v-if="!isEmployee"
+          class="mt-3 w-full"
+          size="sm"
+          variant="outline"
+          @click="openEdit(row)"
+        >
           {{ canWrite ? t('actions.edit') : t('org.view') }}
         </UiButton>
       </li>
@@ -176,7 +191,7 @@ async function onRemove(documentId: string) {
     <Teleport to="body">
       <div
         v-if="panelOpen"
-        class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 md:items-center"
+        class="fixed inset-0 z-50 flex items-end justify-center bg-overlay p-4 md:items-center"
         @click.self="closePanel"
       >
         <div class="max-h-[90dvh] w-full max-w-2xl overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-soft">

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+definePageMeta({})
+
 const { t } = useI18n()
 </script>
 

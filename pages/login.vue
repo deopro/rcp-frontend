@@ -51,7 +51,7 @@ const onSubmit = handleSubmit(
         description: t('auth.loginSuccessDescription'),
       })
       const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/'
-      await navigateTo(redirect || '/', { external: true })
+      await navigateTo(redirect || '/')
     } catch (error: unknown) {
       toast.error({
         title: t('auth.loginErrorTitle'),
@@ -86,7 +86,7 @@ const onSubmit = handleSubmit(
           type="text"
           autocomplete="username"
           required
-          class="touch-target w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          class="touch-target w-full rounded-lg border border-border bg-input px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-accent"
           :placeholder="t('auth.identifierPlaceholder')"
         >
         <p v-if="errors.identifier" class="text-xs text-danger">{{ errors.identifier }}</p>
@@ -102,7 +102,7 @@ const onSubmit = handleSubmit(
             :type="showPassword ? 'text' : 'password'"
             autocomplete="current-password"
             required
-            class="touch-target w-full rounded-lg border border-border bg-background py-0 pl-3 pr-11 text-sm outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            class="touch-target w-full rounded-lg border border-border bg-input py-0 pl-3 pr-11 text-sm outline-none focus-visible:ring-2 focus-visible:ring-accent"
             :placeholder="t('auth.passwordPlaceholder')"
           >
           <button

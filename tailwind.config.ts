@@ -18,6 +18,12 @@ export default {
         foreground: 'var(--rcp-fg)',
         muted: 'var(--rcp-muted)',
         surface: 'var(--rcp-surface)',
+        subtle: {
+          DEFAULT: 'var(--rcp-subtle)',
+          foreground: 'var(--rcp-subtle-fg)',
+        },
+        input: 'var(--rcp-input-bg)',
+        hover: 'var(--rcp-hover)',
         primary: {
           DEFAULT: 'var(--rcp-primary)',
           foreground: 'var(--rcp-primary-fg)',
@@ -26,6 +32,7 @@ export default {
         danger: 'var(--rcp-danger)',
         success: 'var(--rcp-success)',
         warning: 'var(--rcp-warning)',
+        info: 'var(--rcp-info)',
       },
       fontFamily: {
         sans: ['IBM Plex Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
@@ -41,7 +48,7 @@ export default {
         'header': 'var(--rcp-header-height)',
       },
       boxShadow: {
-        soft: '0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.08)',
+        soft: 'var(--rcp-shadow)',
       },
     },
   },

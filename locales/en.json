@@ -63,8 +63,50 @@
   "home": {
     "welcome": "Welcome to RCP",
     "subtitle": "Replace Excel with modern, secure, mobile-first allocation.",
-    "foundationReady": "Approvals ready",
-    "nextMilestone": "Next: role dashboards (Milestone 10)"
+    "foundationReady": "Dashboards ready",
+    "nextMilestone": "Next: forecasting (Milestone 11)"
+  },
+  "dashboard": {
+    "loading": "Loading dashboard…",
+    "subtitle": "Utilization, bench, and pending items for your scope",
+    "titles": {
+      "employee": "My dashboard",
+      "teamLeader": "Team dashboard",
+      "departmentManager": "Department dashboard",
+      "executive": "Organization dashboard"
+    },
+    "filters": {
+      "reset": "Reset filters"
+    },
+    "kpis": {
+      "employees": "People",
+      "utilization": "Utilization",
+      "bench": "Bench",
+      "remaining": "Remaining hours",
+      "allocated": "Allocated hours",
+      "activeProjects": "Active projects",
+      "pendingApprovals": "Pending approvals",
+      "pendingLeave": "Pending leave"
+    },
+    "charts": {
+      "dailyTitle": "Daily capacity",
+      "teamTitle": "Utilization by team",
+      "projectTitle": "Hours by project",
+      "available": "Available",
+      "allocated": "Allocated",
+      "utilization": "Utilization"
+    },
+    "pending": {
+      "approvals": "Approvals awaiting action",
+      "leave": "Leave awaiting review",
+      "viewAll": "View all"
+    },
+    "quickActions": {
+      "title": "Quick actions"
+    },
+    "links": {
+      "reports": "Exports and analytics"
+    }
   },
   "bench": {
     "title": "Bench",
@@ -108,6 +150,7 @@
       "employee": "Employee",
       "startDate": "Start date",
       "endDate": "End date",
+      "days": "Days",
       "type": "Type",
       "status": "Status",
       "notes": "Notes"
@@ -142,6 +185,13 @@
       "add": "New holiday",
       "edit": "Edit holiday",
       "empty": "No holidays configured yet."
+    },
+    "employee": {
+      "title": "Vacation",
+      "subtitle": "Record your planned vacation days — they reduce your available capacity.",
+      "add": "Add vacation days",
+      "edit": "Edit vacation days",
+      "empty": "You haven't recorded any vacation days yet."
     }
   },
   "allocations": {
@@ -218,6 +268,9 @@
   "projects": {
     "title": "Projects",
     "subtitle": "Clients, assignments, required skills, and capacity summary",
+    "employee": {
+      "subtitle": "Projects you are assigned to"
+    },
     "loading": "Loading…",
     "loadingSummary": "Loading summary…",
     "saving": "Saving…",
@@ -368,7 +421,8 @@
     }
   },
   "settings": {
-    "subtitle": "Appearance and language preferences"
+    "subtitle": "Appearance and language preferences",
+    "account": "Account"
   },
   "auth": {
     "loginTitle": "Sign in",
@@ -382,6 +436,7 @@
     "signIn": "Sign in",
     "signingIn": "Signing in…",
     "signOut": "Sign out",
+    "signingOut": "Signing out…",
     "loginSuccessTitle": "Signed in",
     "loginSuccessDescription": "Welcome back.",
     "loginErrorTitle": "Sign-in failed",
@@ -409,6 +464,11 @@
     "generic": "Something went wrong. Please try again.",
     "genericDescription": "Please try again. If the problem persists, contact your administrator.",
     "forbidden": "You don't have permission to perform this action.",
+    "accessDenied": {
+      "title": "Access denied",
+      "description": "You don't have permission to view this page. If you believe this is a mistake, contact your administrator.",
+      "back": "Back to dashboard"
+    },
     "notFoundRecord": "The record could not be found.",
     "duplicate": "A record with this name already exists.",
     "validation": "Some fields are invalid. Review the form and try again.",

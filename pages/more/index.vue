@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { useAuthStore } from '~/features/auth/stores/auth'
 import { formatUserLabel } from '~/shared/users/format-user-label'
+import { useAuthStore } from '~/features/auth/stores/auth'
+import { filterNavLinks } from '~/shared/navigation/nav-access'
 
 const { t } = useI18n()
 const auth = useAuthStore()
-const toast = useToast()
+const { logout, loggingOut } = useLogout()
 
 const displayName = computed(() =>
   auth.user ? formatUserLabel(auth.user) : '',
 )
 
-const links = computed(() => [
+const allLinks = computed(() => [
   { to: '/projects', label: t('nav.projects') },
   { to: '/clients', label: t('nav.clients') },
   { to: '/employees', label: t('nav.employees') },
@@ -25,13 +26,10 @@ const links = computed(() => [
   { to: '/approvals', label: t('nav.approvals') },
 ])
 
+const links = computed(() => filterNavLinks(allLinks.value, auth.roleType))
+
 async function onLogout() {
-  await auth.logout()
-  toast.info({
-    title: t('auth.logoutTitle'),
-    description: t('auth.logoutDescription'),
-  })
-  await navigateTo('/login')
+  await logout()
 }
 </script>
 
@@ -54,7 +52,7 @@ async function onLogout() {
       <li v-for="link in links" :key="link.to">
         <NuxtLink
           :to="link.to"
-          class="touch-target flex items-center px-4 py-3 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800"
+          class="touch-target flex items-center px-4 py-3 text-sm font-medium hover:bg-hover"
         >
           {{ link.label }}
         </NuxtLink>
@@ -62,10 +60,11 @@ async function onLogout() {
       <li>
         <button
           type="button"
-          class="touch-target flex w-full items-center px-4 py-3 text-left text-sm font-medium text-danger hover:bg-slate-50 dark:hover:bg-slate-800"
+          class="touch-target flex w-full items-center px-4 py-3 text-left text-sm font-medium text-danger hover:bg-hover disabled:opacity-50"
+          :disabled="loggingOut"
           @click="onLogout"
         >
-          {{ t('auth.signOut') }}
+          {{ loggingOut ? t('auth.signingOut') : t('auth.signOut') }}
         </button>
       </li>
     </ul>

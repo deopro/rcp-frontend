@@ -1,6 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
+  // Authenticated app shell — client render avoids auth/layout hydration mismatches.
+  ssr: false,
   // Nuxt 4 with classic root pages/components layout
   future: {
     compatibilityVersion: 4,
@@ -66,8 +68,8 @@ export default defineNuxtConfig({
       name: 'RCP — Resource Capacity Planning',
       short_name: 'RCP',
       description: 'Enterprise resource capacity planning and allocation',
-      theme_color: '#0f172a',
-      background_color: '#0f172a',
+      theme_color: '#21262d',
+      background_color: '#24292e',
       display: 'standalone',
       orientation: 'portrait-primary',
       lang: 'pt-PT',

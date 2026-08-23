@@ -10,9 +10,14 @@ const props = defineProps<{
   canDelete: boolean
   canReview: boolean
   canPickEmployee: boolean
+  allowedLeaveTypes?: LeaveType[]
   onSave: (input: LeaveInput, documentId?: string) => Promise<void>
   onRemove?: (documentId: string) => Promise<void>
 }>()
+
+const ALL_LEAVE_TYPES: LeaveType[] = ['annual', 'sick', 'unpaid', 'other']
+const leaveTypes = computed(() => props.allowedLeaveTypes ?? ALL_LEAVE_TYPES)
+const showLeaveType = computed(() => leaveTypes.value.length > 1)
 
 const emit = defineEmits<{ cancel: [] }>()
 const { t } = useI18n()
@@ -43,6 +48,16 @@ watch(
   { immediate: true },
 )
 
+watch(
+  leaveTypes,
+  (types) => {
+    if (!types.includes(form.leave_type)) {
+      form.leave_type = 'annual'
+    }
+  },
+  { immediate: true },
+)
+
 async function onSubmit() {
   if (!props.canEdit) return
   if (
@@ -69,8 +84,8 @@ async function onSubmit() {
         employee: props.canPickEmployee && form.employee ? Number(form.employee) : undefined,
         start_date: form.start_date,
         end_date: form.end_date,
-        leave_type: form.leave_type,
-        status: props.canReview ? form.status : 'pending',
+        leave_type: leaveTypes.value.includes(form.leave_type) ? form.leave_type : 'annual',
+        status: props.canReview ? form.status : 'approved',
         notes: form.notes.trim() || null,
       },
       props.leave?.documentId,
@@ -110,13 +125,12 @@ async function onDelete() {
         <UiFormLabel for="leave-end" required>{{ t('leave.fields.endDate') }}</UiFormLabel>
         <UiInput id="leave-end" v-model="form.end_date" type="date" :disabled="!canEdit" />
       </div>
-      <div class="space-y-1.5">
+      <div v-if="showLeaveType" class="space-y-1.5">
         <UiFormLabel for="leave-type">{{ t('leave.fields.type') }}</UiFormLabel>
         <UiSelect id="leave-type" v-model="form.leave_type" :disabled="!canEdit">
-          <option value="annual">{{ t('leave.types.annual') }}</option>
-          <option value="sick">{{ t('leave.types.sick') }}</option>
-          <option value="unpaid">{{ t('leave.types.unpaid') }}</option>
-          <option value="other">{{ t('leave.types.other') }}</option>
+          <option v-for="type in leaveTypes" :key="type" :value="type">
+            {{ t(`leave.types.${type}`) }}
+          </option>
         </UiSelect>
       </div>
       <div v-if="canReview" class="space-y-1.5">

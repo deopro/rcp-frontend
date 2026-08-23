@@ -14,6 +14,7 @@ const props = defineProps<{
   skills: Skill[]
   canEdit: boolean
   canDelete: boolean
+  lockedEmployeeId?: number
   onSave: (input: EmployeeSkillInput, documentId?: string) => Promise<void>
   onRemove?: (documentId: string) => Promise<void>
 }>()
@@ -35,9 +36,14 @@ const saving = ref(false)
 const isEdit = computed(() => Boolean(props.record?.documentId))
 
 watch(
-  () => props.record,
-  (row) => {
-    form.employee = row?.employee?.id != null ? String(row.employee.id) : ''
+  () => [props.record, props.lockedEmployeeId] as const,
+  ([row, lockedId]) => {
+    form.employee =
+      row?.employee?.id != null
+        ? String(row.employee.id)
+        : lockedId != null
+          ? String(lockedId)
+          : ''
     form.skill = row?.skill?.id != null ? String(row.skill.id) : ''
     form.proficiency_level = row?.proficiency_level || 'basic'
     form.years_experience = String(row?.years_experience ?? 0)
@@ -92,7 +98,11 @@ async function onDelete() {
     <div class="grid gap-4 sm:grid-cols-2">
       <div class="space-y-1.5">
         <UiFormLabel for="es-employee" required>{{ t('skills.fields.employee') }}</UiFormLabel>
-        <UiSelect id="es-employee" v-model="form.employee" :disabled="!canEdit || isEdit">
+        <UiSelect
+          id="es-employee"
+          v-model="form.employee"
+          :disabled="!canEdit || isEdit || lockedEmployeeId != null"
+        >
           <option value="">{{ t('org.select') }}</option>
           <option v-for="e in employees" :key="e.id" :value="String(e.id)">
             {{ e.full_name }}

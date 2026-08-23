@@ -1,5 +1,14 @@
 <script setup lang="ts">
+import { useAuthStore } from '~/features/auth/stores/auth'
+import { formatUserLabel } from '~/shared/users/format-user-label'
+
 const { t } = useI18n()
+const auth = useAuthStore()
+const { logout, loggingOut } = useLogout()
+
+const displayName = computed(() =>
+  auth.user ? formatUserLabel(auth.user) : '',
+)
 </script>
 
 <template>
@@ -8,6 +17,28 @@ const { t } = useI18n()
       <h2 class="text-xl font-semibold">{{ t('nav.settings') }}</h2>
       <p class="mt-1 text-sm text-muted">{{ t('settings.subtitle') }}</p>
     </div>
+
+    <section
+      v-if="auth.user"
+      class="space-y-3 rounded-lg border border-border bg-surface p-4 shadow-soft"
+    >
+      <h3 class="text-sm font-semibold">{{ t('settings.account') }}</h3>
+      <div>
+        <p class="text-sm font-medium">{{ displayName }}</p>
+        <p class="text-xs text-muted">{{ auth.user.email }}</p>
+        <p v-if="auth.user.role" class="mt-1 text-xs text-muted">
+          {{ auth.user.role.name }}
+        </p>
+      </div>
+      <UiButton
+        variant="outline"
+        class="w-full sm:w-auto"
+        :disabled="loggingOut"
+        @click="logout"
+      >
+        {{ loggingOut ? t('auth.signingOut') : t('auth.signOut') }}
+      </UiButton>
+    </section>
 
     <section class="space-y-3 rounded-lg border border-border bg-surface p-4 shadow-soft">
       <h3 class="text-sm font-semibold">{{ t('theme.label') }}</h3>

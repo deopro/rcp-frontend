@@ -31,14 +31,14 @@ function cellTotal(employeeId: number, date: string): number {
 function cellClass(employee: EmployeeCapacityRow, date: string) {
   const day = employee.days.find((d) => d.date === date)
   if (!day?.is_working_day) {
-    if (day?.is_holiday) return 'bg-violet-100 text-muted dark:bg-violet-900/30'
-    if (day?.is_leave) return 'bg-sky-100 text-muted dark:bg-sky-900/30'
-    return 'bg-slate-100 text-muted dark:bg-slate-900'
+    if (day?.is_holiday) return 'rcp-cell-holiday'
+    if (day?.is_leave) return 'rcp-cell-leave'
+    return 'rcp-cell-off'
   }
   const total = cellTotal(employee.employee_id, date)
-  if (total > day.daily_capacity) return 'bg-red-100 dark:bg-red-900/30'
-  if (total >= day.daily_capacity) return 'bg-amber-100 dark:bg-amber-900/30'
-  if (total > 0) return 'bg-emerald-50 dark:bg-emerald-900/20'
+  if (total > day.daily_capacity) return 'rcp-cell-over'
+  if (total >= day.daily_capacity) return 'rcp-cell-full'
+  if (total > 0) return 'rcp-cell-partial'
   return ''
 }
 
@@ -84,9 +84,9 @@ function onDragOver(e: DragEvent) {
 <template>
   <div class="hidden overflow-auto rounded-lg border border-border md:block">
     <table class="min-w-full border-collapse text-sm">
-      <thead class="sticky top-0 z-10 bg-surface">
+      <thead class="sticky top-0 z-10 bg-subtle">
         <tr class="border-b border-border">
-          <th class="sticky left-0 z-20 min-w-[10rem] bg-surface px-3 py-2 text-left font-medium">
+          <th class="sticky left-0 z-20 min-w-[10rem] bg-subtle px-3 py-2 text-left font-medium">
             {{ t('allocations.fields.employee') }}
           </th>
           <th

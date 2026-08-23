@@ -5,44 +5,90 @@
 @tailwind utilities;
 
 :root {
-  --rcp-bg: #f8fafc;
-  --rcp-fg: #0f172a;
-  --rcp-muted: #64748b;
-  --rcp-border: #e2e8f0;
+  /* GitHub Desktop light theme (Primer) */
+  --rcp-bg: #ffffff;
+  --rcp-fg: #24292e;
+  --rcp-muted: #6a737d;
+  --rcp-border: #e1e4e8;
   --rcp-surface: #ffffff;
+  --rcp-subtle: #f6f8fa;
+  --rcp-subtle-fg: #57606a;
+  --rcp-input-bg: #ffffff;
+  --rcp-hover: #f6f8fa;
+  --rcp-overlay: rgb(0 0 0 / 0.4);
   --rcp-primary: #0f172a;
   --rcp-primary-fg: #f8fafc;
-  --rcp-accent: #2563eb;
-  --rcp-danger: #dc2626;
-  --rcp-success: #16a34a;
-  --rcp-warning: #d97706;
-  --rcp-radius: 0.75rem;
+  --rcp-accent: #0366d6;
+  --rcp-danger: #d73a49;
+  --rcp-success: #1a7f37;
+  --rcp-warning: #b08800;
+  --rcp-info: #0969da;
+  --rcp-radius: 0.375rem;
   --rcp-safe-top: env(safe-area-inset-top, 0px);
   --rcp-safe-bottom: env(safe-area-inset-bottom, 0px);
   --rcp-safe-left: env(safe-area-inset-left, 0px);
   --rcp-safe-right: env(safe-area-inset-right, 0px);
   --rcp-nav-height: 4rem;
   --rcp-header-height: 3.5rem;
-  --rcp-toast-bg: #ffffff;
-  --rcp-toast-fg: #0f172a;
-  --rcp-toast-border: #e2e8f0;
+  --rcp-toast-bg: rgb(36 41 46 / 0.6);
+  --rcp-toast-fg: #fafbfc;
+  --rcp-toast-border: #e1e4e8;
+  --rcp-shadow: 0 2px 7px rgb(71 83 95 / 0.19);
+  --rcp-chart-bg: transparent;
+  --rcp-chart-axis: #57606a;
+  --rcp-chart-grid: #e1e4e8;
+  --rcp-chart-legend: #57606a;
+  --rcp-chart-tooltip-bg: #24292e;
+  --rcp-chart-tooltip-fg: #fafbfc;
+  --rcp-chart-tooltip-border: #e1e4e8;
+  --rcp-chart-series-1: #0366d6;
+  --rcp-chart-series-2: #1a7f37;
+  --rcp-chart-series-3: #b08800;
+  --rcp-chart-series-4: #d73a49;
+  --rcp-chart-series-5: #6f42c1;
+  --rcp-chart-series-6: #e36209;
+  --rcp-chart-series-7: #0969da;
+  --rcp-chart-series-8: #2ea44e;
 }
 
 .dark {
-  --rcp-bg: #020617;
-  --rcp-fg: #f1f5f9;
-  --rcp-muted: #94a3b8;
-  --rcp-border: #1e293b;
-  --rcp-surface: #0f172a;
+  /* GitHub Desktop dark theme (Primer) — desktop/desktop app/styles/themes/_dark.scss */
+  --rcp-bg: #24292e;
+  --rcp-fg: #f6f8fa;
+  --rcp-muted: #959da5;
+  --rcp-border: #30363d;
+  --rcp-surface: #21262d;
+  --rcp-subtle: #272c32;
+  --rcp-subtle-fg: #8b949e;
+  --rcp-input-bg: #24292e;
+  --rcp-hover: #2f363d;
+  --rcp-overlay: rgb(0 0 0 / 0.5);
   --rcp-primary: #f1f5f9;
   --rcp-primary-fg: #020617;
-  --rcp-accent: #3b82f6;
-  --rcp-danger: #f87171;
-  --rcp-success: #4ade80;
-  --rcp-warning: #fbbf24;
-  --rcp-toast-bg: #0f172a;
-  --rcp-toast-fg: #f1f5f9;
-  --rcp-toast-border: #1e293b;
+  --rcp-accent: #2e8fff;
+  --rcp-danger: #d73a49;
+  --rcp-success: #2ea44e;
+  --rcp-warning: #dbab09;
+  --rcp-info: #58a6ff;
+  --rcp-toast-bg: rgb(0 0 0 / 0.8);
+  --rcp-toast-fg: #f6f8fa;
+  --rcp-toast-border: #30363d;
+  --rcp-shadow: 0 2px 7px rgb(0 0 0 / 0.5);
+  --rcp-chart-bg: transparent;
+  --rcp-chart-axis: #8b949e;
+  --rcp-chart-grid: #30363d;
+  --rcp-chart-legend: #8b949e;
+  --rcp-chart-tooltip-bg: #21262d;
+  --rcp-chart-tooltip-fg: #f6f8fa;
+  --rcp-chart-tooltip-border: #30363d;
+  --rcp-chart-series-1: #2e8fff;
+  --rcp-chart-series-2: #2ea44e;
+  --rcp-chart-series-3: #dbab09;
+  --rcp-chart-series-4: #f85149;
+  --rcp-chart-series-5: #a371f7;
+  --rcp-chart-series-6: #f0883e;
+  --rcp-chart-series-7: #58a6ff;
+  --rcp-chart-series-8: #3fb950;
 }
 
 @layer base {
@@ -76,7 +122,8 @@
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-blue-600;
+    outline: 2px solid var(--rcp-accent);
+    outline-offset: 2px;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -98,6 +145,89 @@
   .touch-target {
     min-height: 44px;
     min-width: 44px;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--rcp-muted) 35%, transparent) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: color-mix(in srgb, var(--rcp-muted) 35%, transparent);
+    border-radius: 9999px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: color-mix(in srgb, var(--rcp-muted) 55%, transparent);
+  }
+
+  .bg-overlay {
+    background-color: var(--rcp-overlay);
+  }
+}
+
+@layer components {
+  .rcp-badge-neutral {
+    @apply bg-subtle text-subtle-foreground;
+  }
+
+  .rcp-badge-success {
+    background-color: color-mix(in srgb, var(--rcp-success) 18%, var(--rcp-surface));
+    color: var(--rcp-success);
+  }
+
+  .rcp-badge-warning {
+    background-color: color-mix(in srgb, var(--rcp-warning) 18%, var(--rcp-surface));
+    color: var(--rcp-warning);
+  }
+
+  .rcp-badge-danger {
+    background-color: color-mix(in srgb, var(--rcp-danger) 18%, var(--rcp-surface));
+    color: var(--rcp-danger);
+  }
+
+  .rcp-badge-info {
+    background-color: color-mix(in srgb, var(--rcp-info) 18%, var(--rcp-surface));
+    color: var(--rcp-info);
+  }
+
+  .rcp-badge-accent {
+    background-color: color-mix(in srgb, var(--rcp-accent) 18%, var(--rcp-surface));
+    color: var(--rcp-accent);
+  }
+
+  .rcp-cell-off {
+    @apply bg-subtle text-muted;
+  }
+
+  .rcp-cell-holiday {
+    background-color: color-mix(in srgb, var(--rcp-accent) 15%, var(--rcp-subtle));
+    @apply text-muted;
+  }
+
+  .rcp-cell-leave {
+    background-color: color-mix(in srgb, var(--rcp-info) 15%, var(--rcp-subtle));
+    @apply text-muted;
+  }
+
+  .rcp-cell-over {
+    background-color: color-mix(in srgb, var(--rcp-danger) 22%, var(--rcp-subtle));
+  }
+
+  .rcp-cell-full {
+    background-color: color-mix(in srgb, var(--rcp-warning) 22%, var(--rcp-subtle));
+  }
+
+  .rcp-cell-partial {
+    background-color: color-mix(in srgb, var(--rcp-success) 18%, var(--rcp-subtle));
   }
 }
 

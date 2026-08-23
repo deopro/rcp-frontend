@@ -11,10 +11,7 @@ import type {
   ApprovalStatus,
 } from '~/features/approvals/types'
 
-definePageMeta({
-  middleware: ['role'],
-  roles: ['administrator', 'executive', 'department_manager', 'team_leader'],
-})
+definePageMeta({})
 
 const { t } = useI18n()
 const auth = useAuthStore()
@@ -181,7 +178,7 @@ function periodLabel(row: Approval) {
 
     <div v-else class="hidden overflow-hidden rounded-lg border border-border bg-surface md:block">
       <table class="w-full text-left text-sm">
-        <thead class="border-b border-border bg-slate-50 text-muted dark:bg-slate-900/50">
+        <thead class="border-b border-border bg-subtle text-muted">
           <tr>
             <th class="px-4 py-3 font-medium">{{ t('approvals.fields.team') }}</th>
             <th class="px-4 py-3 font-medium">{{ t('approvals.fields.period') }}</th>
@@ -257,7 +254,7 @@ function periodLabel(row: Approval) {
     <Teleport to="body">
       <div
         v-if="panelOpen"
-        class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 md:items-center"
+        class="fixed inset-0 z-50 flex items-end justify-center bg-overlay p-4 md:items-center"
         @click.self="closePanel"
       >
         <div class="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-soft">
@@ -285,7 +282,7 @@ function periodLabel(row: Approval) {
     <Teleport to="body">
       <div
         v-if="returnOpen"
-        class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 md:items-center"
+        class="fixed inset-0 z-50 flex items-end justify-center bg-overlay p-4 md:items-center"
         @click.self="returnOpen = false"
       >
         <div class="w-full max-w-md space-y-4 rounded-xl border border-border bg-surface p-5 shadow-soft">
@@ -299,7 +296,7 @@ function periodLabel(row: Approval) {
               id="return-comments"
               v-model="returnComments"
               rows="4"
-              class="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm"
+              class="w-full rounded-lg border border-border bg-input px-3 py-2 text-sm"
             />
           </div>
           <div class="flex justify-end gap-2">

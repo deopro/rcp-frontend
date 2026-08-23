@@ -7,15 +7,15 @@ const { t } = useI18n()
 const className = computed(() => {
   switch (props.status) {
     case 'locked':
-      return 'bg-slate-200 text-slate-900 dark:bg-slate-700 dark:text-slate-100'
+      return 'rcp-badge-neutral'
     case 'approved':
-      return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200'
+      return 'rcp-badge-success'
     case 'returned':
-      return 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-200'
+      return 'rcp-badge-danger'
     case 'submitted':
-      return 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200'
+      return 'rcp-badge-info'
     default:
-      return 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200'
+      return 'rcp-badge-warning'
   }
 })
 </script>

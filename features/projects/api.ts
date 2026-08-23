@@ -90,7 +90,8 @@ export function useProjectsApi() {
           'pagination[pageSize]': pageSize,
           'populate[client]': 'true',
           'populate[required_skills]': 'true',
-          'populate[assigned_employees]': 'true',
+          'populate[assigned_employees][fields][0]': 'full_name',
+          'populate[assigned_employees][fields][1]': 'id',
           sort: 'name:asc',
         })}`,
       )
@@ -101,7 +102,8 @@ export function useProjectsApi() {
         `/api/projects/${documentId}${qs({
           'populate[client]': 'true',
           'populate[required_skills]': 'true',
-          'populate[assigned_employees]': 'true',
+          'populate[assigned_employees][fields][0]': 'full_name',
+          'populate[assigned_employees][fields][1]': 'id',
         })}`,
       )
     },

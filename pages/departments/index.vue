@@ -4,11 +4,9 @@ import DepartmentForm from '~/features/organization/components/DepartmentForm.vu
 import StatusBadge from '~/features/organization/components/StatusBadge.vue'
 import { useOrganizationStore } from '~/features/organization/stores/organization'
 import type { Department, DepartmentInput } from '~/features/organization/types'
+import { userLabelFromOptions } from '~/shared/users/user-label-from-options'
 
-definePageMeta({
-  middleware: ['role'],
-  roles: ['administrator', 'executive', 'department_manager', 'team_leader'],
-})
+definePageMeta({})
 
 const { t } = useI18n()
 const auth = useAuthStore()
@@ -22,9 +20,13 @@ const selected = ref<Department | null>(null)
 const canWrite = computed(() => auth.hasRole('administrator'))
 const canDelete = computed(() => auth.hasRole('administrator'))
 
+function managerLabel(department: Department) {
+  return userLabelFromOptions(department.manager, org.userOptions, t('org.none'))
+}
+
 onMounted(async () => {
   try {
-    await Promise.all([org.loadDepartments(), canWrite.value ? org.loadUserOptions() : Promise.resolve()])
+    await Promise.all([org.loadDepartments(), org.loadUserOptions()])
   } catch (e) {
     showApiError(e)
   }
@@ -90,7 +92,7 @@ async function onRemove(documentId: string) {
     <!-- Desktop table -->
     <div v-else class="hidden overflow-hidden rounded-lg border border-border bg-surface md:block">
       <table class="w-full text-left text-sm">
-        <thead class="border-b border-border bg-slate-50 text-muted dark:bg-slate-900/50">
+        <thead class="border-b border-border bg-subtle text-muted">
           <tr>
             <th class="px-4 py-3 font-medium">{{ t('org.fields.name') }}</th>
             <th class="px-4 py-3 font-medium">{{ t('org.fields.manager') }}</th>
@@ -102,10 +104,10 @@ async function onRemove(documentId: string) {
           <tr
             v-for="row in org.departments"
             :key="row.documentId"
-            class="hover:bg-slate-50 dark:hover:bg-slate-800/50"
+            class="hover:bg-hover"
           >
             <td class="px-4 py-3 font-medium">{{ row.name }}</td>
-            <td class="px-4 py-3 text-muted">{{ row.manager?.email || t('org.none') }}</td>
+            <td class="px-4 py-3 text-muted">{{ managerLabel(row) }}</td>
             <td class="px-4 py-3"><StatusBadge :status="row.status" /></td>
             <td class="px-4 py-3 text-right">
               <UiButton size="sm" variant="ghost" @click="openEdit(row)">
@@ -127,7 +129,7 @@ async function onRemove(documentId: string) {
         <div class="flex items-start justify-between gap-2">
           <div>
             <p class="font-medium">{{ row.name }}</p>
-            <p class="mt-1 text-xs text-muted">{{ row.manager?.email || t('org.none') }}</p>
+            <p class="mt-1 text-xs text-muted">{{ managerLabel(row) }}</p>
           </div>
           <StatusBadge :status="row.status" />
         </div>
@@ -140,7 +142,7 @@ async function onRemove(documentId: string) {
     <Teleport to="body">
       <div
         v-if="panelOpen"
-        class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 md:items-center"
+        class="fixed inset-0 z-50 flex items-end justify-center bg-overlay p-4 md:items-center"
         @click.self="closePanel"
       >
         <div class="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-soft">

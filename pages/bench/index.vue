@@ -4,10 +4,7 @@ import { useOrganizationStore } from '~/features/organization/stores/organizatio
 import { useSkillsStore } from '~/features/skills/stores/skills'
 import { useBenchStore } from '~/features/bench/stores/bench'
 
-definePageMeta({
-  middleware: ['role'],
-  roles: ['administrator', 'executive', 'department_manager', 'team_leader'],
-})
+definePageMeta({})
 
 const { t, locale } = useI18n()
 const auth = useAuthStore()
@@ -93,7 +90,7 @@ async function refresh() {
             :class="
               store.skillIds.includes(skill.id)
                 ? 'border-accent bg-accent/10 text-foreground'
-                : 'border-border text-muted hover:bg-slate-50 dark:hover:bg-slate-800'
+                : 'border-border text-muted hover:bg-hover'
             "
             @click="store.toggleSkill(skill.id)"
           >
@@ -139,7 +136,7 @@ async function refresh() {
       <!-- Forecast stub -->
       <div
         v-if="store.forecast"
-        class="rounded-lg border border-dashed border-border bg-slate-50 p-4 dark:bg-slate-900/40"
+        class="rounded-lg border border-dashed border-border bg-subtle p-4"
       >
         <p class="text-sm font-medium">{{ t('bench.forecast.title') }}</p>
         <p class="mt-1 text-sm text-muted">{{ t('bench.forecast.message') }}</p>
@@ -160,7 +157,7 @@ async function refresh() {
       <!-- Desktop table -->
       <div v-else class="hidden overflow-hidden rounded-lg border border-border bg-surface md:block">
         <table class="w-full text-left text-sm">
-          <thead class="border-b border-border bg-slate-50 text-muted dark:bg-slate-900/50">
+          <thead class="border-b border-border bg-subtle text-muted">
             <tr>
               <th class="px-4 py-3 font-medium">{{ t('org.fields.fullName') }}</th>
               <th class="px-4 py-3 font-medium">{{ t('org.fields.team') }}</th>
@@ -177,7 +174,7 @@ async function refresh() {
               <td class="px-4 py-3 text-muted">{{ row.team_name || t('org.none') }}</td>
               <td class="px-4 py-3">{{ row.available_hours }}h</td>
               <td class="px-4 py-3">{{ row.allocated_hours }}h</td>
-              <td class="px-4 py-3 font-semibold text-emerald-700 dark:text-emerald-300">
+              <td class="px-4 py-3 font-semibold text-success">
                 {{ row.remaining_hours }}h
               </td>
               <td class="px-4 py-3">{{ row.bench_pct }}%</td>
@@ -186,7 +183,7 @@ async function refresh() {
                   <span
                     v-for="sk in row.skills.slice(0, 4)"
                     :key="sk.id"
-                    class="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] dark:bg-slate-800"
+                    class="rounded bg-subtle px-1.5 py-0.5 text-[10px] text-subtle-foreground"
                   >
                     {{ sk.name }}
                   </span>
@@ -212,7 +209,7 @@ async function refresh() {
               <p class="font-medium">{{ row.full_name }}</p>
               <p class="text-xs text-muted">{{ row.team_name || t('org.none') }}</p>
             </div>
-            <p class="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+            <p class="text-sm font-semibold text-success">
               {{ row.remaining_hours }}h
             </p>
           </div>
@@ -224,7 +221,7 @@ async function refresh() {
             <span
               v-for="sk in row.skills.slice(0, 5)"
               :key="sk.id"
-              class="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] dark:bg-slate-800"
+              class="rounded bg-subtle px-1.5 py-0.5 text-[10px] text-subtle-foreground"
             >
               {{ sk.name }}
             </span>

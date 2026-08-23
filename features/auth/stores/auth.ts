@@ -54,14 +54,11 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function logout() {
-    try {
-      await logoutRequest()
-    } finally {
-      token.value = null
-      user.value = null
-      hydrated.value = true
-      clearAuthSessionCache()
-    }
+    token.value = null
+    user.value = null
+    hydrated.value = true
+    clearAuthSessionCache()
+    await logoutRequest().catch(() => undefined)
   }
 
   async function setLocale(locale: 'pt-PT' | 'en') {
