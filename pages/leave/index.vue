@@ -3,7 +3,7 @@ import { useAuthStore } from '~/features/auth/stores/auth'
 import { useOrganizationStore } from '~/features/organization/stores/organization'
 import LeaveForm from '~/features/leave/components/LeaveForm.vue'
 import { useLeaveStore } from '~/features/leave/stores/leave'
-import type { Leave, LeaveInput } from '~/features/leave/types'
+import type { Leave, LeaveInput, LeaveType } from '~/features/leave/types'
 
 definePageMeta({ middleware: ['role'] })
 
@@ -26,24 +26,35 @@ const canWrite = computed(() =>
   auth.hasRole('administrator', 'department_manager', 'team_leader', 'employee'),
 )
 const canDelete = computed(() => auth.hasRole('administrator'))
+const allowedLeaveTypes = computed((): LeaveType[] =>
+  canPickEmployee.value ? ['annual', 'sick', 'unpaid', 'other'] : ['annual'],
+)
 
 const filtered = computed(() => {
-  if (!statusFilter.value) return store.leaves
-  return store.leaves.filter((l) => l.status === statusFilter.value)
+  let rows = store.leaves
+  if (statusFilter.value) {
+    rows = rows.filter((l) => l.status === statusFilter.value)
+  }
+  return rows
 })
 
 onMounted(async () => {
   try {
-    await Promise.all([
-      store.loadLeaves(),
-      canPickEmployee.value ? org.loadEmployees() : Promise.resolve(),
-    ])
+    await store.loadLeaves()
   } catch (e) {
     showApiError(e)
   }
 })
 
-function openCreate() {
+async function openCreate() {
+  if (canPickEmployee.value && !org.employees.length) {
+    try {
+      await org.loadEmployees()
+    } catch (e) {
+      showApiError(e)
+      return
+    }
+  }
   selected.value = null
   panelOpen.value = true
 }
@@ -111,7 +122,7 @@ function statusClass(status: string) {
         <p class="text-sm text-muted">{{ t('leave.subtitle') }}</p>
       </div>
       <div class="flex flex-wrap gap-2">
-        <NuxtLink to="/holidays">
+        <NuxtLink v-if="canReview" to="/holidays">
           <UiButton variant="outline">{{ t('leave.holidays.title') }}</UiButton>
         </NuxtLink>
         <UiButton v-if="canWrite" @click="openCreate">{{ t('leave.add') }}</UiButton>
@@ -143,8 +154,8 @@ function statusClass(status: string) {
       <table class="w-full text-left text-sm">
         <thead class="border-b border-border bg-slate-50 text-muted dark:bg-slate-900/50">
           <tr>
-            <th class="px-4 py-3 font-medium">{{ t('leave.fields.employee') }}</th>
-            <th class="px-4 py-3 font-medium">{{ t('leave.fields.type') }}</th>
+            <th v-if="canPickEmployee" class="px-4 py-3 font-medium">{{ t('leave.fields.employee') }}</th>
+            <th v-if="canPickEmployee" class="px-4 py-3 font-medium">{{ t('leave.fields.type') }}</th>
             <th class="px-4 py-3 font-medium">{{ t('leave.fields.startDate') }}</th>
             <th class="px-4 py-3 font-medium">{{ t('leave.fields.endDate') }}</th>
             <th class="px-4 py-3 font-medium">{{ t('leave.fields.status') }}</th>
@@ -153,8 +164,8 @@ function statusClass(status: string) {
         </thead>
         <tbody class="divide-y divide-border">
           <tr v-for="row in filtered" :key="row.documentId">
-            <td class="px-4 py-3 font-medium">{{ row.employee?.full_name || t('org.none') }}</td>
-            <td class="px-4 py-3">{{ t(`leave.types.${row.leave_type}`) }}</td>
+            <td v-if="canPickEmployee" class="px-4 py-3 font-medium">{{ row.employee?.full_name || t('org.none') }}</td>
+            <td v-if="canPickEmployee" class="px-4 py-3">{{ t(`leave.types.${row.leave_type}`) }}</td>
             <td class="px-4 py-3 font-mono text-xs">{{ row.start_date }}</td>
             <td class="px-4 py-3 font-mono text-xs">{{ row.end_date }}</td>
             <td class="px-4 py-3">
@@ -198,9 +209,14 @@ function statusClass(status: string) {
       >
         <div class="flex items-start justify-between gap-2">
           <div>
-            <p class="font-medium">{{ row.employee?.full_name }}</p>
-            <p class="mt-1 text-xs text-muted">
-              {{ t(`leave.types.${row.leave_type}`) }} · {{ row.start_date }} → {{ row.end_date }}
+            <p v-if="canPickEmployee" class="font-medium">{{ row.employee?.full_name }}</p>
+            <p :class="canPickEmployee ? 'mt-1 text-xs text-muted' : 'font-medium'">
+              <template v-if="canPickEmployee">
+                {{ t(`leave.types.${row.leave_type}`) }} · {{ row.start_date }} → {{ row.end_date }}
+              </template>
+              <template v-else>
+                {{ row.start_date }} → {{ row.end_date }}
+              </template>
             </p>
           </div>
           <span class="inline-flex rounded-md px-2 py-0.5 text-xs font-medium" :class="statusClass(row.status)">
@@ -249,6 +265,7 @@ function statusClass(status: string) {
             :can-delete="canDelete"
             :can-review="canReview"
             :can-pick-employee="canPickEmployee"
+            :allowed-leave-types="allowedLeaveTypes"
             :on-save="onSave"
             :on-remove="onRemove"
             @cancel="closePanel"

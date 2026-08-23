@@ -11,7 +11,7 @@ const theme = computed(() => (colorMode.value === 'dark' ? 'dark' : 'light'))
     <Toaster
       rich-colors
       close-button
-      position="top-center"
+      position="bottom-right"
       :theme="theme"
       :toast-options="{
         class: 'border border-border shadow-soft',
