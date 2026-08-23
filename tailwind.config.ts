@@ -48,7 +48,7 @@ export default {
         'header': 'var(--rcp-header-height)',
       },
       boxShadow: {
-        soft: '0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.08)',
+        soft: 'var(--rcp-shadow)',
       },
     },
   },

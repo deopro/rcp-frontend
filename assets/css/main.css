@@ -5,56 +5,60 @@
 @tailwind utilities;
 
 :root {
-  --rcp-bg: #f8fafc;
-  --rcp-fg: #0f172a;
-  --rcp-muted: #64748b;
-  --rcp-border: #e2e8f0;
+  /* GitHub Desktop light theme (Primer) */
+  --rcp-bg: #ffffff;
+  --rcp-fg: #24292e;
+  --rcp-muted: #6a737d;
+  --rcp-border: #e1e4e8;
   --rcp-surface: #ffffff;
-  --rcp-subtle: #f1f5f9;
-  --rcp-subtle-fg: #475569;
+  --rcp-subtle: #f6f8fa;
+  --rcp-subtle-fg: #57606a;
   --rcp-input-bg: #ffffff;
-  --rcp-hover: #f1f5f9;
-  --rcp-overlay: rgb(15 23 42 / 0.45);
-  --rcp-primary: #0f172a;
-  --rcp-primary-fg: #f8fafc;
-  --rcp-accent: #2563eb;
-  --rcp-danger: #dc2626;
-  --rcp-success: #16a34a;
-  --rcp-warning: #d97706;
-  --rcp-info: #0284c7;
-  --rcp-radius: 0.75rem;
+  --rcp-hover: #f6f8fa;
+  --rcp-overlay: rgb(0 0 0 / 0.4);
+  --rcp-primary: #0366d6;
+  --rcp-primary-fg: #ffffff;
+  --rcp-accent: #0366d6;
+  --rcp-danger: #d73a49;
+  --rcp-success: #1a7f37;
+  --rcp-warning: #b08800;
+  --rcp-info: #0969da;
+  --rcp-radius: 0.375rem;
   --rcp-safe-top: env(safe-area-inset-top, 0px);
   --rcp-safe-bottom: env(safe-area-inset-bottom, 0px);
   --rcp-safe-left: env(safe-area-inset-left, 0px);
   --rcp-safe-right: env(safe-area-inset-right, 0px);
   --rcp-nav-height: 4rem;
   --rcp-header-height: 3.5rem;
-  --rcp-toast-bg: #ffffff;
-  --rcp-toast-fg: #0f172a;
-  --rcp-toast-border: #e2e8f0;
+  --rcp-toast-bg: rgb(36 41 46 / 0.6);
+  --rcp-toast-fg: #fafbfc;
+  --rcp-toast-border: #e1e4e8;
+  --rcp-shadow: 0 2px 7px rgb(71 83 95 / 0.19);
 }
 
 .dark {
-  --rcp-bg: #252526;
-  --rcp-fg: #e8e8ea;
-  --rcp-muted: #a0a0a8;
-  --rcp-border: #4e4e52;
-  --rcp-surface: #3b3b3f;
-  --rcp-subtle: #2d2d30;
-  --rcp-subtle-fg: #c8c8cc;
-  --rcp-input-bg: #252526;
-  --rcp-hover: #454548;
-  --rcp-overlay: rgb(0 0 0 / 0.55);
-  --rcp-primary: #e8e8ea;
-  --rcp-primary-fg: #252526;
-  --rcp-accent: #3b82f6;
-  --rcp-danger: #f87171;
-  --rcp-success: #4ade80;
-  --rcp-warning: #fbbf24;
-  --rcp-info: #38bdf8;
-  --rcp-toast-bg: #3b3b3f;
-  --rcp-toast-fg: #e8e8ea;
-  --rcp-toast-border: #4e4e52;
+  /* GitHub Desktop dark theme (Primer) — desktop/desktop app/styles/themes/_dark.scss */
+  --rcp-bg: #24292e;
+  --rcp-fg: #f6f8fa;
+  --rcp-muted: #959da5;
+  --rcp-border: #30363d;
+  --rcp-surface: #21262d;
+  --rcp-subtle: #272c32;
+  --rcp-subtle-fg: #8b949e;
+  --rcp-input-bg: #24292e;
+  --rcp-hover: #2f363d;
+  --rcp-overlay: rgb(0 0 0 / 0.5);
+  --rcp-primary: #0366d6;
+  --rcp-primary-fg: #ffffff;
+  --rcp-accent: #2e8fff;
+  --rcp-danger: #d73a49;
+  --rcp-success: #2ea44e;
+  --rcp-warning: #dbab09;
+  --rcp-info: #58a6ff;
+  --rcp-toast-bg: rgb(0 0 0 / 0.8);
+  --rcp-toast-fg: #f6f8fa;
+  --rcp-toast-border: #30363d;
+  --rcp-shadow: 0 2px 7px rgb(0 0 0 / 0.5);
 }
 
 @layer base {
@@ -88,7 +92,8 @@
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-blue-600;
+    outline: 2px solid var(--rcp-accent);
+    outline-offset: 2px;
   }
 
   @media (prefers-reduced-motion: reduce) {
