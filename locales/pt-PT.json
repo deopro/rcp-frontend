@@ -64,8 +64,8 @@
   "home": {
     "welcome": "Bem-vindo ao RCP",
     "subtitle": "Substitua o Excel por alocação moderna, segura e mobile-first.",
-    "foundationReady": "Recomendações IA prontas",
-    "nextMilestone": "Próximo: relatórios (Marco 13)"
+    "foundationReady": "Relatórios prontos",
+    "nextMilestone": "Próximo: notificações (Marco 14)"
   },
   "forecast": {
     "title": "Previsão",
@@ -148,6 +148,35 @@
       "confirmDescription": "Criar alocação rascunho para {name} — {hours}h em {date}?",
       "confirmAction": "Criar rascunho",
       "done": "Alocação rascunho criada"
+    }
+  },
+  "reports": {
+    "title": "Relatórios",
+    "subtitle": "Exportar capacidade, alocação, banco e previsão",
+    "download": "Transferir relatório",
+    "downloading": "A preparar exportação…",
+    "downloadDone": "Relatório transferido",
+    "hint": "As exportações Excel incluem cabeçalhos localizados. A alocação por colaborador usa uma grelha dia a dia semelhante à folha legada.",
+    "fields": {
+      "type": "Relatório",
+      "format": "Formato"
+    },
+    "formats": {
+      "xlsx": "Excel (.xlsx)",
+      "csv": "CSV",
+      "pdf": "PDF"
+    },
+    "types": {
+      "monthly-capacity": "Capacidade mensal",
+      "employee-allocation": "Alocação por colaborador",
+      "project-allocation": "Alocação por projeto",
+      "team": "Resumo de equipa",
+      "department": "Resumo de departamento",
+      "executive": "Resumo executivo",
+      "utilization": "Utilização",
+      "bench": "Banco",
+      "skills": "Matriz de competências",
+      "forecast": "Previsão"
     }
   },
   "dashboard": {

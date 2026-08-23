@@ -64,8 +64,8 @@
   "home": {
     "welcome": "Welcome to RCP",
     "subtitle": "Replace Excel with modern, secure, mobile-first allocation.",
-    "foundationReady": "AI recommendations ready",
-    "nextMilestone": "Next: Reports (Milestone 13)"
+    "foundationReady": "Reports ready",
+    "nextMilestone": "Next: Notifications (Milestone 14)"
   },
   "forecast": {
     "title": "Forecast",
@@ -148,6 +148,35 @@
       "confirmDescription": "Create a draft allocation for {name} — {hours}h on {date}?",
       "confirmAction": "Create draft",
       "done": "Draft allocation created"
+    }
+  },
+  "reports": {
+    "title": "Reports",
+    "subtitle": "Export capacity, allocation, bench, and forecast data",
+    "download": "Download report",
+    "downloading": "Preparing export…",
+    "downloadDone": "Report downloaded",
+    "hint": "Excel exports include localized column headers. Employee allocation uses a day-by-day grid similar to the legacy spreadsheet.",
+    "fields": {
+      "type": "Report",
+      "format": "Format"
+    },
+    "formats": {
+      "xlsx": "Excel (.xlsx)",
+      "csv": "CSV",
+      "pdf": "PDF"
+    },
+    "types": {
+      "monthly-capacity": "Monthly capacity",
+      "employee-allocation": "Employee allocation",
+      "project-allocation": "Project allocation",
+      "team": "Team summary",
+      "department": "Department summary",
+      "executive": "Executive summary",
+      "utilization": "Utilization",
+      "bench": "Bench",
+      "skills": "Skills matrix",
+      "forecast": "Forecast"
     }
   },
   "dashboard": {
