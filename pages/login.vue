@@ -51,7 +51,7 @@ const onSubmit = handleSubmit(
         description: t('auth.loginSuccessDescription'),
       })
       const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/'
-      await navigateTo(redirect || '/', { external: true })
+      await navigateTo(redirect || '/')
     } catch (error: unknown) {
       toast.error({
         title: t('auth.loginErrorTitle'),
