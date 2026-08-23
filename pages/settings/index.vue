@@ -42,7 +42,7 @@ const displayName = computed(() =>
 
     <section class="space-y-3 rounded-lg border border-border bg-surface p-4 shadow-soft">
       <h3 class="text-sm font-semibold">{{ t('theme.label') }}</h3>
-      <AppThemeToggle />
+      <AppThemeToggle variant="select" />
     </section>
 
     <section class="space-y-3 rounded-lg border border-border bg-surface p-4 shadow-soft">

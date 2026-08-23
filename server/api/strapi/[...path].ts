@@ -7,6 +7,19 @@ type StrapiErrorBody = {
   }
 }
 
+function buildTargetUrl(base: string, path: string, query: Record<string, unknown>): string {
+  const url = new URL(`${base}/api/${path}`)
+  for (const [key, value] of Object.entries(query)) {
+    if (value == null) continue
+    if (Array.isArray(value)) {
+      for (const item of value) url.searchParams.append(key, String(item))
+    } else {
+      url.searchParams.set(key, String(value))
+    }
+  }
+  return url.toString()
+}
+
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
   const path = getRouterParam(event, 'path')
@@ -18,7 +31,7 @@ export default defineEventHandler(async (event) => {
   const method = event.method
   const query = getQuery(event)
   const token = getCookie(event, 'rcp_jwt')
-  const targetUrl = `${config.public.apiUrl}/api/${path}`
+  const targetUrl = buildTargetUrl(config.public.apiUrl, path, query)
 
   const headers: Record<string, string> = {}
   if (token) {
@@ -28,21 +41,38 @@ export default defineEventHandler(async (event) => {
   let body: unknown
   if (method === 'POST' || method === 'PUT' || method === 'PATCH') {
     body = await readBody(event)
+    headers['Content-Type'] = 'application/json'
   }
 
   try {
     if (method === 'DELETE') {
-      await $fetch(targetUrl, { method: 'DELETE', query, headers })
+      await $fetch(targetUrl, { method: 'DELETE', headers })
       setResponseStatus(event, 204)
       return null
     }
 
-    return await $fetch(targetUrl, {
+    const response = await fetch(targetUrl, {
       method,
-      query,
-      body,
       headers,
+      body: body != null ? JSON.stringify(body) : undefined,
     })
+
+    const contentType = response.headers.get('content-type') || ''
+    if (contentType.includes('application/json')) {
+      return response.json()
+    }
+
+    const buffer = Buffer.from(await response.arrayBuffer())
+    if (contentType) setHeader(event, 'Content-Type', contentType)
+    const disposition = response.headers.get('content-disposition')
+    if (disposition) setHeader(event, 'Content-Disposition', disposition)
+    if (!response.ok) {
+      throw createError({
+        statusCode: response.status,
+        statusMessage: response.statusText || 'Request failed',
+      })
+    }
+    return buffer
   } catch (error: unknown) {
     const err = error as {
       statusCode?: number
@@ -51,6 +81,8 @@ export default defineEventHandler(async (event) => {
       message?: string
       data?: StrapiErrorBody
     }
+    if (err.statusCode) throw error
+
     const statusCode = err.statusCode || err.status || 500
     const statusMessage =
       err.data?.error?.message || err.statusMessage || err.message || 'Request failed'
