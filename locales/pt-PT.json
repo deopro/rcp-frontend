@@ -63,8 +63,8 @@
   "home": {
     "welcome": "Bem-vindo ao RCP",
     "subtitle": "Substitua o Excel por alocação moderna, segura e mobile-first.",
-    "foundationReady": "Banco pronto",
-    "nextMilestone": "Próximo: fluxo de aprovações (Marco 9)"
+    "foundationReady": "Aprovações prontas",
+    "nextMilestone": "Próximo: dashboards por papel (Marco 10)"
   },
   "bench": {
     "title": "Banco",
@@ -170,7 +170,49 @@
     },
     "errors": {
       "capacityExceededTitle": "Capacidade diária excedida",
-      "capacityExceeded": "O total de horas excederia a capacidade diária deste colaborador. Reduza horas ou remova outra alocação."
+      "capacityExceeded": "O total de horas excederia a capacidade diária deste colaborador. Reduza horas ou remova outra alocação.",
+      "periodLockedTitle": "Período bloqueado",
+      "periodLocked": "O período desta equipa está bloqueado. Reabra a aprovação antes de alterar alocações."
+    }
+  },
+  "approvals": {
+    "title": "Aprovações",
+    "subtitle": "Submeter, rever e bloquear períodos de alocação por equipa",
+    "loading": "A carregar…",
+    "add": "Novo período",
+    "edit": "Editar período",
+    "empty": "Ainda não há períodos de aprovação.",
+    "returnHint": "Explique o que precisa de ser alterado antes da resubmissão.",
+    "fields": {
+      "team": "Equipa",
+      "period": "Período",
+      "periodStart": "Início do período",
+      "periodEnd": "Fim do período",
+      "status": "Estado",
+      "comments": "Comentários"
+    },
+    "status": {
+      "draft": "Rascunho",
+      "submitted": "Submetido",
+      "returned": "Devolvido",
+      "approved": "Aprovado",
+      "locked": "Bloqueado"
+    },
+    "actions": {
+      "submit": "Submeter",
+      "return": "Devolver",
+      "approve": "Aprovar",
+      "lock": "Bloquear",
+      "reopen": "Reabrir",
+      "submitDone": "Período submetido",
+      "returnDone": "Período devolvido",
+      "approveDone": "Período aprovado",
+      "lockDone": "Período bloqueado",
+      "reopenDone": "Período reaberto"
+    },
+    "validation": {
+      "dateRange": "O fim do período deve ser igual ou posterior ao início.",
+      "returnComments": "Os comentários são obrigatórios ao devolver um período."
     }
   },
   "projects": {

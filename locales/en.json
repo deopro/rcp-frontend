@@ -63,8 +63,8 @@
   "home": {
     "welcome": "Welcome to RCP",
     "subtitle": "Replace Excel with modern, secure, mobile-first allocation.",
-    "foundationReady": "Bench ready",
-    "nextMilestone": "Next: approvals workflow (Milestone 9)"
+    "foundationReady": "Approvals ready",
+    "nextMilestone": "Next: role dashboards (Milestone 10)"
   },
   "bench": {
     "title": "Bench",
@@ -170,7 +170,49 @@
     },
     "errors": {
       "capacityExceededTitle": "Over daily capacity",
-      "capacityExceeded": "Total hours would exceed this employee's daily capacity. Reduce hours or remove another allocation."
+      "capacityExceeded": "Total hours would exceed this employee's daily capacity. Reduce hours or remove another allocation.",
+      "periodLockedTitle": "Period locked",
+      "periodLocked": "This team's period is locked. Reopen the approval period before changing allocations."
+    }
+  },
+  "approvals": {
+    "title": "Approvals",
+    "subtitle": "Submit, review, lock allocation periods for each team",
+    "loading": "Loading…",
+    "add": "New period",
+    "edit": "Edit period",
+    "empty": "No approval periods yet.",
+    "returnHint": "Explain what needs to change before resubmission.",
+    "fields": {
+      "team": "Team",
+      "period": "Period",
+      "periodStart": "Period start",
+      "periodEnd": "Period end",
+      "status": "Status",
+      "comments": "Comments"
+    },
+    "status": {
+      "draft": "Draft",
+      "submitted": "Submitted",
+      "returned": "Returned",
+      "approved": "Approved",
+      "locked": "Locked"
+    },
+    "actions": {
+      "submit": "Submit",
+      "return": "Return",
+      "approve": "Approve",
+      "lock": "Lock",
+      "reopen": "Reopen",
+      "submitDone": "Period submitted",
+      "returnDone": "Period returned",
+      "approveDone": "Period approved",
+      "lockDone": "Period locked",
+      "reopenDone": "Period reopened"
+    },
+    "validation": {
+      "dateRange": "Period end must be on or after period start.",
+      "returnComments": "Comments are required when returning a period."
     }
   },
   "projects": {

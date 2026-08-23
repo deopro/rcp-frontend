@@ -22,6 +22,7 @@ const links = computed(() => [
   { to: '/reports', label: t('nav.reports') },
   { to: '/skills', label: t('nav.skills') },
   { to: '/bench', label: t('nav.bench') },
+  { to: '/approvals', label: t('nav.approvals') },
 ])
 
 async function onLogout() {

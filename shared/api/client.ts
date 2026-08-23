@@ -101,11 +101,14 @@ export function useApiClient() {
         throw new ApiError(rawMessage, 0, ApiErrorCode.NETWORK)
       }
 
+      const detailCode = (error.data as { error?: { details?: { code?: string } } })?.error
+        ?.details?.code
       const code =
-        (error.data as { error?: { details?: { code?: string } } })?.error?.details?.code ===
-        'CAPACITY_EXCEEDED'
+        detailCode === 'CAPACITY_EXCEEDED'
           ? ApiErrorCode.CAPACITY_EXCEEDED
-          : codeFromHttpStatus(status, rawMessage)
+          : detailCode === 'PERIOD_LOCKED'
+            ? ApiErrorCode.PERIOD_LOCKED
+            : codeFromHttpStatus(status, rawMessage)
       throw new ApiError(rawMessage, status, code, error.data)
     }
   }

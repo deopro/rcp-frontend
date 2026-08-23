@@ -109,6 +109,13 @@ function handleCapacityError(e: unknown) {
     })
     return
   }
+  if (e instanceof ApiError && e.code === ApiErrorCode.PERIOD_LOCKED) {
+    toast.error({
+      title: t('allocations.errors.periodLockedTitle'),
+      description: t('allocations.errors.periodLocked'),
+    })
+    return
+  }
   showApiError(e)
 }
 
