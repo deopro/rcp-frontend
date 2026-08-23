@@ -63,8 +63,50 @@
   "home": {
     "welcome": "Bem-vindo ao RCP",
     "subtitle": "Substitua o Excel por alocação moderna, segura e mobile-first.",
-    "foundationReady": "Aprovações prontas",
-    "nextMilestone": "Próximo: dashboards por papel (Marco 10)"
+    "foundationReady": "Dashboards prontos",
+    "nextMilestone": "Próximo: previsões (Marco 11)"
+  },
+  "dashboard": {
+    "loading": "A carregar painel…",
+    "subtitle": "Utilização, banco e pendências no seu âmbito",
+    "titles": {
+      "employee": "O meu painel",
+      "teamLeader": "Painel da equipa",
+      "departmentManager": "Painel do departamento",
+      "executive": "Painel da organização"
+    },
+    "filters": {
+      "reset": "Repor filtros"
+    },
+    "kpis": {
+      "employees": "Pessoas",
+      "utilization": "Utilização",
+      "bench": "Banco",
+      "remaining": "Horas restantes",
+      "allocated": "Horas alocadas",
+      "activeProjects": "Projetos ativos",
+      "pendingApprovals": "Aprovações pendentes",
+      "pendingLeave": "Ausências pendentes"
+    },
+    "charts": {
+      "dailyTitle": "Capacidade diária",
+      "teamTitle": "Utilização por equipa",
+      "projectTitle": "Horas por projeto",
+      "available": "Disponível",
+      "allocated": "Alocado",
+      "utilization": "Utilização"
+    },
+    "pending": {
+      "approvals": "Aprovações por tratar",
+      "leave": "Ausências por rever",
+      "viewAll": "Ver tudo"
+    },
+    "quickActions": {
+      "title": "Ações rápidas"
+    },
+    "links": {
+      "reports": "Exportações e análise"
+    }
   },
   "bench": {
     "title": "Banco",

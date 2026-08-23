@@ -63,8 +63,50 @@
   "home": {
     "welcome": "Welcome to RCP",
     "subtitle": "Replace Excel with modern, secure, mobile-first allocation.",
-    "foundationReady": "Approvals ready",
-    "nextMilestone": "Next: role dashboards (Milestone 10)"
+    "foundationReady": "Dashboards ready",
+    "nextMilestone": "Next: forecasting (Milestone 11)"
+  },
+  "dashboard": {
+    "loading": "Loading dashboard…",
+    "subtitle": "Utilization, bench, and pending items for your scope",
+    "titles": {
+      "employee": "My dashboard",
+      "teamLeader": "Team dashboard",
+      "departmentManager": "Department dashboard",
+      "executive": "Organization dashboard"
+    },
+    "filters": {
+      "reset": "Reset filters"
+    },
+    "kpis": {
+      "employees": "People",
+      "utilization": "Utilization",
+      "bench": "Bench",
+      "remaining": "Remaining hours",
+      "allocated": "Allocated hours",
+      "activeProjects": "Active projects",
+      "pendingApprovals": "Pending approvals",
+      "pendingLeave": "Pending leave"
+    },
+    "charts": {
+      "dailyTitle": "Daily capacity",
+      "teamTitle": "Utilization by team",
+      "projectTitle": "Hours by project",
+      "available": "Available",
+      "allocated": "Allocated",
+      "utilization": "Utilization"
+    },
+    "pending": {
+      "approvals": "Approvals awaiting action",
+      "leave": "Leave awaiting review",
+      "viewAll": "View all"
+    },
+    "quickActions": {
+      "title": "Quick actions"
+    },
+    "links": {
+      "reports": "Exports and analytics"
+    }
   },
   "bench": {
     "title": "Bench",
