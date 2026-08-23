@@ -11,7 +11,7 @@ export function useChartOption(source: MaybeRefOrGetter<EChartsCoreOption>) {
   const colorMode = useColorMode()
 
   return computed(() => {
-    colorMode.value
+    const _theme = colorMode.value
     return withChartDefaults(toValue(source), readChartTokens())
   })
 }

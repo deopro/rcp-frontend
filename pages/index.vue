@@ -71,6 +71,7 @@ watch(
       showApiError(e)
     }
   },
+  { immediate: false },
 )
 
 onMounted(async () => {
