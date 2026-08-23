@@ -166,7 +166,7 @@ async function onDelete(documentId: string) {
         >
           <option value="">{{ t('org.select') }}</option>
           <option v-for="p in projects" :key="p.id" :value="String(p.id)">
-            {{ p.code ? `${p.code} — ${p.name}` : p.name }}
+            {{ p.name }}
           </option>
         </UiSelect>
       </div>

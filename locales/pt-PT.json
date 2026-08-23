@@ -464,6 +464,11 @@
     "generic": "Ocorreu um erro. Tente novamente.",
     "genericDescription": "Tente novamente. Se o problema persistir, contacte o administrador.",
     "forbidden": "Não tem permissão para executar esta ação.",
+    "accessDenied": {
+      "title": "Acesso negado",
+      "description": "Não tem permissão para ver esta página. Se acha que isto é um erro, contacte o administrador.",
+      "back": "Voltar ao painel"
+    },
     "notFoundRecord": "O registo não foi encontrado.",
     "duplicate": "Já existe um registo com este nome.",
     "validation": "Alguns campos são inválidos. Revise o formulário e tente novamente.",

@@ -4,10 +4,7 @@ import HolidayForm from '~/features/leave/components/HolidayForm.vue'
 import { useLeaveStore } from '~/features/leave/stores/leave'
 import type { Holiday, HolidayInput } from '~/features/leave/types'
 
-definePageMeta({
-  middleware: ['role'],
-  roles: ['administrator', 'executive', 'department_manager', 'team_leader'],
-})
+definePageMeta({})
 
 const { t } = useI18n()
 const auth = useAuthStore()

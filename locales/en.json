@@ -464,6 +464,11 @@
     "generic": "Something went wrong. Please try again.",
     "genericDescription": "Please try again. If the problem persists, contact your administrator.",
     "forbidden": "You don't have permission to perform this action.",
+    "accessDenied": {
+      "title": "Access denied",
+      "description": "You don't have permission to view this page. If you believe this is a mistake, contact your administrator.",
+      "back": "Back to dashboard"
+    },
     "notFoundRecord": "The record could not be found.",
     "duplicate": "A record with this name already exists.",
     "validation": "Some fields are invalid. Review the form and try again.",

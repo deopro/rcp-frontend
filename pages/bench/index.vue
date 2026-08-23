@@ -4,10 +4,7 @@ import { useOrganizationStore } from '~/features/organization/stores/organizatio
 import { useSkillsStore } from '~/features/skills/stores/skills'
 import { useBenchStore } from '~/features/bench/stores/bench'
 
-definePageMeta({
-  middleware: ['role'],
-  roles: ['administrator', 'executive', 'department_manager', 'team_leader'],
-})
+definePageMeta({})
 
 const { t, locale } = useI18n()
 const auth = useAuthStore()

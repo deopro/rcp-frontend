@@ -15,7 +15,7 @@ import type {
   SkillInput,
 } from '~/features/skills/types'
 
-definePageMeta({ middleware: ['role'] })
+definePageMeta({})
 
 const { t } = useI18n()
 const auth = useAuthStore()

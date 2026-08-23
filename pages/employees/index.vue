@@ -5,10 +5,6 @@ import StatusBadge from '~/features/organization/components/StatusBadge.vue'
 import { useOrganizationStore } from '~/features/organization/stores/organization'
 import type { Employee, EmployeeInput } from '~/features/organization/types'
 
-definePageMeta({
-  middleware: ['role'],
-})
-
 const { t } = useI18n()
 const auth = useAuthStore()
 const org = useOrganizationStore()
@@ -26,11 +22,20 @@ const canAssign = computed(() =>
   auth.hasRole('administrator', 'department_manager', 'team_leader', 'executive'),
 )
 
+const leaderTeamIds = computed(() => new Set(org.teams.map((team) => team.id)))
+
+const visibleEmployees = computed(() => {
+  if (!auth.hasRole('team_leader')) return org.employees
+  return org.employees.filter(
+    (employee) => employee.team?.id != null && leaderTeamIds.value.has(employee.team.id),
+  )
+})
+
 onMounted(async () => {
   try {
+    await org.loadTeams()
     await Promise.all([
       org.loadEmployees(),
-      org.loadTeams(),
       canAssign.value ? org.loadUserOptions() : Promise.resolve(),
     ])
   } catch (e) {
@@ -84,12 +89,12 @@ async function onRemove(documentId: string) {
       <UiButton v-if="canWrite" @click="openCreate">{{ t('org.employees.add') }}</UiButton>
     </div>
 
-    <div v-if="org.loading && !org.employees.length" class="text-sm text-muted">
+    <div v-if="org.loading && !visibleEmployees.length" class="text-sm text-muted">
       {{ t('org.loading') }}
     </div>
 
     <div
-      v-else-if="!org.employees.length"
+      v-else-if="!visibleEmployees.length"
       class="rounded-lg border border-dashed border-border p-8 text-center text-sm text-muted"
     >
       {{ t('org.employees.empty') }}
@@ -108,7 +113,7 @@ async function onRemove(documentId: string) {
         </thead>
         <tbody class="divide-y divide-border">
           <tr
-            v-for="row in org.employees"
+            v-for="row in visibleEmployees"
             :key="row.documentId"
             class="hover:bg-hover"
           >
@@ -131,7 +136,7 @@ async function onRemove(documentId: string) {
 
     <ul class="space-y-3 md:hidden">
       <li
-        v-for="row in org.employees"
+        v-for="row in visibleEmployees"
         :key="row.documentId"
         class="rounded-lg border border-border bg-surface p-4 shadow-soft"
       >

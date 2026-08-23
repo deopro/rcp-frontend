@@ -1,8 +1,5 @@
 <script setup lang="ts">
-definePageMeta({
-  middleware: ['role'],
-  roles: ['administrator', 'executive', 'department_manager', 'team_leader'],
-})
+definePageMeta({})
 
 const { t } = useI18n()
 </script>

@@ -3,10 +3,7 @@
 import { filterNavLinks } from '~/shared/navigation/nav-access'
 import { useAuthStore } from '~/features/auth/stores/auth'
 
-definePageMeta({
-  middleware: ['role'],
-  roles: ['administrator', 'executive', 'department_manager', 'team_leader'],
-})
+definePageMeta({})
 
 const { t } = useI18n()
 const auth = useAuthStore()

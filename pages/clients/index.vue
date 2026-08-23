@@ -4,10 +4,7 @@ import ClientForm from '~/features/projects/components/ClientForm.vue'
 import { useProjectsStore } from '~/features/projects/stores/projects'
 import type { Client, ClientInput } from '~/features/projects/types'
 
-definePageMeta({
-  middleware: ['role'],
-  roles: ['administrator', 'executive', 'department_manager', 'team_leader'],
-})
+definePageMeta({})
 
 const { t } = useI18n()
 const auth = useAuthStore()

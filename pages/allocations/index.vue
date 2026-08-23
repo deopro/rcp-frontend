@@ -10,7 +10,7 @@ import { cellKey } from '~/features/allocations/types'
 import { ApiError } from '~/shared/api/client'
 import { ApiErrorCode } from '~/shared/api/error-codes'
 
-definePageMeta({ middleware: ['role'] })
+definePageMeta({})
 
 const { t, locale } = useI18n()
 const auth = useAuthStore()
@@ -203,7 +203,7 @@ const mobileEmployees = computed(() => store.grid?.capacity.employees || [])
         @dragstart="(e) => { e.dataTransfer?.setData('application/rcp-project-id', String(p.id)); onDragStart(p.id) }"
         @dragend="dragProjectId = null"
       >
-        {{ p.code || p.name }}
+        {{ p.name }}
       </button>
     </div>
 

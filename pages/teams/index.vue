@@ -6,9 +6,7 @@ import { useOrganizationStore } from '~/features/organization/stores/organizatio
 import type { Team, TeamInput } from '~/features/organization/types'
 import { userLabelFromOptions } from '~/shared/users/user-label-from-options'
 
-definePageMeta({
-  middleware: ['role'],
-})
+definePageMeta({})
 
 const { t } = useI18n()
 const auth = useAuthStore()

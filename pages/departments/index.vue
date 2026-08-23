@@ -6,10 +6,7 @@ import { useOrganizationStore } from '~/features/organization/stores/organizatio
 import type { Department, DepartmentInput } from '~/features/organization/types'
 import { userLabelFromOptions } from '~/shared/users/user-label-from-options'
 
-definePageMeta({
-  middleware: ['role'],
-  roles: ['administrator', 'executive', 'department_manager', 'team_leader'],
-})
+definePageMeta({})
 
 const { t } = useI18n()
 const auth = useAuthStore()

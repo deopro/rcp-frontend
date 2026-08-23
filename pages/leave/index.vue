@@ -6,7 +6,7 @@ import { useLeaveStore } from '~/features/leave/stores/leave'
 import type { Leave, LeaveInput, LeaveType } from '~/features/leave/types'
 import { formatUserLabel } from '~/shared/users/format-user-label'
 
-definePageMeta({ middleware: ['role'] })
+definePageMeta({})
 
 const { t } = useI18n()
 const auth = useAuthStore()

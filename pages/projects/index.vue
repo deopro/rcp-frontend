@@ -6,9 +6,7 @@ import ProjectStatusBadge from '~/features/projects/components/ProjectStatusBadg
 import { useProjectsStore } from '~/features/projects/stores/projects'
 import type { Project, ProjectInput } from '~/features/projects/types'
 
-definePageMeta({
-  middleware: ['role'],
-})
+definePageMeta({})
 
 const { t } = useI18n()
 const auth = useAuthStore()
