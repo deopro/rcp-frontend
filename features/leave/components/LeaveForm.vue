@@ -85,7 +85,7 @@ async function onSubmit() {
         start_date: form.start_date,
         end_date: form.end_date,
         leave_type: leaveTypes.value.includes(form.leave_type) ? form.leave_type : 'annual',
-        status: props.canReview ? form.status : 'pending',
+        status: props.canReview ? form.status : 'approved',
         notes: form.notes.trim() || null,
       },
       props.leave?.documentId,

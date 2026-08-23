@@ -184,6 +184,13 @@
       "add": "New holiday",
       "edit": "Edit holiday",
       "empty": "No holidays configured yet."
+    },
+    "employee": {
+      "title": "Vacation",
+      "subtitle": "Record your planned vacation days — they reduce your available capacity.",
+      "add": "Add vacation days",
+      "edit": "Edit vacation days",
+      "empty": "You haven't recorded any vacation days yet."
     }
   },
   "allocations": {

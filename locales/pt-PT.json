@@ -184,6 +184,13 @@
       "add": "Novo feriado",
       "edit": "Editar feriado",
       "empty": "Ainda não há feriados configurados."
+    },
+    "employee": {
+      "title": "Férias",
+      "subtitle": "Registe os dias de férias planeados — reduzem a sua capacidade disponível.",
+      "add": "Registar férias",
+      "edit": "Editar férias",
+      "empty": "Ainda não registou dias de férias."
     }
   },
   "allocations": {

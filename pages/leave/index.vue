@@ -29,6 +29,21 @@ const canDelete = computed(() => auth.hasRole('administrator'))
 const allowedLeaveTypes = computed((): LeaveType[] =>
   canPickEmployee.value ? ['annual', 'sick', 'unpaid', 'other'] : ['annual'],
 )
+const pageTitle = computed(() =>
+  canPickEmployee.value ? t('leave.title') : t('leave.employee.title'),
+)
+const pageSubtitle = computed(() =>
+  canPickEmployee.value ? t('leave.subtitle') : t('leave.employee.subtitle'),
+)
+const addLabel = computed(() =>
+  canPickEmployee.value ? t('leave.add') : t('leave.employee.add'),
+)
+const editLabel = computed(() =>
+  canPickEmployee.value ? t('leave.edit') : t('leave.employee.edit'),
+)
+const emptyLabel = computed(() =>
+  canPickEmployee.value ? t('leave.empty') : t('leave.employee.empty'),
+)
 
 const filtered = computed(() => {
   let rows = store.leaves
@@ -118,18 +133,18 @@ function statusClass(status: string) {
   <div class="mx-auto max-w-5xl space-y-4">
     <div class="flex flex-wrap items-center justify-between gap-3">
       <div>
-        <h2 class="text-xl font-semibold">{{ t('leave.title') }}</h2>
-        <p class="text-sm text-muted">{{ t('leave.subtitle') }}</p>
+        <h2 class="text-xl font-semibold">{{ pageTitle }}</h2>
+        <p class="text-sm text-muted">{{ pageSubtitle }}</p>
       </div>
       <div class="flex flex-wrap gap-2">
         <NuxtLink v-if="canReview" to="/holidays">
           <UiButton variant="outline">{{ t('leave.holidays.title') }}</UiButton>
         </NuxtLink>
-        <UiButton v-if="canWrite" @click="openCreate">{{ t('leave.add') }}</UiButton>
+        <UiButton v-if="canWrite" @click="openCreate">{{ addLabel }}</UiButton>
       </div>
     </div>
 
-    <div class="max-w-xs space-y-1.5">
+    <div v-if="canPickEmployee" class="max-w-xs space-y-1.5">
       <UiFormLabel for="leave-filter">{{ t('leave.fields.status') }}</UiFormLabel>
       <UiSelect id="leave-filter" v-model="statusFilter">
         <option value="">{{ t('skills.filters.all') }}</option>
@@ -147,7 +162,7 @@ function statusClass(status: string) {
       v-else-if="!filtered.length"
       class="rounded-lg border border-dashed border-border p-8 text-center text-sm text-muted"
     >
-      {{ t('leave.empty') }}
+      {{ emptyLabel }}
     </div>
 
     <div v-else class="hidden overflow-hidden rounded-lg border border-border bg-surface md:block">
@@ -158,7 +173,7 @@ function statusClass(status: string) {
             <th v-if="canPickEmployee" class="px-4 py-3 font-medium">{{ t('leave.fields.type') }}</th>
             <th class="px-4 py-3 font-medium">{{ t('leave.fields.startDate') }}</th>
             <th class="px-4 py-3 font-medium">{{ t('leave.fields.endDate') }}</th>
-            <th class="px-4 py-3 font-medium">{{ t('leave.fields.status') }}</th>
+            <th v-if="canPickEmployee" class="px-4 py-3 font-medium">{{ t('leave.fields.status') }}</th>
             <th class="px-4 py-3" />
           </tr>
         </thead>
@@ -168,7 +183,7 @@ function statusClass(status: string) {
             <td v-if="canPickEmployee" class="px-4 py-3">{{ t(`leave.types.${row.leave_type}`) }}</td>
             <td class="px-4 py-3 font-mono text-xs">{{ row.start_date }}</td>
             <td class="px-4 py-3 font-mono text-xs">{{ row.end_date }}</td>
-            <td class="px-4 py-3">
+            <td v-if="canPickEmployee" class="px-4 py-3">
               <span class="inline-flex rounded-md px-2 py-0.5 text-xs font-medium" :class="statusClass(row.status)">
                 {{ t(`leave.status.${row.status}`) }}
               </span>
@@ -219,7 +234,11 @@ function statusClass(status: string) {
               </template>
             </p>
           </div>
-          <span class="inline-flex rounded-md px-2 py-0.5 text-xs font-medium" :class="statusClass(row.status)">
+          <span
+            v-if="canPickEmployee"
+            class="inline-flex rounded-md px-2 py-0.5 text-xs font-medium"
+            :class="statusClass(row.status)"
+          >
             {{ t(`leave.status.${row.status}`) }}
           </span>
         </div>
@@ -256,7 +275,7 @@ function statusClass(status: string) {
       >
         <div class="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-soft">
           <h3 class="mb-4 text-lg font-semibold">
-            {{ selected ? t('leave.edit') : t('leave.add') }}
+            {{ selected ? editLabel : addLabel }}
           </h3>
           <LeaveForm
             :leave="selected"
