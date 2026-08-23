@@ -73,6 +73,7 @@ export function useOrganizationApi() {
           'pagination[page]': page,
           'pagination[pageSize]': pageSize,
           'populate[department]': 'true',
+          'populate[team_leader]': 'true',
           sort: 'name:asc',
         })}`,
       )
@@ -83,6 +84,7 @@ export function useOrganizationApi() {
         `/api/teams/${documentId}${qs({
           'populate[department]': 'true',
           'populate[employees]': 'true',
+          'populate[team_leader]': 'true',
         })}`,
       )
     },

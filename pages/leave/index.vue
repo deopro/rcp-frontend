@@ -56,6 +56,16 @@ const filtered = computed(() => {
   return rows
 })
 
+const {
+  page,
+  pageSize,
+  pageCount,
+  total,
+  pageItems,
+  from,
+  to,
+} = useClientPagination(filtered)
+
 onMounted(async () => {
   try {
     await store.loadLeaves()
@@ -206,7 +216,7 @@ function leavePersonName(row: Leave): string {
           </tr>
         </thead>
         <tbody class="divide-y divide-border">
-          <tr v-for="row in filtered" :key="row.documentId">
+          <tr v-for="row in pageItems" :key="row.documentId">
             <td class="px-4 py-3 font-medium">{{ leavePersonName(row) }}</td>
             <td v-if="canPickEmployee" class="px-4 py-3">{{ t(`leave.types.${row.leave_type}`) }}</td>
             <td class="px-4 py-3 font-mono text-xs">{{ formatLeaveDate(row.start_date) }}</td>
@@ -247,7 +257,7 @@ function leavePersonName(row: Leave): string {
 
     <ul class="space-y-3 md:hidden">
       <li
-        v-for="row in filtered"
+        v-for="row in pageItems"
         :key="row.documentId"
         class="rounded-lg border border-border bg-surface p-4 shadow-soft"
       >
@@ -294,6 +304,15 @@ function leavePersonName(row: Leave): string {
         </div>
       </li>
     </ul>
+
+    <UiPagination
+      v-model:page="page"
+      v-model:page-size="pageSize"
+      :page-count="pageCount"
+      :total="total"
+      :from="from"
+      :to="to"
+    />
 
     <Teleport to="body">
       <div

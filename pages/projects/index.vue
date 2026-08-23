@@ -19,6 +19,16 @@ const panelOpen = ref(false)
 const selected = ref<Project | null>(null)
 const summaryLoading = ref(false)
 
+const {
+  page,
+  pageSize,
+  pageCount,
+  total,
+  pageItems,
+  from,
+  to,
+} = useClientPagination(() => projectsStore.projects)
+
 const canWrite = computed(() =>
   auth.hasRole('administrator', 'department_manager', 'team_leader'),
 )
@@ -143,7 +153,7 @@ async function onRemove(documentId: string) {
         </thead>
         <tbody class="divide-y divide-border">
           <tr
-            v-for="row in projectsStore.projects"
+            v-for="row in pageItems"
             :key="row.documentId"
             class="hover:bg-hover"
           >
@@ -163,7 +173,7 @@ async function onRemove(documentId: string) {
 
     <ul class="space-y-3 md:hidden">
       <li
-        v-for="row in projectsStore.projects"
+        v-for="row in pageItems"
         :key="row.documentId"
         class="rounded-lg border border-border bg-surface p-4 shadow-soft"
       >
@@ -187,6 +197,15 @@ async function onRemove(documentId: string) {
         </UiButton>
       </li>
     </ul>
+
+    <UiPagination
+      v-model:page="page"
+      v-model:page-size="pageSize"
+      :page-count="pageCount"
+      :total="total"
+      :from="from"
+      :to="to"
+    />
 
     <Teleport to="body">
       <div

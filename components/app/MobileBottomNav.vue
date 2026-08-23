@@ -5,7 +5,6 @@ import {
   Home,
   MoreHorizontal,
   Palmtree,
-  Sparkles,
 } from 'lucide-vue-next'
 import { useAuthStore } from '~/features/auth/stores/auth'
 import { filterNavLinks } from '~/shared/navigation/nav-access'
@@ -19,7 +18,6 @@ const allItems = computed(() => [
   { to: '/allocations', label: t('nav.allocations'), icon: CalendarDays, match: /^\/allocations/ },
   { to: '/leave', label: t('leave.title'), icon: Palmtree, match: /^\/leave/ },
   { to: '/projects', label: t('nav.projects'), icon: Briefcase, match: /^\/projects/ },
-  { to: '/skills', label: t('nav.skills'), icon: Sparkles, match: /^\/skills/ },
   { to: '/more', label: t('nav.more'), icon: MoreHorizontal, match: /^\/more/ },
 ])
 

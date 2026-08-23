@@ -16,6 +16,7 @@
     "skills": "Competências",
     "bench": "Banco",
     "forecast": "Previsão",
+    "ai": "Recomendações IA",
     "approvals": "Aprovações",
     "reports": "Relatórios",
     "settings": "Definições",
@@ -63,8 +64,8 @@
   "home": {
     "welcome": "Bem-vindo ao RCP",
     "subtitle": "Substitua o Excel por alocação moderna, segura e mobile-first.",
-    "foundationReady": "Previsões prontas",
-    "nextMilestone": "Próximo: recomendações IA (Marco 12)"
+    "foundationReady": "Recomendações IA prontas",
+    "nextMilestone": "Próximo: relatórios (Marco 13)"
   },
   "forecast": {
     "title": "Previsão",
@@ -118,6 +119,35 @@
       "capacity": "Capacidade disponível",
       "allocated": "Alocado",
       "demand": "Preenchimento"
+    }
+  },
+  "ai": {
+    "title": "Recomendações IA",
+    "subtitle": "Corresponder banco e competências à procura do projeto — rever antes de aplicar",
+    "disclaimer": "As recomendações são apenas consultivas. As alocações são criadas como rascunho quando aplicar explicitamente.",
+    "loading": "A procurar correspondências…",
+    "empty": "Sem candidatos adequados para este projeto e janela.",
+    "recommend": "Obter recomendações",
+    "fields": {
+      "skillScore": "Ajuste de competências",
+      "availability": "Banco"
+    },
+    "summary": {
+      "candidates": "Candidatos",
+      "bench": "Total horas de banco",
+      "provider": "Fornecedor de explicações"
+    },
+    "validation": {
+      "project": "Selecione primeiro um projeto.",
+      "apply": "Indique uma data e horas válidas."
+    },
+    "apply": {
+      "action": "Aplicar como alocação rascunho",
+      "title": "Aplicar recomendação",
+      "confirmTitle": "Criar alocação rascunho?",
+      "confirmDescription": "Criar alocação rascunho para {name} — {hours}h em {date}?",
+      "confirmAction": "Criar rascunho",
+      "done": "Alocação rascunho criada"
     }
   },
   "dashboard": {
@@ -264,6 +294,7 @@
     "fields": {
       "employee": "Colaborador",
       "project": "Projeto",
+      "date": "Data",
       "hours": "Horas",
       "notes": "Notas",
       "status": "Estado"
@@ -531,5 +562,15 @@
   },
   "empty": {
     "generic": "Ainda não há dados para mostrar."
+  },
+  "pagination": {
+    "label": "Paginação",
+    "showing": "A mostrar {from}–{to} de {total}",
+    "perPage": "Por página",
+    "page": "Página {page}",
+    "first": "Primeira página",
+    "prev": "Página anterior",
+    "next": "Página seguinte",
+    "last": "Última página"
   }
 }

@@ -159,7 +159,16 @@ async function copyPreviousWeek() {
   }
 }
 
-const mobileEmployees = computed(() => store.grid?.capacity.employees || [])
+const gridEmployees = computed(() => store.grid?.capacity.employees ?? [])
+const {
+  page,
+  pageSize,
+  pageCount,
+  total,
+  pageItems,
+  from,
+  to,
+} = useClientPagination(gridEmployees)
 </script>
 
 <template>
@@ -211,7 +220,7 @@ const mobileEmployees = computed(() => store.grid?.capacity.employees || [])
 
     <template v-else-if="store.grid">
       <AllocationGrid
-        :employees="store.grid.capacity.employees"
+        :employees="pageItems"
         :dates="store.weekDates"
         :allocations-by-cell="store.allocationsByCell"
         :selected-cell="selectedCell"
@@ -228,7 +237,7 @@ const mobileEmployees = computed(() => store.grid?.capacity.employees || [])
         </UiSelect>
         <ul class="space-y-3">
           <li
-            v-for="emp in mobileEmployees"
+            v-for="emp in pageItems"
             :key="emp.employee_id"
             class="rounded-lg border border-border bg-surface p-4 shadow-soft"
           >
@@ -255,6 +264,15 @@ const mobileEmployees = computed(() => store.grid?.capacity.employees || [])
           </li>
         </ul>
       </div>
+
+      <UiPagination
+        v-model:page="page"
+        v-model:page-size="pageSize"
+        :page-count="pageCount"
+        :total="total"
+        :from="from"
+        :to="to"
+      />
     </template>
 
     <Teleport to="body">

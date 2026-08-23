@@ -24,6 +24,16 @@ function managerLabel(department: Department) {
   return userLabelFromOptions(department.manager, org.userOptions, t('org.none'))
 }
 
+const {
+  page,
+  pageSize,
+  pageCount,
+  total,
+  pageItems,
+  from,
+  to,
+} = useClientPagination(() => org.departments)
+
 onMounted(async () => {
   try {
     await Promise.all([org.loadDepartments(), org.loadUserOptions()])
@@ -102,7 +112,7 @@ async function onRemove(documentId: string) {
         </thead>
         <tbody class="divide-y divide-border">
           <tr
-            v-for="row in org.departments"
+            v-for="row in pageItems"
             :key="row.documentId"
             class="hover:bg-hover"
           >
@@ -122,7 +132,7 @@ async function onRemove(documentId: string) {
     <!-- Mobile cards -->
     <ul class="space-y-3 md:hidden">
       <li
-        v-for="row in org.departments"
+        v-for="row in pageItems"
         :key="row.documentId"
         class="rounded-lg border border-border bg-surface p-4 shadow-soft"
       >
@@ -138,6 +148,15 @@ async function onRemove(documentId: string) {
         </UiButton>
       </li>
     </ul>
+
+    <UiPagination
+      v-model:page="page"
+      v-model:page-size="pageSize"
+      :page-count="pageCount"
+      :total="total"
+      :from="from"
+      :to="to"
+    />
 
     <Teleport to="body">
       <div

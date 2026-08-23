@@ -16,6 +16,7 @@
     "skills": "Skills",
     "bench": "Bench",
     "forecast": "Forecast",
+    "ai": "AI recommendations",
     "approvals": "Approvals",
     "reports": "Reports",
     "settings": "Settings",
@@ -63,8 +64,8 @@
   "home": {
     "welcome": "Welcome to RCP",
     "subtitle": "Replace Excel with modern, secure, mobile-first allocation.",
-    "foundationReady": "Forecasting ready",
-    "nextMilestone": "Next: AI recommendations (Milestone 12)"
+    "foundationReady": "AI recommendations ready",
+    "nextMilestone": "Next: Reports (Milestone 13)"
   },
   "forecast": {
     "title": "Forecast",
@@ -118,6 +119,35 @@
       "capacity": "Available capacity",
       "allocated": "Allocated",
       "demand": "Demand fill"
+    }
+  },
+  "ai": {
+    "title": "AI recommendations",
+    "subtitle": "Match bench and skills to project demand — review before applying",
+    "disclaimer": "Recommendations are advisory only. Allocations are created as drafts when you explicitly apply.",
+    "loading": "Finding matches…",
+    "empty": "No suitable candidates for this project and window.",
+    "recommend": "Get recommendations",
+    "fields": {
+      "skillScore": "Skill fit",
+      "availability": "Bench"
+    },
+    "summary": {
+      "candidates": "Candidates",
+      "bench": "Total bench hours",
+      "provider": "Explanation provider"
+    },
+    "validation": {
+      "project": "Select a project first.",
+      "apply": "Enter a valid date and hours."
+    },
+    "apply": {
+      "action": "Apply as draft allocation",
+      "title": "Apply recommendation",
+      "confirmTitle": "Create draft allocation?",
+      "confirmDescription": "Create a draft allocation for {name} — {hours}h on {date}?",
+      "confirmAction": "Create draft",
+      "done": "Draft allocation created"
     }
   },
   "dashboard": {
@@ -264,6 +294,7 @@
     "fields": {
       "employee": "Employee",
       "project": "Project",
+      "date": "Date",
       "hours": "Hours",
       "notes": "Notes",
       "status": "Status"
@@ -531,5 +562,15 @@
   },
   "empty": {
     "generic": "Nothing to show yet."
+  },
+  "pagination": {
+    "label": "Pagination",
+    "showing": "Showing {from}–{to} of {total}",
+    "perPage": "Per page",
+    "page": "Page {page}",
+    "first": "First page",
+    "prev": "Previous page",
+    "next": "Next page",
+    "last": "Last page"
   }
 }

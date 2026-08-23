@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ChevronDown, LogOut } from 'lucide-vue-next'
 import { useAuthStore } from '~/features/auth/stores/auth'
-import { formatUserLabel } from '~/shared/users/format-user-label'
+import { formatUserName } from '~/shared/users/format-user-label'
 
 const { t } = useI18n()
 const auth = useAuthStore()
@@ -11,7 +11,7 @@ const open = ref(false)
 const menuRef = ref<HTMLElement | null>(null)
 
 const displayName = computed(() =>
-  auth.user ? formatUserLabel(auth.user) : '',
+  auth.user ? formatUserName(auth.user) : '',
 )
 
 const initials = computed(() => {
@@ -59,7 +59,6 @@ async function onLogout() {
     >
       <div class="border-b border-border px-4 py-3">
         <p class="truncate text-sm font-medium">{{ displayName }}</p>
-        <p class="truncate text-xs text-muted">{{ auth.user.email }}</p>
         <p v-if="auth.user.role" class="mt-1 truncate text-xs text-muted">
           {{ auth.user.role.name }}
         </p>

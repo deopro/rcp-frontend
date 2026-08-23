@@ -7,6 +7,7 @@ import type { RcpRoleType } from '~/features/auth/types'
 export const ROUTE_ROLES: Partial<Record<string, readonly RcpRoleType[]>> = {
   '/bench': ['administrator', 'executive', 'department_manager', 'team_leader'],
   '/forecast': ['administrator', 'executive', 'department_manager', 'team_leader'],
+  '/ai': ['administrator', 'executive', 'department_manager', 'team_leader'],
   '/approvals': ['administrator', 'executive', 'department_manager'],
   '/clients': ['administrator', 'executive', 'department_manager', 'team_leader'],
   '/team': ['administrator', 'executive', 'department_manager'],

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
   BarChart3,
+  Bot,
   Briefcase,
   Building2,
   CalendarDays,
@@ -17,7 +18,7 @@ import {
   UsersRound,
 } from 'lucide-vue-next'
 import { useAuthStore } from '~/features/auth/stores/auth'
-import { formatUserLabel } from '~/shared/users/format-user-label'
+import { formatUserName } from '~/shared/users/format-user-label'
 import { filterNavLinks } from '~/shared/navigation/nav-access'
 
 const { t } = useI18n()
@@ -26,7 +27,7 @@ const auth = useAuthStore()
 const { logout, loggingOut } = useLogout()
 
 const displayName = computed(() =>
-  auth.user ? formatUserLabel(auth.user) : '',
+  auth.user ? formatUserName(auth.user) : '',
 )
 
 const allLinks = computed(() => [
@@ -35,6 +36,7 @@ const allLinks = computed(() => [
   { to: '/leave', label: t('leave.title'), icon: Palmtree },
   { to: '/bench', label: t('nav.bench'), icon: UsersRound },
   { to: '/forecast', label: t('nav.forecast'), icon: TrendingUp },
+  { to: '/ai', label: t('nav.ai'), icon: Bot },
   { to: '/approvals', label: t('nav.approvals'), icon: ClipboardCheck },
   { to: '/projects', label: t('nav.projects'), icon: Briefcase },
   { to: '/clients', label: t('nav.clients'), icon: Contact2 },
@@ -64,10 +66,7 @@ function isActive(path: string) {
       <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground">
         R
       </div>
-      <div>
-        <p class="text-sm font-semibold tracking-tight">{{ t('app.name') }}</p>
-        <p class="text-xs text-muted">{{ t('app.tagline') }}</p>
-      </div>
+      <p class="text-sm font-semibold tracking-tight">{{ t('app.name') }}</p>
     </div>
 
     <nav class="scrollbar-thin min-h-0 flex-1 space-y-1 overflow-y-auto p-3">
@@ -86,7 +85,6 @@ function isActive(path: string) {
     <div v-if="auth.user" class="shrink-0 border-t border-border p-3">
       <div class="px-3 py-2">
         <p class="truncate text-sm font-medium">{{ displayName }}</p>
-        <p class="truncate text-xs text-muted">{{ auth.user.email }}</p>
       </div>
       <button
         type="button"

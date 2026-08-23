@@ -91,6 +91,17 @@ function onScopeChange(raw: string) {
 function onFilter(key: 'departmentId' | 'teamId' | 'projectId', raw: string) {
   store.setFilter(key, raw ? Number(raw) : undefined)
 }
+
+const seriesRows = computed(() => store.data?.series ?? [])
+const {
+  page,
+  pageSize,
+  pageCount,
+  total,
+  pageItems,
+  from,
+  to,
+} = useClientPagination(seriesRows)
 </script>
 
 <template>
@@ -259,7 +270,7 @@ function onFilter(key: 'departmentId' | 'teamId' | 'projectId', raw: string) {
             </tr>
           </thead>
           <tbody class="divide-y divide-border">
-            <tr v-for="row in store.data.series" :key="row.period_start">
+            <tr v-for="row in pageItems" :key="row.period_start">
               <td class="px-4 py-3 font-mono text-xs">{{ row.label }}</td>
               <td class="px-4 py-3">{{ row.utilization_pct }}%</td>
               <td class="px-4 py-3">{{ row.bench_pct }}%</td>
@@ -280,6 +291,42 @@ function onFilter(key: 'departmentId' | 'teamId' | 'projectId', raw: string) {
           </tbody>
         </table>
       </div>
+
+      <ul v-if="store.data.series.length" class="space-y-3 md:hidden">
+        <li
+          v-for="row in pageItems"
+          :key="row.period_start"
+          class="rounded-lg border border-border bg-surface p-4 shadow-soft"
+        >
+          <div class="flex items-start justify-between gap-2">
+            <p class="font-mono text-xs font-medium">{{ row.label }}</p>
+            <span
+              class="inline-flex rounded-md px-2 py-0.5 text-xs font-medium"
+              :class="{
+                'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-200': row.health === 'over',
+                'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200': row.health === 'under',
+                'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200': row.health === 'healthy',
+              }"
+            >
+              {{ t(`forecast.health.${row.health}`) }}
+            </span>
+          </div>
+          <p class="mt-2 text-xs text-muted">
+            {{ t('forecast.columns.utilization') }} {{ row.utilization_pct }}%
+            · {{ t('forecast.columns.bench') }} {{ row.bench_pct }}%
+            · {{ t('forecast.columns.over') }} {{ row.over_allocated_hours }}h
+          </p>
+        </li>
+      </ul>
+
+      <UiPagination
+        v-model:page="page"
+        v-model:page-size="pageSize"
+        :page-count="pageCount"
+        :total="total"
+        :from="from"
+        :to="to"
+      />
     </template>
   </div>
 </template>

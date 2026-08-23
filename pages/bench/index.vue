@@ -46,6 +46,17 @@ async function refresh() {
     showApiError(e)
   }
 }
+
+const benchEmployees = computed(() => store.data?.employees ?? [])
+const {
+  page,
+  pageSize,
+  pageCount,
+  total,
+  pageItems,
+  from,
+  to,
+} = useClientPagination(benchEmployees)
 </script>
 
 <template>
@@ -174,7 +185,7 @@ async function refresh() {
             </tr>
           </thead>
           <tbody class="divide-y divide-border">
-            <tr v-for="row in store.data.employees" :key="row.document_id">
+            <tr v-for="row in pageItems" :key="row.document_id">
               <td class="px-4 py-3 font-medium">{{ row.full_name }}</td>
               <td class="px-4 py-3 text-muted">{{ row.team_name || t('org.none') }}</td>
               <td class="px-4 py-3">{{ row.available_hours }}h</td>
@@ -205,7 +216,7 @@ async function refresh() {
       <!-- Mobile cards -->
       <ul class="space-y-3 md:hidden">
         <li
-          v-for="row in store.data.employees"
+          v-for="row in pageItems"
           :key="row.document_id"
           class="rounded-lg border border-border bg-surface p-4 shadow-soft"
         >
@@ -240,6 +251,15 @@ async function refresh() {
           </NuxtLink>
         </li>
       </ul>
+
+      <UiPagination
+        v-model:page="page"
+        v-model:page-size="pageSize"
+        :page-count="pageCount"
+        :total="total"
+        :from="from"
+        :to="to"
+      />
     </template>
   </div>
 </template>
