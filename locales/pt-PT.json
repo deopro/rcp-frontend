@@ -268,6 +268,9 @@
   "projects": {
     "title": "Projetos",
     "subtitle": "Clientes, atribuições, competências e resumo de capacidade",
+    "employee": {
+      "subtitle": "Projetos em que está atribuído"
+    },
     "loading": "A carregar…",
     "loadingSummary": "A carregar resumo…",
     "saving": "A guardar…",

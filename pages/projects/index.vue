@@ -25,8 +25,15 @@ const canWrite = computed(() =>
   auth.hasRole('administrator', 'department_manager', 'team_leader'),
 )
 const isEmployee = computed(() => auth.hasRole('employee'))
-const canCreate = computed(() => auth.hasRole('administrator', 'department_manager'))
-const canDelete = computed(() => auth.hasRole('administrator', 'department_manager'))
+const canCreate = computed(() =>
+  auth.hasRole('administrator', 'department_manager', 'team_leader'),
+)
+const canDelete = computed(() =>
+  auth.hasRole('administrator', 'department_manager', 'team_leader'),
+)
+const pageSubtitle = computed(() =>
+  isEmployee.value ? t('projects.employee.subtitle') : t('projects.subtitle'),
+)
 
 const currentSummary = computed(() => {
   if (!selected.value?.documentId) return null
@@ -101,7 +108,7 @@ async function onRemove(documentId: string) {
     <div class="flex flex-wrap items-center justify-between gap-3">
       <div>
         <h2 class="text-xl font-semibold">{{ t('projects.title') }}</h2>
-        <p class="text-sm text-muted">{{ t('projects.subtitle') }}</p>
+        <p class="text-sm text-muted">{{ pageSubtitle }}</p>
       </div>
       <div class="flex flex-wrap gap-2">
         <NuxtLink v-if="!isEmployee" to="/clients">
@@ -133,7 +140,7 @@ async function onRemove(documentId: string) {
             <th class="px-4 py-3 font-medium">{{ t('projects.fields.code') }}</th>
             <th class="px-4 py-3 font-medium">{{ t('projects.fields.client') }}</th>
             <th class="px-4 py-3 font-medium">{{ t('projects.fields.status') }}</th>
-            <th class="px-4 py-3 font-medium" />
+            <th v-if="!isEmployee" class="px-4 py-3 font-medium" />
           </tr>
         </thead>
         <tbody class="divide-y divide-border">
@@ -146,7 +153,7 @@ async function onRemove(documentId: string) {
             <td class="px-4 py-3 font-mono text-xs">{{ row.code }}</td>
             <td class="px-4 py-3 text-muted">{{ row.client?.name || t('org.none') }}</td>
             <td class="px-4 py-3"><ProjectStatusBadge :status="row.status" /></td>
-            <td class="px-4 py-3 text-right">
+            <td v-if="!isEmployee" class="px-4 py-3 text-right">
               <UiButton size="sm" variant="ghost" @click="openEdit(row)">
                 {{ canWrite ? t('actions.edit') : t('org.view') }}
               </UiButton>
@@ -171,7 +178,13 @@ async function onRemove(documentId: string) {
           </div>
           <ProjectStatusBadge :status="row.status" />
         </div>
-        <UiButton class="mt-3 w-full" size="sm" variant="outline" @click="openEdit(row)">
+        <UiButton
+          v-if="!isEmployee"
+          class="mt-3 w-full"
+          size="sm"
+          variant="outline"
+          @click="openEdit(row)"
+        >
           {{ canWrite ? t('actions.edit') : t('org.view') }}
         </UiButton>
       </li>

@@ -20,7 +20,7 @@ const panelOpen = ref(false)
 const selected = ref<Team | null>(null)
 
 const canWrite = computed(() =>
-  auth.hasRole('administrator', 'department_manager', 'team_leader'),
+  auth.hasRole('administrator', 'department_manager'),
 )
 const canDelete = computed(() => auth.hasRole('administrator'))
 const canAssign = computed(() =>
