@@ -20,11 +20,13 @@ const selected = ref<Leave | null>(null)
 const statusFilter = ref('')
 
 const canReview = computed(() =>
+  auth.hasRole('administrator', 'department_manager'),
+)
+const canPickEmployee = computed(() =>
   auth.hasRole('administrator', 'department_manager', 'team_leader'),
 )
-const canPickEmployee = computed(() => canReview.value)
 const canWrite = computed(() =>
-  auth.hasRole('administrator', 'department_manager', 'team_leader', 'employee'),
+  auth.hasRole('administrator', 'department_manager', 'employee'),
 )
 const canDelete = computed(() => auth.hasRole('administrator'))
 const allowedLeaveTypes = computed((): LeaveType[] =>
@@ -162,7 +164,7 @@ function leavePersonName(row: Leave): string {
         <p class="text-sm text-muted">{{ pageSubtitle }}</p>
       </div>
       <div class="flex flex-wrap gap-2">
-        <NuxtLink v-if="canReview" to="/holidays">
+        <NuxtLink v-if="canPickEmployee" to="/holidays">
           <UiButton variant="outline">{{ t('leave.holidays.title') }}</UiButton>
         </NuxtLink>
         <UiButton v-if="canWrite" @click="openCreate">{{ addLabel }}</UiButton>
