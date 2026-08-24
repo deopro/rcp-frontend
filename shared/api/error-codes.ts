@@ -10,6 +10,7 @@ export const ApiErrorCode = {
   NOT_FOUND: 'NOT_FOUND',
   DUPLICATE: 'DUPLICATE',
   USER_ALREADY_LINKED: 'USER_ALREADY_LINKED',
+  LINKED_USER_ROLE: 'LINKED_USER_ROLE',
   VALIDATION: 'VALIDATION',
   CAPACITY_EXCEEDED: 'CAPACITY_EXCEEDED',
   PERIOD_LOCKED: 'PERIOD_LOCKED',
@@ -29,6 +30,7 @@ const MESSAGE_TO_CODE: Record<string, ApiErrorCode> = {
   forbidden: ApiErrorCode.FORBIDDEN,
   'not found': ApiErrorCode.NOT_FOUND,
   'this user is already linked to another employee': ApiErrorCode.USER_ALREADY_LINKED,
+  'only users with the employee role can be linked': ApiErrorCode.LINKED_USER_ROLE,
 }
 
 const CODE_TO_I18N: Record<ApiErrorCode, string> = {
@@ -42,6 +44,7 @@ const CODE_TO_I18N: Record<ApiErrorCode, string> = {
   [ApiErrorCode.NOT_FOUND]: 'errors.notFoundRecord',
   [ApiErrorCode.DUPLICATE]: 'errors.duplicate',
   [ApiErrorCode.USER_ALREADY_LINKED]: 'org.employees.userAlreadyLinked',
+  [ApiErrorCode.LINKED_USER_ROLE]: 'org.employees.linkedUserMustBeEmployee',
   [ApiErrorCode.VALIDATION]: 'errors.validation',
   [ApiErrorCode.CAPACITY_EXCEEDED]: 'allocations.errors.capacityExceeded',
   [ApiErrorCode.PERIOD_LOCKED]: 'allocations.errors.periodLocked',
@@ -55,6 +58,9 @@ export function codeFromMessage(message?: string | null): ApiErrorCode {
   if (MESSAGE_TO_CODE[normalized]) return MESSAGE_TO_CODE[normalized]
   if (normalized.includes('already linked')) {
     return ApiErrorCode.USER_ALREADY_LINKED
+  }
+  if (normalized.includes('employee role')) {
+    return ApiErrorCode.LINKED_USER_ROLE
   }
   if (normalized.includes('unique') || normalized.includes('already exists')) {
     return ApiErrorCode.DUPLICATE

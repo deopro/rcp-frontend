@@ -611,7 +611,8 @@
       "add": "Novo colaborador",
       "edit": "Editar colaborador",
       "empty": "Ainda não há colaboradores.",
-      "userAlreadyLinked": "Este utilizador já está ligado a outro colaborador."
+      "userAlreadyLinked": "Este utilizador já está ligado a outro colaborador.",
+      "linkedUserMustBeEmployee": "Apenas utilizadores com o perfil Colaborador podem ser ligados."
     }
   },
   "settings": {

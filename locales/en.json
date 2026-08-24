@@ -611,7 +611,8 @@
       "add": "New employee",
       "edit": "Edit employee",
       "empty": "No employees yet.",
-      "userAlreadyLinked": "This user is already linked to another employee."
+      "userAlreadyLinked": "This user is already linked to another employee.",
+      "linkedUserMustBeEmployee": "Only users with the Employee role can be linked."
     }
   },
   "settings": {

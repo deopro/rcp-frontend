@@ -59,7 +59,19 @@ export default defineEventHandler(async (event) => {
 
     const contentType = response.headers.get('content-type') || ''
     if (contentType.includes('application/json')) {
-      return response.json()
+      const data = (await response.json()) as StrapiErrorBody | unknown
+      if (!response.ok) {
+        const message =
+          data && typeof data === 'object' && 'error' in data
+            ? (data as StrapiErrorBody).error?.message
+            : undefined
+        throw createError({
+          statusCode: response.status,
+          statusMessage: message || response.statusText || 'Request failed',
+          data,
+        })
+      }
+      return data
     }
 
     const buffer = Buffer.from(await response.arrayBuffer())

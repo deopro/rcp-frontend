@@ -176,9 +176,14 @@ export function useOrganizationApi() {
       return api.del(`/api/employees/${documentId}`)
     },
 
-    listUserOptions(unlinked = false) {
+    listUserOptions(options?: { unlinked?: boolean; role?: string } | boolean) {
+      const unlinked = typeof options === 'boolean' ? options : Boolean(options?.unlinked)
+      const role = typeof options === 'boolean' ? undefined : options?.role
       return api.get<{ data: UserOption[] }>(
-        `/api/org/user-options${unlinked ? qs({ unlinked: 'true' }) : ''}`,
+        `/api/org/user-options${qs({
+          unlinked: unlinked ? 'true' : undefined,
+          role,
+        })}`,
       )
     },
   }
