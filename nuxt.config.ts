@@ -35,12 +35,18 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    // Used only on server for auth cookie ↔ Strapi
+    // Used only on server for auth cookie ↔ Strapi / Entra
     jwtCookieName: 'rcp_jwt',
+    oidcClientSecret: process.env.OIDC_CLIENT_SECRET || '',
+    oidcIssuer: process.env.OIDC_ISSUER || '',
+    oidcCallbackUrl: process.env.OIDC_CALLBACK_URL || 'http://localhost:3000/api/auth/microsoft/callback',
     public: {
       apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:1337',
       appName: process.env.NUXT_PUBLIC_APP_NAME || 'RCP',
       defaultLocale: process.env.NUXT_PUBLIC_DEFAULT_LOCALE || 'pt-PT',
+      authMode: process.env.NUXT_PUBLIC_AUTH_MODE || process.env.AUTH_MODE || 'local',
+      oidcClientId: process.env.NUXT_PUBLIC_OIDC_CLIENT_ID || process.env.OIDC_CLIENT_ID || '',
+      oidcTenantId: process.env.NUXT_PUBLIC_OIDC_TENANT_ID || process.env.OIDC_TENANT_ID || '',
     },
   },
 

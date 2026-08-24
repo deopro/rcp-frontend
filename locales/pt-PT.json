@@ -643,7 +643,14 @@
     "errors": {
       "invalidCredentials": "Email/utilizador ou palavra-passe incorretos.",
       "userInactive": "Esta conta está inactiva. Contacte o administrador.",
-      "missingFields": "Indique o email/utilizador e a palavra-passe."
+      "missingFields": "Indique o email/utilizador e a palavra-passe.",
+      "oidcNotConfigured": "O início de sessão com Microsoft 365 não está configurado.",
+      "oidcUserNotFound": "Não existe conta RCP para este utilizador Microsoft 365. Peça a um administrador para a criar.",
+      "oidcInvalid": "Falha no início de sessão Microsoft 365. Tente novamente."
+    },
+    "microsoft": {
+      "continue": "Continuar com Microsoft 365",
+      "or": "ou"
     }
   },
   "status": {

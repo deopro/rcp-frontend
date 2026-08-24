@@ -15,8 +15,29 @@ const { t, locale, setLocale } = useI18n()
 const auth = useAuthStore()
 const toast = useToast()
 const route = useRoute()
+const config = useRuntimeConfig()
 const submitting = ref(false)
 const showPassword = ref(false)
+const microsoftEnabled = computed(() => config.public.authMode === 'oidc')
+
+onMounted(() => {
+  const code = typeof route.query.error === 'string' ? route.query.error : ''
+  if (!code) return
+  toast.error({
+    title: t('auth.loginErrorTitle'),
+    description: resolveErrorDescription(code, t, 'auth.errors.oidcInvalid'),
+  })
+})
+
+function signInWithMicrosoft() {
+  const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/'
+  const params = new URLSearchParams()
+  if (redirect && redirect.startsWith('/') && !redirect.startsWith('//')) {
+    params.set('redirect', redirect)
+  }
+  const qs = params.toString()
+  window.location.href = qs ? `/api/auth/microsoft?${qs}` : '/api/auth/microsoft'
+}
 
 const schema = computed(() =>
   toTypedSchema(
@@ -123,5 +144,16 @@ const onSubmit = handleSubmit(
         {{ submitting ? t('auth.signingIn') : t('auth.signIn') }}
       </UiButton>
     </form>
+
+    <template v-if="microsoftEnabled">
+      <div class="mt-6 flex items-center gap-3 text-xs uppercase tracking-wide text-muted">
+        <span class="h-px flex-1 bg-border" />
+        {{ t('auth.microsoft.or') }}
+        <span class="h-px flex-1 bg-border" />
+      </div>
+      <UiButton class="mt-4 w-full" variant="outline" type="button" @click="signInWithMicrosoft">
+        {{ t('auth.microsoft.continue') }}
+      </UiButton>
+    </template>
   </div>
 </template>

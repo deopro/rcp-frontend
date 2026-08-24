@@ -27,6 +27,7 @@
     "eslint": "^10.9.0",
     "lucide-vue-next": "^0.511.0",
     "nuxt": "^4.5.2",
+    "openid-client": "^6.8.1",
     "pinia": "^3.0.2",
     "radix-vue": "^1.9.17",
     "tailwind-merge": "^3.3.0",

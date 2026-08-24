@@ -1,24 +1,15 @@
 import type { AuthUser, LoginResponse } from '../../../features/auth/types'
 import { ApiErrorCode, codeFromMessage } from '../../../shared/api/error-codes'
+import {
+  JWT_COOKIE,
+  authCookieOptions,
+  authError,
+  loadAccount,
+} from '../../utils/auth-session'
 
-const COOKIE_NAME = 'rcp_jwt'
-
-function authError(statusCode: number, code: ApiErrorCode) {
-  return createError({
-    statusCode,
-    statusMessage: code,
-    data: { code },
-  })
-}
-
-function cookieOptions(maxAge?: number) {
-  return {
-    httpOnly: true,
-    sameSite: 'lax' as const,
-    secure: process.env.NODE_ENV === 'production',
-    path: '/',
-    maxAge,
-  }
+type StrapiLoginPayload = {
+  jwt: string
+  user: AuthUser
 }
 
 export default defineEventHandler(async (event): Promise<LoginResponse> => {
@@ -29,9 +20,9 @@ export default defineEventHandler(async (event): Promise<LoginResponse> => {
     throw authError(400, ApiErrorCode.AUTH_MISSING_FIELDS)
   }
 
-  let result: LoginResponse
+  let result: StrapiLoginPayload
   try {
-    result = await $fetch<LoginResponse>(`${config.public.apiUrl}/api/auth/local`, {
+    result = await $fetch<StrapiLoginPayload>(`${config.public.apiUrl}/api/auth/local`, {
       method: 'POST',
       body: {
         identifier: body.identifier,
@@ -47,21 +38,13 @@ export default defineEventHandler(async (event): Promise<LoginResponse> => {
     throw authError(403, ApiErrorCode.AUTH_USER_INACTIVE)
   }
 
-  // Enrich with role via account endpoint when available
-  let user: AuthUser = result.user
-  try {
-    user = await $fetch<AuthUser>(`${config.public.apiUrl}/api/account/me`, {
-      headers: { Authorization: `Bearer ${result.jwt}` },
-    })
-  } catch {
-    // Fall back to login payload
-  }
+  const user = await loadAccount(config.public.apiUrl, result.jwt, result.user)
 
   if (user.status === 'inactive') {
     throw authError(403, ApiErrorCode.AUTH_USER_INACTIVE)
   }
 
-  setCookie(event, COOKIE_NAME, result.jwt, cookieOptions(60 * 60 * 24 * 7))
+  setCookie(event, JWT_COOKIE, result.jwt, authCookieOptions(60 * 60 * 24 * 7))
 
   return { jwt: result.jwt, user }
 })

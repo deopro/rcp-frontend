@@ -643,7 +643,14 @@
     "errors": {
       "invalidCredentials": "Incorrect email/username or password.",
       "userInactive": "This account is inactive. Contact your administrator.",
-      "missingFields": "Enter your email/username and password."
+      "missingFields": "Enter your email/username and password.",
+      "oidcNotConfigured": "Microsoft 365 sign-in is not configured.",
+      "oidcUserNotFound": "No RCP account exists for this Microsoft 365 user. Ask an administrator to create one.",
+      "oidcInvalid": "Microsoft 365 sign-in failed. Try again."
+    },
+    "microsoft": {
+      "continue": "Continue with Microsoft 365",
+      "or": "or"
     }
   },
   "status": {
