@@ -7,6 +7,21 @@ type StrapiErrorBody = {
   }
 }
 
+function isNetworkError(error: unknown): boolean {
+  const err = error as { message?: string; cause?: { code?: string } }
+  const message = (err.message || '').toLowerCase()
+  const code = err.cause?.code
+  return (
+    message.includes('fetch failed') ||
+    message.includes('econnrefused') ||
+    message.includes('etimedout') ||
+    code === 'ECONNREFUSED' ||
+    code === 'ETIMEDOUT' ||
+    code === 'ENOTFOUND' ||
+    code === 'ECONNRESET'
+  )
+}
+
 function buildTargetUrl(base: string, path: string, query: Record<string, unknown>): string {
   const url = new URL(`${base}/api/${path}`)
   for (const [key, value] of Object.entries(query)) {
@@ -95,7 +110,15 @@ export default defineEventHandler(async (event) => {
     }
     if (err.statusCode) throw error
 
-    const statusCode = err.statusCode || err.status || 500
+    if (isNetworkError(error)) {
+      throw createError({
+        statusCode: 503,
+        statusMessage: 'API unavailable',
+        data: { error: { message: 'API unavailable' } },
+      })
+    }
+
+    const statusCode = err.status || 500
     const statusMessage =
       err.data?.error?.message || err.statusMessage || err.message || 'Request failed'
 

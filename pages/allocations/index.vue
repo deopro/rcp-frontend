@@ -14,6 +14,7 @@ import {
   projectChipClass,
   projectChipLabel,
 } from '~/shared/projects/project-color'
+import { formatNameInitials } from '~/shared/users/format-name-initials'
 
 definePageMeta({})
 
@@ -255,12 +256,20 @@ const {
             class="rounded-lg border border-border bg-surface p-4 shadow-soft"
           >
             <div class="flex items-start justify-between gap-2">
-              <div>
-                <p class="font-medium">{{ emp.full_name }}</p>
-                <p class="text-xs text-muted">
-                  {{ (store.allocationsByCell.get(cellKey(emp.employee_id, mobileDay)) || []).reduce((s, r) => s + r.hours, 0) }}h
-                  / {{ emp.days.find((d) => d.date === mobileDay)?.daily_capacity || 0 }}h
-                </p>
+              <div class="flex min-w-0 items-start gap-2.5">
+                <span
+                  class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-[11px] font-semibold text-primary-foreground"
+                  aria-hidden="true"
+                >
+                  {{ formatNameInitials(emp.full_name) }}
+                </span>
+                <div class="min-w-0">
+                  <p class="font-medium">{{ emp.full_name }}</p>
+                  <p class="text-xs text-subtle-foreground">
+                    {{ (store.allocationsByCell.get(cellKey(emp.employee_id, mobileDay)) || []).reduce((s, r) => s + r.hours, 0) }}h
+                    / {{ emp.days.find((d) => d.date === mobileDay)?.daily_capacity || 0 }}h
+                  </p>
+                </div>
               </div>
               <UiButton size="sm" variant="outline" @click="openCell(emp.employee_id, mobileDay)">
                 {{ canEdit ? t('actions.edit') : t('org.view') }}
@@ -275,8 +284,8 @@ const {
                   <span class="min-w-0 truncate text-[11px] font-medium">
                     {{ projectChipLabel(row.project_code, row.project_name) }}
                   </span>
-                  <span class="shrink-0 text-[11px] tabular-nums text-muted">
-                    {{ formatAllocationHours(row.hours) }}h
+                  <span class="rcp-project-chip-hours shrink-0 whitespace-nowrap">
+                    - {{ formatAllocationHours(row.hours) }}h
                   </span>
                 </span>
               </li>

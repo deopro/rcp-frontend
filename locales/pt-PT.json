@@ -394,6 +394,7 @@
     "addLine": "Adicionar alocação",
     "dragHint": "Arraste um projeto para uma célula e defina as horas",
     "moreProjects": "+{count} mais",
+    "addHours": "Adicionar horas",
     "copyYesterday": "Copiar ontem",
     "copyWeek": "Copiar semana anterior",
     "copyDone": "Cópia concluída",
