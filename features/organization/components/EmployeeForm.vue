@@ -10,6 +10,7 @@ const props = defineProps<{
   userOptions: UserOption[]
   canEdit: boolean
   canDelete: boolean
+  requireTeam?: boolean
   onSave: (input: EmployeeInput, documentId?: string) => Promise<void>
   onRemove?: (documentId: string) => Promise<void>
 }>()
@@ -105,6 +106,9 @@ function hydrateFromEmployee(row: Employee | null | undefined) {
   form.status = row?.status || 'active'
   form.hire_date = toDateInput(row?.hire_date)
   form.team = row?.team?.id != null ? String(row.team.id) : ''
+  if (!form.team && !row && props.teams.length === 1) {
+    form.team = String(props.teams[0].id)
+  }
   form.user = resolveLinkedUserId(row)
   if (form.user) applyIdentityFromLinkedUser(form.user)
   nextTick(() => {
@@ -128,15 +132,23 @@ watch(
   },
 )
 
+watch(
+  () => props.teams,
+  (teams) => {
+    if (props.employee || form.team || teams.length !== 1) return
+    form.team = String(teams[0].id)
+  },
+)
+
 async function onSubmit() {
   if (!props.canEdit) return
   if (
     !crud.validateRequired([
-      { label: t('org.fields.employeeNumber'), value: form.employee_number },
       { label: t('org.fields.fullName'), value: form.full_name },
       { label: t('org.fields.email'), value: form.email },
       { label: t('org.fields.dailyCapacity'), value: form.daily_capacity },
       { label: t('org.fields.status'), value: form.status },
+      ...(props.requireTeam ? [{ label: t('org.fields.team'), value: form.team }] : []),
     ])
   ) {
     return
@@ -151,7 +163,7 @@ async function onSubmit() {
   try {
     await props.onSave(
       {
-        employee_number: form.employee_number.trim(),
+        employee_number: form.employee_number.trim() || null,
         full_name: form.full_name.trim(),
         email: form.email.trim(),
         position: form.position.trim() || null,
@@ -196,8 +208,8 @@ async function onDelete() {
         />
       </div>
       <div class="space-y-1.5">
-        <UiFormLabel for="emp-number" required>{{ t('org.fields.employeeNumber') }}</UiFormLabel>
-        <UiInput id="emp-number" v-model="form.employee_number" required :disabled="!canEdit" />
+        <UiFormLabel for="emp-number">{{ t('org.fields.employeeNumber') }}</UiFormLabel>
+        <UiInput id="emp-number" v-model="form.employee_number" :disabled="!canEdit" />
       </div>
       <div class="space-y-1.5">
         <UiFormLabel for="emp-name" required>{{ t('org.fields.fullName') }}</UiFormLabel>
@@ -242,8 +254,8 @@ async function onDelete() {
         <UiInput id="emp-hire" v-model="form.hire_date" type="date" :disabled="!canEdit" />
       </div>
       <div class="space-y-1.5">
-        <UiFormLabel for="emp-team">{{ t('org.fields.team') }}</UiFormLabel>
-        <UiSelect id="emp-team" v-model="form.team" :disabled="!canEdit">
+        <UiFormLabel for="emp-team" :required="requireTeam">{{ t('org.fields.team') }}</UiFormLabel>
+        <UiSelect id="emp-team" v-model="form.team" :required="requireTeam" :disabled="!canEdit">
           <option value="">{{ t('org.none') }}</option>
           <option v-for="tm in teams" :key="tm.id" :value="String(tm.id)">
             {{ tm.name }}

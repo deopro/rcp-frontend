@@ -46,7 +46,7 @@ export type Team = {
 export type Employee = {
   id: number
   documentId: string
-  employee_number: string
+  employee_number?: string | null
   full_name: string
   email: string
   position?: string | null
@@ -83,7 +83,7 @@ export type TeamInput = {
 }
 
 export type EmployeeInput = {
-  employee_number: string
+  employee_number?: string | null
   full_name: string
   email: string
   position?: string | null

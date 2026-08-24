@@ -10,13 +10,13 @@ export function compactData<T extends Record<string, unknown>>(data: T): Partial
 }
 
 /** manyToOne / oneToOne relation by numeric entry id. */
-export function connectOne(id: number | null | undefined): { connect: number[] } | undefined {
+export function connectOne(id: number | null | undefined): { connect: { id: number }[] } | undefined {
   if (id == null || Number.isNaN(id)) return undefined
-  return { connect: [id] }
+  return { connect: [{ id }] }
 }
 
 /** manyToMany relation by numeric entry ids. */
-export function connectMany(ids: number[] | null | undefined): { connect: number[] } | undefined {
+export function connectMany(ids: number[] | null | undefined): { connect: { id: number }[] } | undefined {
   if (!ids?.length) return undefined
-  return { connect: ids }
+  return { connect: ids.map((id) => ({ id })) }
 }

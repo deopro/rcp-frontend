@@ -22,14 +22,8 @@ const canAssign = computed(() =>
   auth.hasRole('administrator', 'department_manager', 'team_leader', 'executive'),
 )
 
-const leaderTeamIds = computed(() => new Set(org.teams.map((team) => team.id)))
-
-const visibleEmployees = computed(() => {
-  if (!auth.hasRole('team_leader')) return org.employees
-  return org.employees.filter(
-    (employee) => employee.team?.id != null && leaderTeamIds.value.has(employee.team.id),
-  )
-})
+const requireTeam = computed(() => auth.hasRole('team_leader'))
+const visibleEmployees = computed(() => org.employees)
 
 const {
   page,
@@ -135,7 +129,7 @@ async function onRemove(documentId: string) {
           >
             <td class="px-4 py-3">
               <p class="font-medium">{{ row.full_name }}</p>
-              <p class="text-xs text-muted">{{ row.employee_number }} · {{ row.email }}</p>
+              <p class="text-xs text-muted">{{ [row.employee_number, row.email].filter(Boolean).join(' · ') }}</p>
             </td>
             <td class="px-4 py-3 text-muted">{{ row.team?.name || t('org.none') }}</td>
             <td class="px-4 py-3">{{ row.daily_capacity }}h</td>
@@ -196,6 +190,7 @@ async function onRemove(documentId: string) {
             :user-options="org.userOptions"
             :can-edit="canWrite"
             :can-delete="canDelete"
+            :require-team="requireTeam"
             :on-save="onSave"
             :on-remove="onRemove"
             @cancel="closePanel"

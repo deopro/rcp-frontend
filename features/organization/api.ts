@@ -137,32 +137,38 @@ export function useOrganizationApi() {
     },
 
     createEmployee(data: EmployeeInput) {
-      const payload = compactData({
-        employee_number: data.employee_number,
-        full_name: data.full_name,
-        email: data.email,
-        position: data.position,
-        daily_capacity: data.daily_capacity,
-        status: data.status,
-        hire_date: data.hire_date,
-        user: connectOne(data.user),
-        team: connectOne(data.team),
-      })
+      const payload = {
+        ...compactData({
+          full_name: data.full_name,
+          email: data.email,
+          position: data.position,
+          daily_capacity: data.daily_capacity,
+          status: data.status,
+          hire_date: data.hire_date,
+          user: connectOne(data.user),
+          team: connectOne(data.team),
+        }),
+        employee_number: data.employee_number?.trim() ? data.employee_number.trim() : null,
+      }
       return api.post<OneResponse<Employee>>('/api/employees', { data: payload })
     },
 
     updateEmployee(documentId: string, data: Partial<EmployeeInput>) {
-      const payload = compactData({
-        employee_number: data.employee_number,
-        full_name: data.full_name,
-        email: data.email,
-        position: data.position,
-        daily_capacity: data.daily_capacity,
-        status: data.status,
-        hire_date: data.hire_date,
-        user: data.user !== undefined ? connectOne(data.user) : undefined,
-        team: data.team !== undefined ? connectOne(data.team) : undefined,
-      })
+      const payload = {
+        ...compactData({
+          full_name: data.full_name,
+          email: data.email,
+          position: data.position,
+          daily_capacity: data.daily_capacity,
+          status: data.status,
+          hire_date: data.hire_date,
+          user: data.user !== undefined ? connectOne(data.user) : undefined,
+          team: data.team !== undefined ? connectOne(data.team) : undefined,
+        }),
+        ...(data.employee_number !== undefined
+          ? { employee_number: data.employee_number?.trim() ? data.employee_number.trim() : null }
+          : {}),
+      }
       return api.put<OneResponse<Employee>>(`/api/employees/${documentId}`, { data: payload })
     },
 
