@@ -471,6 +471,8 @@
     "add": "New project",
     "edit": "Edit project",
     "empty": "No projects yet.",
+    "searchPlaceholder": "Search by name, code, client, or status…",
+    "searchEmpty": "No projects match your search.",
     "status": {
       "planned": "Planned",
       "active": "Active",

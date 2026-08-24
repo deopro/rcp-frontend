@@ -18,6 +18,22 @@ const { showApiError } = useApiErrorToast()
 const panelOpen = ref(false)
 const selected = ref<Project | null>(null)
 const summaryLoading = ref(false)
+const searchQuery = ref('')
+
+const filteredProjects = computed(() => {
+  const query = searchQuery.value.trim().toLowerCase()
+  const list = projectsStore.projects
+  if (!query) return list
+  return list.filter((project) => {
+    const statusLabel = t(`projects.status.${project.status}`).toLowerCase()
+    return (
+      project.name.toLowerCase().includes(query) ||
+      project.code.toLowerCase().includes(query) ||
+      (project.client?.name || '').toLowerCase().includes(query) ||
+      statusLabel.includes(query)
+    )
+  })
+})
 
 const {
   page,
@@ -27,7 +43,11 @@ const {
   pageItems,
   from,
   to,
-} = useClientPagination(() => projectsStore.projects)
+} = useClientPagination(filteredProjects)
+
+watch(searchQuery, () => {
+  page.value = 1
+})
 
 const canWrite = computed(() =>
   auth.hasRole('administrator', 'department_manager', 'team_leader'),
@@ -129,6 +149,16 @@ async function onRemove(documentId: string) {
       </div>
     </div>
 
+    <div v-if="projectsStore.projects.length" class="max-w-md space-y-1.5">
+      <UiFormLabel for="project-search">{{ t('nav.search') }}</UiFormLabel>
+      <UiInput
+        id="project-search"
+        v-model="searchQuery"
+        type="search"
+        :placeholder="t('projects.searchPlaceholder')"
+      />
+    </div>
+
     <UiPageSkeleton v-if="projectsStore.loading && !projectsStore.projects.length" />
 
     <div
@@ -136,6 +166,13 @@ async function onRemove(documentId: string) {
       class="rounded-lg border border-dashed border-border p-8 text-center text-sm text-muted"
     >
       {{ t('projects.empty') }}
+    </div>
+
+    <div
+      v-else-if="!filteredProjects.length"
+      class="rounded-lg border border-dashed border-border p-8 text-center text-sm text-muted"
+    >
+      {{ t('projects.searchEmpty') }}
     </div>
 
     <div v-else class="hidden overflow-hidden rounded-lg border border-border bg-surface md:block">
@@ -169,7 +206,7 @@ async function onRemove(documentId: string) {
       </table>
     </div>
 
-    <ul class="space-y-3 md:hidden">
+    <ul v-if="filteredProjects.length" class="space-y-3 md:hidden">
       <li
         v-for="row in pageItems"
         :key="row.documentId"
@@ -197,6 +234,7 @@ async function onRemove(documentId: string) {
     </ul>
 
     <UiPagination
+      v-if="filteredProjects.length"
       v-model:page="page"
       v-model:page-size="pageSize"
       :page-count="pageCount"
