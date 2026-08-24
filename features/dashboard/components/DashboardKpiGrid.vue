@@ -28,10 +28,7 @@ const { t } = useI18n()
       <p class="mt-1 text-2xl font-semibold">{{ kpis.remaining_hours }}h</p>
     </div>
 
-    <div
-      v-if="variant !== 'employee'"
-      class="rounded-lg border border-border bg-surface p-4 shadow-soft"
-    >
+    <div class="rounded-lg border border-border bg-surface p-4 shadow-soft">
       <p class="text-xs text-muted">{{ t('dashboard.kpis.activeProjects') }}</p>
       <p class="mt-1 text-2xl font-semibold">{{ kpis.active_projects }}</p>
     </div>

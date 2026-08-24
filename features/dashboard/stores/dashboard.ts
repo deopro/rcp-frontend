@@ -46,6 +46,9 @@ export const useDashboardStore = defineStore('dashboard', () => {
         filters: filters.value,
       })
       data.value = res.data
+      // #region agent log
+      fetch('http://127.0.0.1:7550/ingest/00e40e9f-34c6-4349-ac97-bfda2cfa152b',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'63ba08'},body:JSON.stringify({sessionId:'63ba08',hypothesisId:'E',location:'dashboard/stores/dashboard.ts:load',message:'dashboard payload received',data:{from:from.value,to:to.value,role:res.data?.role,allocatedHours:res.data?.kpis?.allocated_hours,activeProjects:res.data?.kpis?.active_projects,projectChartLen:res.data?.charts?.allocation_by_project?.length??0,dayChartLen:res.data?.charts?.utilization_by_day?.length??0,employees:res.data?.kpis?.employees},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion
     } finally {
       loading.value = false
     }
