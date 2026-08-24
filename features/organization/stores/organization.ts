@@ -70,9 +70,9 @@ export const useOrganizationStore = defineStore('organization', () => {
     return res.data || null
   }
 
-  async function loadUserOptions() {
+  async function loadUserOptions(unlinked = false) {
     try {
-      const res = await api().listUserOptions()
+      const res = await api().listUserOptions(unlinked)
       userOptions.value = res.data || []
     } catch {
       userOptions.value = []

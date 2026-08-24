@@ -176,8 +176,10 @@ export function useOrganizationApi() {
       return api.del(`/api/employees/${documentId}`)
     },
 
-    listUserOptions() {
-      return api.get<{ data: UserOption[] }>('/api/org/user-options')
+    listUserOptions(unlinked = false) {
+      return api.get<{ data: UserOption[] }>(
+        `/api/org/user-options${unlinked ? qs({ unlinked: 'true' }) : ''}`,
+      )
     },
   }
 }

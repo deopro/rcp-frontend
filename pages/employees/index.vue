@@ -40,7 +40,7 @@ onMounted(async () => {
     await org.loadTeams()
     await Promise.all([
       org.loadEmployees(),
-      canAssign.value ? org.loadUserOptions() : Promise.resolve(),
+      canAssign.value ? org.loadUserOptions(true) : Promise.resolve(),
     ])
   } catch (e) {
     showApiError(e)
@@ -73,6 +73,7 @@ function closePanel() {
 async function onSave(input: EmployeeInput, documentId?: string) {
   try {
     await org.saveEmployee(input, documentId)
+    if (canAssign.value) await org.loadUserOptions(true)
     toast.success({ title: documentId ? t('forms.updated') : t('forms.created') })
     closePanel()
   } catch (e) {
@@ -83,6 +84,7 @@ async function onSave(input: EmployeeInput, documentId?: string) {
 async function onRemove(documentId: string) {
   try {
     await org.removeEmployee(documentId)
+    if (canAssign.value) await org.loadUserOptions(true)
     toast.success({ title: t('forms.deleted') })
     closePanel()
   } catch (e) {

@@ -610,7 +610,8 @@
       "subtitle": "Resources, capacity, and user links",
       "add": "New employee",
       "edit": "Edit employee",
-      "empty": "No employees yet."
+      "empty": "No employees yet.",
+      "userAlreadyLinked": "This user is already linked to another employee."
     }
   },
   "settings": {

@@ -610,7 +610,8 @@
       "subtitle": "Recursos, capacidade e ligação a utilizadores",
       "add": "Novo colaborador",
       "edit": "Editar colaborador",
-      "empty": "Ainda não há colaboradores."
+      "empty": "Ainda não há colaboradores.",
+      "userAlreadyLinked": "Este utilizador já está ligado a outro colaborador."
     }
   },
   "settings": {
