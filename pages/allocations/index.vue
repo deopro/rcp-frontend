@@ -30,6 +30,10 @@ const canEdit = computed(() =>
   auth.hasRole('administrator', 'department_manager', 'team_leader', 'employee'),
 )
 
+const showTeamFilter = computed(() =>
+  auth.hasRole('administrator', 'department_manager', 'team_leader', 'executive'),
+)
+
 const activeProjects = computed(() =>
   projectsStore.projects.filter((p) => p.status === 'active' || p.status === 'planned'),
 )
@@ -63,7 +67,9 @@ watch(
 
 onMounted(async () => {
   try {
-    await Promise.all([org.loadTeams(), projectsStore.loadProjects(), store.loadGrid()])
+    const loads: Promise<unknown>[] = [projectsStore.loadProjects(), store.loadGrid()]
+    if (showTeamFilter.value) loads.unshift(org.loadTeams())
+    await Promise.all(loads)
     mobileDay.value = store.weekDates[0] || ''
   } catch (e) {
     showApiError(e)
@@ -187,7 +193,7 @@ const {
     </div>
 
     <div class="flex flex-wrap gap-3">
-      <div class="min-w-[12rem] space-y-1.5">
+      <div v-if="showTeamFilter" class="min-w-[12rem] space-y-1.5">
         <UiFormLabel for="team-filter">{{ t('org.fields.team') }}</UiFormLabel>
         <UiSelect id="team-filter" :model-value="store.teamId ? String(store.teamId) : ''" @update:model-value="(v) => { store.teamId = v ? Number(v) : undefined }">
           <option value="">{{ t('skills.filters.all') }}</option>
