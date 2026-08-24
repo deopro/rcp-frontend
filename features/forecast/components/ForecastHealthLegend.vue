@@ -4,9 +4,9 @@ import type { ForecastHealth } from '../types'
 const { t } = useI18n()
 
 const items: { key: ForecastHealth; className: string }[] = [
-  { key: 'over', className: 'bg-red-500' },
-  { key: 'under', className: 'bg-amber-400' },
-  { key: 'healthy', className: 'bg-emerald-500' },
+  { key: 'over', className: 'bg-danger' },
+  { key: 'under', className: 'bg-warning' },
+  { key: 'healthy', className: 'bg-success' },
 ]
 </script>
 

@@ -260,7 +260,7 @@ const {
 
       <div v-else class="hidden overflow-hidden rounded-lg border border-border bg-surface md:block">
         <table class="w-full text-left text-sm">
-          <thead class="border-b border-border bg-slate-50 text-muted dark:bg-slate-900/50">
+          <thead class="border-b border-border bg-subtle text-muted">
             <tr>
               <th class="px-4 py-3 font-medium">{{ t('forecast.columns.period') }}</th>
               <th class="px-4 py-3 font-medium">{{ t('forecast.columns.utilization') }}</th>
@@ -279,9 +279,9 @@ const {
                 <span
                   class="inline-flex rounded-md px-2 py-0.5 text-xs font-medium"
                   :class="{
-                    'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-200': row.health === 'over',
-                    'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200': row.health === 'under',
-                    'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200': row.health === 'healthy',
+                    'rcp-health-over': row.health === 'over',
+                    'rcp-health-under': row.health === 'under',
+                    'rcp-health-healthy': row.health === 'healthy',
                   }"
                 >
                   {{ t(`forecast.health.${row.health}`) }}
@@ -303,9 +303,9 @@ const {
             <span
               class="inline-flex rounded-md px-2 py-0.5 text-xs font-medium"
               :class="{
-                'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-200': row.health === 'over',
-                'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200': row.health === 'under',
-                'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200': row.health === 'healthy',
+                'rcp-health-over': row.health === 'over',
+                'rcp-health-under': row.health === 'under',
+                'rcp-health-healthy': row.health === 'healthy',
               }"
             >
               {{ t(`forecast.health.${row.health}`) }}

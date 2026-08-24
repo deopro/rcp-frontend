@@ -54,16 +54,18 @@ watch(
   <NuxtLink
     v-if="auth.isAuthenticated"
     to="/notifications"
-    class="touch-target relative inline-flex items-center justify-center text-muted transition-colors hover:text-foreground"
+    class="touch-target inline-flex items-center justify-center text-muted transition-colors hover:text-foreground"
     :aria-label="t('notifications.title')"
     :title="t('notifications.title')"
   >
-    <Bell class="h-4 w-4" aria-hidden="true" />
-    <span
-      v-if="badge"
-      class="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-semibold text-white"
-    >
-      {{ badge }}
+    <span class="relative inline-flex">
+      <Bell class="h-4 w-4" aria-hidden="true" />
+      <span
+        v-if="badge"
+        class="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-0.5 text-[10px] font-semibold leading-none text-white"
+      >
+        {{ badge }}
+      </span>
     </span>
   </NuxtLink>
 </template>

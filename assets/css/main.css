@@ -103,6 +103,11 @@
     font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
     background: var(--rcp-bg);
     color: var(--rcp-fg);
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
 
   body {
@@ -119,6 +124,50 @@
   #__nuxt {
     height: 100%;
     overflow: hidden;
+  }
+
+  /* Native form controls follow theme (select menus, date pickers, scrollbars) */
+  input,
+  select,
+  textarea,
+  button {
+    color-scheme: inherit;
+  }
+
+  select option,
+  select optgroup {
+    background-color: var(--rcp-surface);
+    color: var(--rcp-fg);
+  }
+
+  input[type='date'],
+  input[type='time'],
+  input[type='datetime-local'],
+  input[type='month'],
+  input[type='week'],
+  input[type='number'],
+  input[type='search'],
+  input[type='email'],
+  input[type='text'],
+  input[type='password'],
+  input[type='url'],
+  input[type='tel'] {
+    background-color: var(--rcp-input-bg);
+    color: var(--rcp-fg);
+  }
+
+  ::placeholder {
+    color: var(--rcp-muted);
+    opacity: 1;
+  }
+
+  html.dark input:-webkit-autofill,
+  html.dark textarea:-webkit-autofill,
+  html.dark select:-webkit-autofill {
+    -webkit-text-fill-color: var(--rcp-fg);
+    caret-color: var(--rcp-fg);
+    box-shadow: 0 0 0 1000px var(--rcp-input-bg) inset;
+    transition: background-color 99999s ease-out;
   }
 
   :focus-visible {
@@ -255,6 +304,25 @@
 
   .rcp-cell-partial {
     background-color: color-mix(in srgb, var(--rcp-success) 18%, var(--rcp-subtle));
+  }
+
+  .rcp-chip {
+    @apply rounded bg-subtle px-2 py-0.5 text-[11px] text-subtle-foreground;
+  }
+
+  .rcp-health-over {
+    background-color: color-mix(in srgb, var(--rcp-danger) 18%, var(--rcp-surface));
+    color: var(--rcp-danger);
+  }
+
+  .rcp-health-under {
+    background-color: color-mix(in srgb, var(--rcp-warning) 18%, var(--rcp-surface));
+    color: var(--rcp-warning);
+  }
+
+  .rcp-health-healthy {
+    background-color: color-mix(in srgb, var(--rcp-success) 18%, var(--rcp-surface));
+    color: var(--rcp-success);
   }
 }
 

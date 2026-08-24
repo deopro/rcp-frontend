@@ -97,8 +97,8 @@ async function confirmApply() {
 }
 
 function scoreClass(score: number) {
-  if (score >= 75) return 'text-emerald-700 dark:text-emerald-300'
-  if (score >= 50) return 'text-amber-700 dark:text-amber-300'
+  if (score >= 75) return 'text-success'
+  if (score >= 50) return 'text-warning'
   return 'text-muted'
 }
 
@@ -243,7 +243,7 @@ const {
             <li
               v-for="(reason, idx) in match.reasons"
               :key="idx"
-              class="rounded bg-slate-100 px-2 py-0.5 text-[11px] dark:bg-slate-800"
+              class="rcp-chip"
             >
               {{ reason }}
             </li>
