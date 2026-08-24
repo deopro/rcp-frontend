@@ -38,7 +38,7 @@ watch(
 )
 
 async function onSubmit() {
-  if (!props.canEdit) return
+  if (!props.canEdit || !props.onSave) return
   if (
     !crud.validateRequired([
       { label: t('projects.fields.name'), value: form.name },

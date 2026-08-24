@@ -162,8 +162,8 @@ async function onRemove(documentId: string) {
             :client="selected"
             :can-edit="canWrite"
             :can-delete="canDelete"
-            @save="onSave"
-            @remove="onRemove"
+            :on-save="onSave"
+            :on-remove="onRemove"
             @cancel="closePanel"
           />
         </div>

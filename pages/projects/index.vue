@@ -225,8 +225,9 @@ async function onRemove(documentId: string) {
             :summary-loading="summaryLoading"
             :can-edit="canWrite"
             :can-delete="canDelete"
-            @save="onSave"
-            @remove="onRemove"
+            :can-create-client="auth.hasRole('administrator')"
+            :on-save="onSave"
+            :on-remove="onRemove"
             @cancel="closePanel"
             @load-summary="onLoadSummary"
           />

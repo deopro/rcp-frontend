@@ -2,6 +2,7 @@
 import ProjectStatusBadge from './ProjectStatusBadge.vue'
 import ProjectSummaryCard from './ProjectSummaryCard.vue'
 import { nextProjectCode } from '~/shared/projects/project-code'
+import { useProjectsStore } from '../stores/projects'
 import type { Client, EmployeeRef, Project, ProjectInput, ProjectSummary, Skill } from '../types'
 
 const props = defineProps<{
@@ -15,6 +16,7 @@ const props = defineProps<{
   summaryLoading?: boolean
   canEdit: boolean
   canDelete: boolean
+  canCreateClient?: boolean
   onSave: (input: ProjectInput, documentId?: string) => Promise<void>
   onRemove?: (documentId: string) => Promise<void>
 }>()
@@ -26,6 +28,12 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const crud = useCrudActions()
+const projectsStore = useProjectsStore()
+const { showApiError } = useApiErrorToast()
+
+const addingClient = ref(false)
+const newClientName = ref('')
+const savingClient = ref(false)
 
 const form = reactive({
   name: '',
@@ -123,6 +131,31 @@ async function onSubmit() {
   }
 }
 
+async function onAddClient() {
+  const name = newClientName.value.trim()
+  if (!props.canCreateClient || !props.canEdit || !name) return
+
+  savingClient.value = true
+  try {
+    await projectsStore.saveClient({
+      name,
+      description: null,
+      contact_email: null,
+      status: 'active',
+    })
+    const created = projectsStore.clients.find(
+      (c) => c.name.toLowerCase() === name.toLowerCase(),
+    )
+    if (created) form.client = String(created.id)
+    newClientName.value = ''
+    addingClient.value = false
+  } catch (error) {
+    showApiError(error)
+  } finally {
+    savingClient.value = false
+  }
+}
+
 async function onDelete() {
   if (!props.project || !props.canDelete || !props.onRemove) return
   if (!(await crud.confirmDelete())) return
@@ -160,6 +193,29 @@ async function onDelete() {
             {{ c.name }}
           </option>
         </UiSelect>
+        <UiButton
+          v-if="canCreateClient && canEdit && !addingClient"
+          type="button"
+          size="sm"
+          variant="ghost"
+          @click="addingClient = true"
+        >
+          {{ t('projects.clients.add') }}
+        </UiButton>
+        <div v-if="addingClient && canEdit" class="flex gap-2">
+          <UiInput
+            v-model="newClientName"
+            :placeholder="t('projects.fields.name')"
+            :disabled="savingClient"
+            @keydown.enter.prevent="onAddClient"
+          />
+          <UiButton type="button" size="sm" :disabled="savingClient || !newClientName.trim()" @click="onAddClient">
+            {{ t('actions.add') }}
+          </UiButton>
+          <UiButton type="button" size="sm" variant="outline" :disabled="savingClient" @click="addingClient = false">
+            {{ t('actions.cancel') }}
+          </UiButton>
+        </div>
       </div>
       <div class="space-y-1.5">
         <UiFormLabel for="proj-status" required>{{ t('projects.fields.status') }}</UiFormLabel>
