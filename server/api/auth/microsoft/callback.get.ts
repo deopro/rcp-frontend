@@ -1,6 +1,7 @@
 import * as client from 'openid-client'
 import type { AuthUser } from '../../../../features/auth/types'
 import { ApiErrorCode } from '../../../../shared/api/error-codes'
+import { isAccountBlocked } from '../../../../shared/users/is-account-blocked'
 import {
   JWT_COOKIE,
   authCookieOptions,
@@ -89,13 +90,13 @@ export default defineEventHandler(async (event) => {
       },
     )
 
-    if (result.user?.status === 'inactive') {
+    if (isAccountBlocked(result.user)) {
       clearOidcCookies(event)
       return sendRedirect(event, loginErrorRedirect(ApiErrorCode.AUTH_USER_INACTIVE))
     }
 
     const user = await loadAccount(config.public.apiUrl, result.jwt, result.user)
-    if (user.status === 'inactive') {
+    if (isAccountBlocked(user)) {
       clearOidcCookies(event)
       return sendRedirect(event, loginErrorRedirect(ApiErrorCode.AUTH_USER_INACTIVE))
     }

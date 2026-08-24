@@ -14,7 +14,7 @@ export type AuthUser = {
   first_name?: string | null
   last_name?: string | null
   preferred_locale?: 'pt-PT' | 'en'
-  status?: 'active' | 'inactive'
+  blocked?: boolean
   role?: {
     id: number
     name: string

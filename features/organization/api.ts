@@ -120,8 +120,8 @@ export function useOrganizationApi() {
         `/api/employees${qs({
           'pagination[page]': page,
           'pagination[pageSize]': pageSize,
-          'populate[team][fields][0]': 'name',
-          'populate[team][fields][1]': 'id',
+          'populate[team]': 'true',
+          'populate[user]': 'true',
           sort: 'full_name:asc',
         })}`,
       )
@@ -130,8 +130,8 @@ export function useOrganizationApi() {
     getEmployee(documentId: string) {
       return api.get<OneResponse<Employee>>(
         `/api/employees/${documentId}${qs({
-          'populate[team][fields][0]': 'name',
-          'populate[team][fields][1]': 'id',
+          'populate[team]': 'true',
+          'populate[user]': 'true',
         })}`,
       )
     },

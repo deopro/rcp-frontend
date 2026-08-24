@@ -5,10 +5,11 @@ type UserNameFields = {
   last_name?: string | null
 }
 
-/** First + last name for chrome (sidebar / top nav). Falls back to username, never email. */
+/** First + last name for chrome and assignment dropdowns. Never includes email. */
 export function formatUserName(user: UserNameFields): string {
   const name = [user.first_name, user.last_name].filter(Boolean).join(' ').trim()
-  return name || user.username || '—'
+  if (name) return name
+  return user.username || '—'
 }
 
 /** Display label for a user option / ref (name + email when available). */

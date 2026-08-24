@@ -65,6 +65,11 @@ export const useOrganizationStore = defineStore('organization', () => {
     }
   }
 
+  async function loadEmployee(documentId: string) {
+    const res = await api().getEmployee(documentId)
+    return res.data || null
+  }
+
   async function loadUserOptions() {
     try {
       const res = await api().listUserOptions()
@@ -126,6 +131,7 @@ export const useOrganizationStore = defineStore('organization', () => {
     loadDepartments,
     loadTeams,
     loadEmployees,
+    loadEmployee,
     loadUserOptions,
     saveDepartment,
     removeDepartment,

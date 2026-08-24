@@ -1,4 +1,5 @@
 import type { AuthUser, SessionResponse } from '../../../features/auth/types'
+import { isAccountBlocked } from '../../../shared/users/is-account-blocked'
 
 export default defineEventHandler(async (event): Promise<SessionResponse> => {
   const config = useRuntimeConfig()
@@ -13,7 +14,7 @@ export default defineEventHandler(async (event): Promise<SessionResponse> => {
       headers: { Authorization: `Bearer ${token}` },
     })
 
-    if (user.status === 'inactive') {
+    if (isAccountBlocked(user)) {
       deleteCookie(event, 'rcp_jwt', { path: '/' })
       return { authenticated: false, token: null, user: null }
     }
@@ -26,6 +27,10 @@ export default defineEventHandler(async (event): Promise<SessionResponse> => {
         headers: { Authorization: `Bearer ${token}` },
         query: { populate: 'role' },
       })
+      if (isAccountBlocked(user)) {
+        deleteCookie(event, 'rcp_jwt', { path: '/' })
+        return { authenticated: false, token: null, user: null }
+      }
       return { authenticated: true, token, user }
     } catch {
       deleteCookie(event, 'rcp_jwt', { path: '/' })

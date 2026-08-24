@@ -58,9 +58,17 @@ function openCreate() {
   panelOpen.value = true
 }
 
-function openEdit(row: Employee) {
+async function openEdit(row: Employee) {
   selected.value = row
   panelOpen.value = true
+  try {
+    const full = await org.loadEmployee(row.documentId)
+    if (full && selected.value?.documentId === full.documentId) {
+      selected.value = full
+    }
+  } catch (e) {
+    showApiError(e)
+  }
 }
 
 function closePanel() {
@@ -188,8 +196,8 @@ async function onRemove(documentId: string) {
             :user-options="org.userOptions"
             :can-edit="canWrite"
             :can-delete="canDelete"
-            @save="onSave"
-            @remove="onRemove"
+            :on-save="onSave"
+            :on-remove="onRemove"
             @cancel="closePanel"
           />
         </div>

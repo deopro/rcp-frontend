@@ -1,5 +1,6 @@
 import type { AuthUser, LoginResponse } from '../../../features/auth/types'
 import { ApiErrorCode, codeFromMessage } from '../../../shared/api/error-codes'
+import { isAccountBlocked } from '../../../shared/users/is-account-blocked'
 import {
   JWT_COOKIE,
   authCookieOptions,
@@ -34,13 +35,13 @@ export default defineEventHandler(async (event): Promise<LoginResponse> => {
     throw authError(err.statusCode || 401, codeFromMessage(err.data?.error?.message))
   }
 
-  if (result.user?.status === 'inactive') {
+  if (isAccountBlocked(result.user)) {
     throw authError(403, ApiErrorCode.AUTH_USER_INACTIVE)
   }
 
   const user = await loadAccount(config.public.apiUrl, result.jwt, result.user)
 
-  if (user.status === 'inactive') {
+  if (isAccountBlocked(user)) {
     throw authError(403, ApiErrorCode.AUTH_USER_INACTIVE)
   }
 
