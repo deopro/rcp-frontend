@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import type { AllocationInput, GridAllocation } from '../types'
+import {
+  formatAllocationHours,
+  projectChipClass,
+  projectChipLabel,
+} from '~/shared/projects/project-color'
 
 const props = defineProps<{
   employeeId: number
@@ -139,9 +144,14 @@ async function onDelete(documentId: string) {
           :key="row.documentId"
           class="flex items-center justify-between gap-2 px-3 py-2.5"
         >
-          <div class="min-w-0">
-            <p class="truncate text-sm font-medium">{{ row.project_name }}</p>
-            <p class="text-xs text-muted">{{ row.hours }}h · {{ t(`allocations.status.${row.status}`) }}</p>
+          <div class="flex min-w-0 items-center gap-2">
+            <span :class="projectChipClass(row.project_id)" class="h-8 w-1 shrink-0 px-0 py-0" aria-hidden="true" />
+            <div class="min-w-0">
+              <p class="truncate text-sm font-medium">{{ projectChipLabel(row.project_code, row.project_name) }}</p>
+              <p class="text-xs text-muted">
+                {{ formatAllocationHours(row.hours) }}h · {{ t(`allocations.status.${row.status}`) }}
+              </p>
+            </div>
           </div>
           <UiButton v-if="canEdit" size="sm" variant="ghost" @click="openEdit(row)">
             {{ t('actions.edit') }}

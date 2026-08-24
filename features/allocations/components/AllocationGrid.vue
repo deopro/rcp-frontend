@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import type { EmployeeCapacityRow, GridAllocation } from '../types'
 import { cellKey } from '../types'
+import {
+  formatAllocationHours,
+  MAX_VISIBLE_PROJECT_CHIPS,
+  projectChipClass,
+  projectChipLabel,
+} from '~/shared/projects/project-color'
 
 const props = defineProps<{
   employees: EmployeeCapacityRow[]
@@ -23,9 +29,24 @@ function formatDayHeader(iso: string) {
   return d.toLocaleDateString(locale.value, { weekday: 'short', day: 'numeric' })
 }
 
+function cellRows(employeeId: number, date: string): GridAllocation[] {
+  return props.allocationsByCell.get(cellKey(employeeId, date)) || []
+}
+
 function cellTotal(employeeId: number, date: string): number {
-  const rows = props.allocationsByCell.get(cellKey(employeeId, date)) || []
-  return rows.reduce((s, r) => s + r.hours, 0)
+  return cellRows(employeeId, date).reduce((s, r) => s + r.hours, 0)
+}
+
+function visibleRows(employeeId: number, date: string): GridAllocation[] {
+  return cellRows(employeeId, date).slice(0, MAX_VISIBLE_PROJECT_CHIPS)
+}
+
+function overflowCount(employeeId: number, date: string): number {
+  return Math.max(0, cellRows(employeeId, date).length - MAX_VISIBLE_PROJECT_CHIPS)
+}
+
+function dayMeta(employee: EmployeeCapacityRow, date: string) {
+  return employee.days.find((d) => d.date === date)
 }
 
 function cellClass(employee: EmployeeCapacityRow, date: string) {
@@ -92,7 +113,7 @@ function onDragOver(e: DragEvent) {
           <th
             v-for="date in dates"
             :key="date"
-            class="min-w-[5rem] px-2 py-2 text-center text-xs font-medium text-muted"
+            class="min-w-[7.5rem] px-2 py-2 text-center text-xs font-medium text-muted"
           >
             {{ formatDayHeader(date) }}
           </th>
@@ -104,7 +125,7 @@ function onDragOver(e: DragEvent) {
           :key="employee.employee_id"
           class="border-b border-border"
         >
-          <td class="sticky left-0 z-10 bg-surface px-3 py-2 font-medium">
+          <td class="sticky left-0 z-10 bg-surface px-3 py-2 align-top font-medium">
             <p>{{ employee.full_name }}</p>
             <p class="text-xs font-normal text-muted">{{ employee.team_name || t('org.none') }}</p>
           </td>
@@ -113,7 +134,7 @@ function onDragOver(e: DragEvent) {
             :key="cellKey(employee.employee_id, date)"
             tabindex="0"
             role="gridcell"
-            class="touch-target cursor-pointer border-l border-border px-1 py-1 text-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            class="touch-target cursor-pointer border-l border-border px-1 py-1 align-top transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             :class="[
               cellClass(employee, date),
               isSelected(employee.employee_id, date) ? 'ring-2 ring-accent ring-inset' : '',
@@ -124,25 +145,46 @@ function onDragOver(e: DragEvent) {
             @dragover="onDragOver"
             @drop="onDrop($event, employee.employee_id, date)"
           >
-            <template v-if="employee.days.find((d) => d.date === date)?.is_working_day">
-              <span class="font-semibold">{{ cellTotal(employee.employee_id, date) || '—' }}</span>
-              <span class="block text-[10px] text-muted">
-                / {{ employee.days.find((d) => d.date === date)?.daily_capacity }}h
-              </span>
+            <template v-if="dayMeta(employee, date)?.is_working_day">
+              <div v-if="cellTotal(employee.employee_id, date)" class="flex flex-col gap-0.5">
+                <div
+                  v-for="row in visibleRows(employee.employee_id, date)"
+                  :key="row.documentId"
+                  :class="projectChipClass(row.project_id)"
+                  :title="`${row.project_name || row.project_code || ''} — ${formatAllocationHours(row.hours)}h`"
+                >
+                  <span class="min-w-0 truncate text-[10px] font-medium">
+                    {{ projectChipLabel(row.project_code, row.project_name) }}
+                  </span>
+                  <span class="shrink-0 text-[10px] tabular-nums text-muted">
+                    {{ formatAllocationHours(row.hours) }}h
+                  </span>
+                </div>
+                <span
+                  v-if="overflowCount(employee.employee_id, date)"
+                  class="px-0.5 text-[10px] text-muted"
+                >
+                  {{ t('allocations.moreProjects', { count: overflowCount(employee.employee_id, date) }) }}
+                </span>
+                <span class="px-0.5 text-[10px] tabular-nums text-muted">
+                  {{ formatAllocationHours(cellTotal(employee.employee_id, date)) }}/{{ dayMeta(employee, date)?.daily_capacity }}h
+                </span>
+              </div>
+              <span v-else class="block text-center text-xs text-muted">—</span>
             </template>
             <span
-              v-else-if="employee.days.find((d) => d.date === date)?.is_holiday"
-              class="text-[10px] font-medium"
+              v-else-if="dayMeta(employee, date)?.is_holiday"
+              class="block text-center text-[10px] font-medium"
             >
               {{ t('leave.grid.holiday') }}
             </span>
             <span
-              v-else-if="employee.days.find((d) => d.date === date)?.is_leave"
-              class="text-[10px] font-medium"
+              v-else-if="dayMeta(employee, date)?.is_leave"
+              class="block text-center text-[10px] font-medium"
             >
               {{ t('leave.grid.leave') }}
             </span>
-            <span v-else class="text-xs text-muted">—</span>
+            <span v-else class="block text-center text-xs text-muted">—</span>
           </td>
         </tr>
       </tbody>

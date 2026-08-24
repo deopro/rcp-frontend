@@ -310,6 +310,50 @@
     @apply rounded bg-subtle px-2 py-0.5 text-[11px] text-subtle-foreground;
   }
 
+  .rcp-project-chip {
+    @apply flex min-w-0 items-center gap-1 rounded-sm border-l-2 px-1 py-0.5 text-left leading-tight;
+  }
+
+  .rcp-project-chip-1 {
+    border-left-color: var(--rcp-chart-series-1);
+    background-color: color-mix(in srgb, var(--rcp-chart-series-1) 16%, var(--rcp-surface));
+  }
+
+  .rcp-project-chip-2 {
+    border-left-color: var(--rcp-chart-series-2);
+    background-color: color-mix(in srgb, var(--rcp-chart-series-2) 16%, var(--rcp-surface));
+  }
+
+  .rcp-project-chip-3 {
+    border-left-color: var(--rcp-chart-series-3);
+    background-color: color-mix(in srgb, var(--rcp-chart-series-3) 16%, var(--rcp-surface));
+  }
+
+  .rcp-project-chip-4 {
+    border-left-color: var(--rcp-chart-series-4);
+    background-color: color-mix(in srgb, var(--rcp-chart-series-4) 16%, var(--rcp-surface));
+  }
+
+  .rcp-project-chip-5 {
+    border-left-color: var(--rcp-chart-series-5);
+    background-color: color-mix(in srgb, var(--rcp-chart-series-5) 16%, var(--rcp-surface));
+  }
+
+  .rcp-project-chip-6 {
+    border-left-color: var(--rcp-chart-series-6);
+    background-color: color-mix(in srgb, var(--rcp-chart-series-6) 16%, var(--rcp-surface));
+  }
+
+  .rcp-project-chip-7 {
+    border-left-color: var(--rcp-chart-series-7);
+    background-color: color-mix(in srgb, var(--rcp-chart-series-7) 16%, var(--rcp-surface));
+  }
+
+  .rcp-project-chip-8 {
+    border-left-color: var(--rcp-chart-series-8);
+    background-color: color-mix(in srgb, var(--rcp-chart-series-8) 16%, var(--rcp-surface));
+  }
+
   .rcp-health-over {
     background-color: color-mix(in srgb, var(--rcp-danger) 18%, var(--rcp-surface));
     color: var(--rcp-danger);

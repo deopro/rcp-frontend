@@ -9,6 +9,11 @@ import type { AllocationInput } from '~/features/allocations/types'
 import { cellKey } from '~/features/allocations/types'
 import { ApiError } from '~/shared/api/client'
 import { ApiErrorCode } from '~/shared/api/error-codes'
+import {
+  formatAllocationHours,
+  projectChipClass,
+  projectChipLabel,
+} from '~/shared/projects/project-color'
 
 definePageMeta({})
 
@@ -214,11 +219,11 @@ const {
         :key="p.id"
         type="button"
         draggable="true"
-        class="touch-target rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium hover:bg-hover"
+        :class="[projectChipClass(p.id), 'touch-target cursor-grab hover:opacity-90']"
         @dragstart="(e) => { e.dataTransfer?.setData('application/rcp-project-id', String(p.id)); onDragStart(p.id) }"
         @dragend="dragProjectId = null"
       >
-        {{ p.name }}
+        <span class="truncate text-xs font-medium">{{ projectChipLabel(p.code, p.name) }}</span>
       </button>
     </div>
 
@@ -261,12 +266,19 @@ const {
                 {{ canEdit ? t('actions.edit') : t('org.view') }}
               </UiButton>
             </div>
-            <ul class="mt-2 space-y-1 text-xs text-muted">
+            <ul class="mt-2 space-y-1">
               <li
                 v-for="row in store.allocationsByCell.get(cellKey(emp.employee_id, mobileDay)) || []"
                 :key="row.documentId"
               >
-                {{ row.project_name }} — {{ row.hours }}h
+                <span :class="projectChipClass(row.project_id)">
+                  <span class="min-w-0 truncate text-[11px] font-medium">
+                    {{ projectChipLabel(row.project_code, row.project_name) }}
+                  </span>
+                  <span class="shrink-0 text-[11px] tabular-nums text-muted">
+                    {{ formatAllocationHours(row.hours) }}h
+                  </span>
+                </span>
               </li>
             </ul>
           </li>
