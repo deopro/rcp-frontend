@@ -43,7 +43,7 @@ async function onLogout() {
   <div v-if="auth.user" ref="menuRef" class="relative">
     <button
       type="button"
-      class="touch-target inline-flex items-center gap-2 rounded-lg border border-border bg-input px-2 py-1.5 text-sm shadow-soft transition-colors hover:bg-hover"
+      class="touch-target inline-flex items-center gap-2 px-1 text-sm text-muted transition-colors hover:text-foreground"
       :aria-expanded="open"
       aria-haspopup="menu"
       :aria-label="t('a11y.userMenu')"

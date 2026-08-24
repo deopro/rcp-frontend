@@ -54,7 +54,7 @@ watch(
   <NuxtLink
     v-if="auth.isAuthenticated"
     to="/notifications"
-    class="touch-target relative inline-flex items-center justify-center rounded-lg border border-border bg-input text-foreground shadow-soft transition-colors hover:bg-hover"
+    class="touch-target relative inline-flex items-center justify-center text-muted transition-colors hover:text-foreground"
     :aria-label="t('notifications.title')"
     :title="t('notifications.title')"
   >

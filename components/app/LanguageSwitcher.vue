@@ -7,8 +7,7 @@ const auth = useAuthStore()
 const items = computed(() =>
   (locales.value as Array<{ code: string; name: string }>).map((l) => ({
     code: l.code,
-    label: l.code === 'pt-PT' ? '🇵🇹 Português' : '🇬🇧 English',
-    name: l.name,
+    label: l.code === 'pt-PT' ? 'PT' : 'EN',
   })),
 )
 
@@ -26,10 +25,10 @@ async function onChange(event: Event) {
 </script>
 
 <template>
-  <label class="inline-flex items-center gap-2 text-sm text-muted">
+  <label class="inline-flex items-center text-sm text-muted">
     <span class="sr-only">{{ t('actions.language') }}</span>
     <select
-      class="touch-target rounded-lg border border-border bg-input px-3 text-sm text-foreground shadow-soft"
+      class="touch-target appearance-none bg-transparent px-1 text-sm font-medium text-muted transition-colors hover:text-foreground focus:outline-none"
       :value="locale"
       :aria-label="t('actions.language')"
       @change="onChange"
